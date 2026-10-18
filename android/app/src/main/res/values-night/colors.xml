@@ -1,0 +1,5 @@
+<resources>
+  <color name="splashscreen_background">#000000</color>
+  <color name="app_window_background">#1b222a</color>
+  <color name="app_navigation_bar">#1b222a</color>
+</resources>

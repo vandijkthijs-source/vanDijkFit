@@ -1,0 +1,1 @@
+export const TIMER_PRESETS = [60, 90, 120, 180];

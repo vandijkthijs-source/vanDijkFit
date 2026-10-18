@@ -1,0 +1,8 @@
+<resources>
+  <string name="app_name">vDstrong</string>
+  <string name="body_heatmap_widget_description">Weekly body heatmap for your home screen.</string>
+  <string name="creatine_widget_description">Creatine saturation for your home screen.</string>
+  <string name="expo_system_ui_user_interface_style" translatable="false">automatic</string>
+  <string name="expo_splash_screen_resize_mode" translatable="false">contain</string>
+  <string name="expo_splash_screen_status_bar_translucent" translatable="false">false</string>
+</resources>
