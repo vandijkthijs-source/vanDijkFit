@@ -19,6 +19,7 @@ import {
 } from "../../features/exercises/exercise.types";
 import { useAppStore } from "../../store/useAppStore";
 import type { ExerciseCategory } from "../../features/exercises/exercise-category";
+import ExerciseFilters from "../../components/exercise/ExerciseFilters";
 import ExerciseLibraryScope from "../../components/exercise/ExerciseLibraryScope";
 import { getExerciseRecency, selectLibraryExercises } from "../../features/exercises/exercise-library";
 import AppInput from "../../components/ui/AppInput";
@@ -181,111 +182,113 @@ export default function WorkoutExercisePickerScreen() {
               style={styles.searchInput}
             />
 
-            <ExerciseLibraryScope category={category} onChange={setCategory} searching={Boolean(query.trim())} />
+            <ExerciseFilters activeCount={Number(category !== "strength") + Number(selectedMuscle !== null) + Number(selectedEquipment !== null)}>
+              <ExerciseLibraryScope category={category} onChange={setCategory} />
 
-            <View style={styles.filtersWrap}>
-              <Text style={styles.filterLabel}>Muscle group</Text>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.filterRow}
-              >
-                <Pressable
-                  onPress={() => setSelectedMuscle(null)}
-                  android_ripple={{ color: colors.ripple }}
-                  style={({ pressed }) => [
-                    styles.filterChip,
-                    selectedMuscle === null && styles.filterChipActive,
-                    pressed && styles.glowPressed,
-                  ]}
+              <View style={styles.filtersWrap}>
+                <Text style={styles.filterLabel}>Muscle group</Text>
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.filterRow}
                 >
-                  <Text
-                    style={[
-                      styles.filterChipText,
-                      selectedMuscle === null && styles.filterChipTextActive,
+                  <Pressable
+                    onPress={() => setSelectedMuscle(null)}
+                    android_ripple={{ color: colors.ripple }}
+                    style={({ pressed }) => [
+                      styles.filterChip,
+                      selectedMuscle === null && styles.filterChipActive,
+                      pressed && styles.glowPressed,
                     ]}
                   >
-                    All
-                  </Text>
-                </Pressable>
-
-                {muscleOptions.map((muscle) => {
-                  const active = selectedMuscle === muscle;
-                  return (
-                    <Pressable
-                      key={muscle}
-                      onPress={() => setSelectedMuscle(active ? null : muscle)}
-                      android_ripple={{ color: colors.ripple }}
-                      style={({ pressed }) => [
-                        styles.filterChip,
-                        active && styles.filterChipActive,
-                        pressed && styles.glowPressed,
+                    <Text
+                      style={[
+                        styles.filterChipText,
+                        selectedMuscle === null && styles.filterChipTextActive,
                       ]}
                     >
-                      <Text
-                        style={[
-                          styles.filterChipText,
-                          active && styles.filterChipTextActive,
+                      All
+                    </Text>
+                  </Pressable>
+
+                  {muscleOptions.map((muscle) => {
+                    const active = selectedMuscle === muscle;
+                    return (
+                      <Pressable
+                        key={muscle}
+                        onPress={() => setSelectedMuscle(active ? null : muscle)}
+                        android_ripple={{ color: colors.ripple }}
+                        style={({ pressed }) => [
+                          styles.filterChip,
+                          active && styles.filterChipActive,
+                          pressed && styles.glowPressed,
                         ]}
                       >
-                        {MAJOR_MUSCLE_LABELS[muscle]}
-                      </Text>
-                    </Pressable>
-                  );
-                })}
-              </ScrollView>
+                        <Text
+                          style={[
+                            styles.filterChipText,
+                            active && styles.filterChipTextActive,
+                          ]}
+                        >
+                          {MAJOR_MUSCLE_LABELS[muscle]}
+                        </Text>
+                      </Pressable>
+                    );
+                  })}
+                </ScrollView>
 
-              <Text style={styles.filterLabel}>Equipment</Text>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.filterRow}
-              >
-                <Pressable
-                  onPress={() => setSelectedEquipment(null)}
-                  android_ripple={{ color: colors.ripple }}
-                  style={({ pressed }) => [
-                    styles.filterChip,
-                    selectedEquipment === null && styles.filterChipActive,
-                    pressed && styles.glowPressed,
-                  ]}
+                <Text style={styles.filterLabel}>Equipment</Text>
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.filterRow}
                 >
-                  <Text
-                    style={[
-                      styles.filterChipText,
-                      selectedEquipment === null && styles.filterChipTextActive,
+                  <Pressable
+                    onPress={() => setSelectedEquipment(null)}
+                    android_ripple={{ color: colors.ripple }}
+                    style={({ pressed }) => [
+                      styles.filterChip,
+                      selectedEquipment === null && styles.filterChipActive,
+                      pressed && styles.glowPressed,
                     ]}
                   >
-                    All
-                  </Text>
-                </Pressable>
-
-                {equipmentOptions.map((equipment) => {
-                  const active = selectedEquipment === equipment;
-                  return (
-                    <Pressable
-                      key={equipment}
-                      onPress={() => setSelectedEquipment(active ? null : equipment)}
-                      android_ripple={{ color: colors.ripple }}
-                      style={({ pressed }) => [
-                        styles.filterChip,
-                        active && styles.filterChipActive,
-                        pressed && styles.glowPressed,
+                    <Text
+                      style={[
+                        styles.filterChipText,
+                        selectedEquipment === null && styles.filterChipTextActive,
                       ]}
                     >
-                      <Text
-                        style={[
-                          styles.filterChipText,
-                          active && styles.filterChipTextActive,
+                      All
+                    </Text>
+                  </Pressable>
+
+                  {equipmentOptions.map((equipment) => {
+                    const active = selectedEquipment === equipment;
+                    return (
+                      <Pressable
+                        key={equipment}
+                        onPress={() => setSelectedEquipment(active ? null : equipment)}
+                        android_ripple={{ color: colors.ripple }}
+                        style={({ pressed }) => [
+                          styles.filterChip,
+                          active && styles.filterChipActive,
+                          pressed && styles.glowPressed,
                         ]}
                       >
-                        {titleCase(equipment)}
-                      </Text>
-                    </Pressable>
-                  );
-                })}
-              </ScrollView>
-            </View>
+                        <Text
+                          style={[
+                            styles.filterChipText,
+                            active && styles.filterChipTextActive,
+                          ]}
+                        >
+                          {titleCase(equipment)}
+                        </Text>
+                      </Pressable>
+                    );
+                  })}
+                </ScrollView>
+              </View>
+            </ExerciseFilters>
 
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>
@@ -359,7 +362,6 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     marginBottom: 14,
   },
   filtersWrap: {
-    marginBottom: 20,
     gap: 8,
   },
   filterLabel: {

@@ -7,10 +7,9 @@ import { exerciseCategories, type ExerciseCategory } from "../../features/exerci
 type Props = {
   category: ExerciseCategory;
   onChange: (category: ExerciseCategory) => void;
-  searching: boolean;
 };
 
-export default function ExerciseLibraryScope({ category, onChange, searching }: Props) {
+export default function ExerciseLibraryScope({ category, onChange }: Props) {
   const colors = useThemeColors();
   const styles = useMemo(() => createStyles(colors), [colors]);
   return (
@@ -32,9 +31,6 @@ export default function ExerciseLibraryScope({ category, onChange, searching }: 
           </Pressable>
         ))}
       </View>
-      <Text style={styles.hint}>
-        {searching ? `Searching all ${category} exercises` : "Selected exercises · recently used first"}
-      </Text>
     </View>
   );
 }
@@ -70,10 +66,5 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   activeLabel: {
     color: colors.accent,
-  },
-  hint: {
-    color: colors.textMuted,
-    fontSize: 12,
-    lineHeight: 18,
   },
 });

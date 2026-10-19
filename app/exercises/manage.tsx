@@ -227,7 +227,7 @@ export default function ManageExercisesScreen() {
                 </Pressable>
               ) : null}
             </View>
-            <ExerciseLibraryScope category={category} onChange={setCategory} searching={Boolean(query.trim())} />
+            <ExerciseLibraryScope category={category} onChange={setCategory} />
           </View>
         }
         ListEmptyComponent={

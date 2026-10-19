@@ -133,3 +133,15 @@ search uncurated entries within the active category, retain the search on catego
 changes, and support keyboard activation. Controls fit at phone width without
 horizontal overflow; no browser runtime errors. Physical Android testing remains
 separate.
+
+The Add exercises screen starts with its filter panel collapsed. A single Filter
+button shows/hides category, muscle group and equipment controls together; active
+choices remain applied when collapsed, and the button shows their count. The
+redundant selected-exercises hint is removed from both exercise screens. Search
+and the exercise list stay visible. No filter choices or saved data are reset by
+expanding/collapsing the panel.
+Filter-panel validation: TypeScript and all 17 regression checks pass; lint has
+zero errors and five existing warnings. Mobile Chrome checks confirm collapsed
+initial state, expansion/collapse of all three rows, retained filter/query state,
+active counts, keyboard toggling and narrow layout without overflow. No browser
+runtime errors. Physical Android verification remains separate.
