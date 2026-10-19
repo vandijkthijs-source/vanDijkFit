@@ -194,3 +194,78 @@ test("recency uses session dates rather than input order or lifetime frequency, 
   assert.equal(selectLibraryExercises(exercisesSeed, first.name, false, recency)[0].id, first.id);
   assert.equal(JSON.stringify({ exercisesSeed, history }), before);
 });
+
+const muscleMetrics = load(path.join(root, "features/body-map/muscle-score.utils.ts"));
+const { expandMajorMuscleContributions, MAJOR_MUSCLE_LABELS } =
+  load(path.join(root, "constants/muscles.ts"));
+const muscleCalculators = [
+  muscleMetrics.calculateMuscleScores,
+  muscleMetrics.calculateMuscleVolumes,
+  muscleMetrics.calculateMajorMuscleStrengthIndexes,
+  muscleMetrics.calculateMajorMuscleVolumeComparisons,
+  muscleMetrics.calculateMuscleVolumeProgress,
+];
+const scoringSession = (exercises, offsetDays = 0) => ({
+  id: `scoring-${offsetDays}`,
+  startedAt: new Date(Date.now() - offsetDays * 86400000).toISOString(),
+  exercises: exercises.map((exercise, order) => ({
+    id: `performed-${order}`, exerciseId: exercise.id, order,
+    exerciseSnapshot: { ...exercise },
+    sets: [
+      { id: "done", weight: 50, reps: 10, completed: true },
+      { id: "unfinished", weight: 100, reps: 20, completed: false },
+    ],
+  })),
+});
+
+test("upper-back percentages remain separate from explicit traps through display, editing and scoring", () => {
+  const contributions = { upper_back: 0.4, traps: 0.1, lats: 0.5 };
+  const aggregated = aggregateToMajorMuscleContributions(contributions);
+  assert.deepEqual(aggregated, contributions);
+  assert.deepEqual(expandMajorMuscleContributions(aggregated), contributions);
+  assert.equal(MAJOR_MUSCLE_LABELS.upper_back, "Upper Back");
+  const row = { ...originals.find((exercise) => exercise.id === "machine-row"), muscleContributions: contributions };
+  const session = scoringSession([row]);
+  const scores = muscleMetrics.calculateMuscleScores([session], []);
+  assert.deepEqual(scores, contributions);
+  assert.deepEqual(muscleMetrics.calculateSessionMuscleVolumes(session, []), {
+    upper_back: 200, traps: 50, lats: 250,
+  });
+  assert.equal(muscleMetrics.calculateMajorMuscleStrengthIndexes([session], [])
+    .find((entry) => entry.key === "back").recentBest, 50 * (1 + 10 / 30));
+});
+
+test("all cardio and stretches are excluded from muscle metrics, including legacy snapshots without catalog state", () => {
+  const nonStrength = exercisesSeed.filter((exercise) =>
+    ["cardio", "stretching"].includes(getRepDbExercise(exercise.id)?.category));
+  assert.ok(nonStrength.length > 20, "Exclude all catalog activities, not just the curated twenty");
+  assert.equal(nonStrength.filter((exercise) => curatedExerciseIds.has(exercise.id)).length, 20);
+  const sessions = [scoringSession(nonStrength), scoringSession(nonStrength, 40)];
+  const before = JSON.stringify(sessions);
+  for (const calculate of muscleCalculators) {
+    assert.deepEqual(calculate(sessions, []), calculate([], []), calculate.name);
+    assert.deepEqual(calculate(sessions, exercisesSeed), calculate([], exercisesSeed), calculate.name);
+  }
+  assert.deepEqual(muscleMetrics.calculateSessionMuscleVolumes(sessions[0], []), {});
+  assert.equal(JSON.stringify(sessions), before, "Saved history and snapshots remain unchanged");
+  assert.equal(muscleMetrics.calculatePerformedExerciseVolume(sessions[0], sessions[0].exercises[0], nonStrength[0]), 500,
+    "Generic recorded workout volume is untouched");
+});
+
+test("mixed workouts keep strength, bodyweight and functional credit while excluding cardio and mobility", () => {
+  const ids = ["machine-row", "shrugs", "repdb-push-up", "repdb-kettlebell-swing"];
+  const strength = exercisesSeed.filter((exercise) => ids.includes(exercise.id));
+  assert.equal(strength.length, ids.length);
+  const cardio = exercisesSeed.find((exercise) => exercise.id === "repdb-rowing-machine");
+  const stretch = exercisesSeed.find((exercise) => exercise.id === "repdb-cat-cow");
+  const strengthSession = scoringSession(strength);
+  const mixedSession = scoringSession([...strength, cardio, stretch]);
+  for (const calculate of muscleCalculators) {
+    assert.deepEqual(calculate([mixedSession], exercisesSeed), calculate([strengthSession], exercisesSeed), calculate.name);
+  }
+  assert.deepEqual(muscleMetrics.calculateSessionMuscleVolumes(mixedSession, exercisesSeed),
+    muscleMetrics.calculateSessionMuscleVolumes(strengthSession, exercisesSeed));
+  const withoutSnapshots = { ...mixedSession, exercises: mixedSession.exercises.map(({ exerciseSnapshot, ...performed }) => performed) };
+  assert.deepEqual(muscleMetrics.calculateMuscleScores([withoutSnapshots], exercisesSeed),
+    muscleMetrics.calculateMuscleScores([strengthSession], exercisesSeed));
+});

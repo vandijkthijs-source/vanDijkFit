@@ -82,3 +82,18 @@ recency. Both screens share `features/exercises/exercise-library.ts` and retain
 virtualized lists. Scope is local screen state, with Curated as the default.
 This is only a display filter: seeds, images, saved exercises, templates, workout
 snapshots, history, storage schema and backups are unchanged.
+
+## Muscle scoring rules
+
+Upper Back is a separate muscle group from Traps. Existing `upper_back` values
+round-trip through display, editing and scoring without being reassigned to
+`traps`. Combined Back charts include both. The existing upper-back illustration
+is shared by these groups; numerical scores and percentages remain separate.
+
+Muscle scores, muscle volumes, strength indexes and muscle-volume comparisons
+exclude source activities categorized as `cardio` or `stretching`, across the
+entire catalog. Classification uses the stable exercise ID and existing RepDB
+metadata, so old snapshots and exercises removed from the saved library are
+handled without a migration. Strength, plyometrics, Olympic lifts and custom
+exercises retain their existing scoring. Recorded sets, generic workout totals,
+history, templates, snapshots and saved contributions are unchanged.

@@ -1,3 +1,4 @@
+import { getRepDbExercise } from "../exercises/repdb-catalog";
 import { Exercise, MuscleGroup } from "../exercises/exercise.types";
 import { PerformedExercise, WorkoutSession } from "../workouts/workout.types";
 import {
@@ -9,7 +10,7 @@ const CHART_MAJOR_MUSCLE_GROUPS = {
   chest: ["chest"],
   triceps: ["triceps"],
   shoulders: ["front_delts", "side_delts", "rear_delts"],
-  back: ["lats", "traps", "lower_back"],
+  back: ["lats", "traps", "upper_back", "lower_back"],
   biceps: ["biceps"],
   legs: ["glutes", "quads", "hamstrings", "abductors", "adductors"],
   abs: ["abs", "obliques"],
@@ -104,7 +105,13 @@ const normalizeMuscleContributions = (
 const resolveExercise = (
   performedExercise: PerformedExercise,
   exerciseMap: Map<string, Exercise>
-) => performedExercise.exerciseSnapshot ?? exerciseMap.get(performedExercise.exerciseId);
+) => {
+  // Resolve by stable ID, including legacy snapshots and removed library entries.
+  // Activity is catalog metadata; saved contribution percentages remain untouched.
+  const category = getRepDbExercise(performedExercise.exerciseId)?.category;
+  if (category === "cardio" || category === "stretching") return undefined;
+  return performedExercise.exerciseSnapshot ?? exerciseMap.get(performedExercise.exerciseId);
+};
 
 const getEffectiveSetWeight = (weight: number | null) => Math.max(0, weight ?? 0);
 

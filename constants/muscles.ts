@@ -10,6 +10,7 @@ export const MUSCLE_LABELS: Record<string, string> = {
   forearms: "Forearms",
   neck: "Neck",
   traps: "Traps",
+  upper_back: "Upper Back",
   lats: "Lats",
   lower_back: "Lower Back",
   chest: "Chest",
@@ -36,6 +37,7 @@ export const MAJOR_MUSCLE_GROUPS = {
   forearms: ["forearms"],
   neck: ["neck"],
   traps: ["traps"],
+  upper_back: ["upper_back"],
   lats: ["lats"],
   lower_back: ["lower_back"],
   chest: ["chest"],
@@ -64,6 +66,7 @@ export const MAJOR_MUSCLE_LABELS: Record<MajorMuscleGroupKey, string> = {
   forearms: "Forearms",
   neck: "Neck",
   traps: "Traps",
+  upper_back: "Upper Back",
   lats: "Lats",
   lower_back: "Lower Back",
   chest: "Chest",
@@ -90,6 +93,7 @@ export const MAJOR_MUSCLE_OPTIONS: MajorMuscleGroupKey[] = [
   "forearms",
   "neck",
   "traps",
+  "upper_back",
   "lats",
   "lower_back",
   "chest",
@@ -109,7 +113,6 @@ export const MAJOR_MUSCLE_OPTIONS: MajorMuscleGroupKey[] = [
 const LEGACY_MUSCLE_TO_MAJOR: Partial<Record<MuscleGroup, MajorMuscleGroupKey>> = {
   upper_chest: "chest",
   lower_chest: "chest",
-  upper_back: "traps",
 };
 
 const LEGACY_MAJOR_EXPANSION: Record<string, Partial<Record<MuscleGroup, number>>> = {
@@ -138,6 +141,7 @@ const MAJOR_MUSCLE_EXPANSION: Record<
   forearms: { forearms: 1 },
   neck: { neck: 1 },
   traps: { traps: 1 },
+  upper_back: { upper_back: 1 },
   lats: { lats: 1 },
   lower_back: { lower_back: 1 },
   chest: { chest: 1 },
