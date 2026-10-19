@@ -9,9 +9,9 @@ export const exercisesSeed: Exercise[] = [
     equipment: "barbell",
     defaultRestSeconds: 150,
     muscleContributions: {
-      chest: 0.55,
-      upper_chest: 0.3,
-      lower_chest: 0.15,
+      chest: 0.65,
+      triceps: 0.2,
+      front_delts: 0.15,
     },
   },
   {
@@ -22,9 +22,9 @@ export const exercisesSeed: Exercise[] = [
     equipment: "dumbbell",
     defaultRestSeconds: 120,
     muscleContributions: {
-      chest: 0.6,
-      upper_chest: 0.25,
-      lower_chest: 0.15,
+      chest: 0.7,
+      triceps: 0.15,
+      front_delts: 0.15,
     },
   },
   {
@@ -36,8 +36,9 @@ export const exercisesSeed: Exercise[] = [
     defaultRestSeconds: 150,
     muscleContributions: {
       lower_chest: 0.6,
-      chest: 0.3,
-      upper_chest: 0.1,
+      chest: 0.15,
+      triceps: 0.15,
+      front_delts: 0.1,
     },
   },
   {
@@ -48,9 +49,10 @@ export const exercisesSeed: Exercise[] = [
     equipment: "dumbbell",
     defaultRestSeconds: 120,
     muscleContributions: {
-      lower_chest: 0.55,
-      chest: 0.35,
-      upper_chest: 0.1,
+      lower_chest: 0.6,
+      chest: 0.2,
+      triceps: 0.1,
+      front_delts: 0.1,
     },
   },
   {
@@ -62,8 +64,9 @@ export const exercisesSeed: Exercise[] = [
     defaultRestSeconds: 150,
     muscleContributions: {
       upper_chest: 0.6,
-      chest: 0.3,
-      front_delts: 0.1,
+      front_delts: 0.2,
+      triceps: 0.15,
+      chest: 0.05,
     },
   },
   {
@@ -74,9 +77,10 @@ export const exercisesSeed: Exercise[] = [
     equipment: "dumbbell",
     defaultRestSeconds: 120,
     muscleContributions: {
-      upper_chest: 0.65,
-      chest: 0.25,
-      front_delts: 0.1,
+      upper_chest: 0.6,
+      front_delts: 0.2,
+      chest: 0.1,
+      triceps: 0.1,
     },
   },
   {
@@ -87,9 +91,9 @@ export const exercisesSeed: Exercise[] = [
     equipment: "machine",
     defaultRestSeconds: 90,
     muscleContributions: {
-      chest: 0.6,
-      front_delts: 0.2,
+      chest: 0.65,
       triceps: 0.2,
+      front_delts: 0.15,
     },
   },
   {
@@ -100,9 +104,7 @@ export const exercisesSeed: Exercise[] = [
     equipment: "machine",
     defaultRestSeconds: 75,
     muscleContributions: {
-      chest: 0.7,
-      upper_chest: 0.2,
-      lower_chest: 0.1,
+      chest: 1,
     },
   },
   {
@@ -113,9 +115,7 @@ export const exercisesSeed: Exercise[] = [
     equipment: "cable",
     defaultRestSeconds: 60,
     muscleContributions: {
-      chest: 0.65,
-      lower_chest: 0.2,
-      upper_chest: 0.15,
+      chest: 1,
     },
   },
   {
@@ -126,9 +126,9 @@ export const exercisesSeed: Exercise[] = [
     equipment: "cable",
     defaultRestSeconds: 60,
     muscleContributions: {
-      upper_chest: 0.7,
-      chest: 0.2,
-      front_delts: 0.1,
+      upper_chest: 0.8,
+      chest: 0.15,
+      front_delts: 0.05,
     },
   },
   {
@@ -139,9 +139,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "cable",
     defaultRestSeconds: 60,
     muscleContributions: {
-      lower_chest: 0.65,
-      chest: 0.25,
-      upper_chest: 0.1,
+      lower_chest: 0.8,
+      chest: 0.2,
     },
   },
   {
@@ -153,8 +152,8 @@ export const exercisesSeed: Exercise[] = [
     defaultRestSeconds: 120,
     muscleContributions: {
       front_delts: 0.5,
-      side_delts: 0.3,
-      triceps: 0.2,
+      side_delts: 0.25,
+      triceps: 0.25,
     },
   },
   {
@@ -166,8 +165,8 @@ export const exercisesSeed: Exercise[] = [
     defaultRestSeconds: 150,
     muscleContributions: {
       front_delts: 0.55,
-      side_delts: 0.25,
-      triceps: 0.2,
+      triceps: 0.25,
+      side_delts: 0.2,
     },
   },
   {
@@ -178,9 +177,9 @@ export const exercisesSeed: Exercise[] = [
     equipment: "dumbbell",
     defaultRestSeconds: 120,
     muscleContributions: {
-      front_delts: 0.55,
+      front_delts: 0.5,
       side_delts: 0.3,
-      triceps: 0.15,
+      triceps: 0.2,
     },
   },
   {
@@ -191,9 +190,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "dumbbell",
     defaultRestSeconds: 60,
     muscleContributions: {
-      side_delts: 0.75,
-      front_delts: 0.15,
-      neck: 0.1,
+      side_delts: 0.95,
+      traps: 0.05,
     },
   },
   {
@@ -204,9 +202,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "cable",
     defaultRestSeconds: 60,
     muscleContributions: {
-      side_delts: 0.8,
-      front_delts: 0.1,
-      neck: 0.1,
+      side_delts: 0.95,
+      traps: 0.05,
     },
   },
   {
@@ -217,9 +214,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "dumbbell",
     defaultRestSeconds: 60,
     muscleContributions: {
-      rear_delts: 0.7,
+      rear_delts: 0.8,
       upper_back: 0.2,
-      neck: 0.1,
     },
   },
   {
@@ -230,9 +226,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "machine",
     defaultRestSeconds: 60,
     muscleContributions: {
-      rear_delts: 0.75,
+      rear_delts: 0.85,
       upper_back: 0.15,
-      neck: 0.1,
     },
   },
   {
@@ -243,10 +238,9 @@ export const exercisesSeed: Exercise[] = [
     equipment: "cable",
     defaultRestSeconds: 60,
     muscleContributions: {
-      rear_delts: 0.5,
-      traps: 0.2,
-      neck: 0.15,
-      upper_back: 0.15,
+      rear_delts: 0.6,
+      upper_back: 0.25,
+      traps: 0.15,
     },
   },
   {
@@ -257,9 +251,7 @@ export const exercisesSeed: Exercise[] = [
     equipment: "other",
     defaultRestSeconds: 60,
     muscleContributions: {
-      front_delts: 0.7,
-      upper_chest: 0.2,
-      abs: 0.1,
+      front_delts: 1,
     },
   },
   {
@@ -270,9 +262,9 @@ export const exercisesSeed: Exercise[] = [
     equipment: "bodyweight",
     defaultRestSeconds: 120,
     muscleContributions: {
-      lats: 0.65,
+      lats: 0.6,
       upper_back: 0.2,
-      biceps: 0.15,
+      biceps: 0.2,
     },
   },
   {
@@ -283,8 +275,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "bodyweight",
     defaultRestSeconds: 120,
     muscleContributions: {
-      lats: 0.5,
-      biceps: 0.35,
+      lats: 0.55,
+      biceps: 0.3,
       upper_back: 0.15,
     },
   },
@@ -296,8 +288,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "cable",
     defaultRestSeconds: 90,
     muscleContributions: {
-      lats: 0.6,
-      upper_back: 0.25,
+      lats: 0.65,
+      upper_back: 0.2,
       biceps: 0.15,
     },
   },
@@ -309,9 +301,9 @@ export const exercisesSeed: Exercise[] = [
     equipment: "cable",
     defaultRestSeconds: 90,
     muscleContributions: {
-      lats: 0.55,
+      lats: 0.6,
       biceps: 0.25,
-      upper_back: 0.2,
+      upper_back: 0.15,
     },
   },
   {
@@ -322,9 +314,10 @@ export const exercisesSeed: Exercise[] = [
     equipment: "cable",
     defaultRestSeconds: 90,
     muscleContributions: {
-      upper_back: 0.5,
-      lats: 0.25,
-      biceps: 0.25,
+      upper_back: 0.4,
+      lats: 0.35,
+      biceps: 0.2,
+      rear_delts: 0.05,
     },
   },
   {
@@ -335,9 +328,10 @@ export const exercisesSeed: Exercise[] = [
     equipment: "barbell",
     defaultRestSeconds: 120,
     muscleContributions: {
-      upper_back: 0.45,
+      upper_back: 0.35,
       lats: 0.3,
-      biceps: 0.25,
+      biceps: 0.2,
+      lower_back: 0.15,
     },
   },
   {
@@ -348,9 +342,10 @@ export const exercisesSeed: Exercise[] = [
     equipment: "dumbbell",
     defaultRestSeconds: 90,
     muscleContributions: {
-      lats: 0.5,
+      lats: 0.45,
       upper_back: 0.3,
       biceps: 0.2,
+      rear_delts: 0.05,
     },
   },
   {
@@ -361,9 +356,10 @@ export const exercisesSeed: Exercise[] = [
     equipment: "barbell",
     defaultRestSeconds: 120,
     muscleContributions: {
-      upper_back: 0.5,
-      lats: 0.3,
-      rear_delts: 0.2,
+      upper_back: 0.4,
+      lats: 0.35,
+      biceps: 0.15,
+      rear_delts: 0.1,
     },
   },
   {
@@ -374,9 +370,10 @@ export const exercisesSeed: Exercise[] = [
     equipment: "machine",
     defaultRestSeconds: 90,
     muscleContributions: {
-      upper_back: 0.55,
-      lats: 0.3,
-      biceps: 0.15,
+      upper_back: 0.4,
+      lats: 0.35,
+      biceps: 0.2,
+      rear_delts: 0.05,
     },
   },
   {
@@ -387,9 +384,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "cable",
     defaultRestSeconds: 60,
     muscleContributions: {
-      lats: 0.75,
-      upper_back: 0.15,
-      abs: 0.1,
+      lats: 0.9,
+      upper_back: 0.1,
     },
   },
   {
@@ -400,8 +396,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "barbell",
     defaultRestSeconds: 60,
     muscleContributions: {
-      biceps: 0.7,
-      forearms: 0.3,
+      biceps: 0.9,
+      forearms: 0.1,
     },
   },
   {
@@ -412,8 +408,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "barbell",
     defaultRestSeconds: 60,
     muscleContributions: {
-      biceps: 0.65,
-      forearms: 0.35,
+      biceps: 0.9,
+      forearms: 0.1,
     },
   },
   {
@@ -424,8 +420,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "dumbbell",
     defaultRestSeconds: 60,
     muscleContributions: {
-      biceps: 0.75,
-      forearms: 0.25,
+      biceps: 0.95,
+      forearms: 0.05,
     },
   },
   {
@@ -436,20 +432,20 @@ export const exercisesSeed: Exercise[] = [
     equipment: "machine",
     defaultRestSeconds: 60,
     muscleContributions: {
-      biceps: 0.8,
-      forearms: 0.2,
+      biceps: 0.95,
+      forearms: 0.05,
     },
   },
   {
     id: "hammer-curl",
     name: "Hammer Curl",
-    primaryMuscle: "forearms",
-    secondaryMuscles: ["biceps"],
+    primaryMuscle: "biceps",
+    secondaryMuscles: ["forearms"],
     equipment: "dumbbell",
     defaultRestSeconds: 60,
     muscleContributions: {
-      forearms: 0.5,
-      biceps: 0.5,
+      biceps: 0.65,
+      forearms: 0.35,
     },
   },
   {
@@ -460,8 +456,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "cable",
     defaultRestSeconds: 60,
     muscleContributions: {
-      biceps: 0.7,
-      forearms: 0.3,
+      biceps: 0.95,
+      forearms: 0.05,
     },
   },
   {
@@ -472,8 +468,7 @@ export const exercisesSeed: Exercise[] = [
     equipment: "dumbbell",
     defaultRestSeconds: 60,
     muscleContributions: {
-      biceps: 0.85,
-      forearms: 0.15,
+      biceps: 1,
     },
   },
   {
@@ -484,8 +479,7 @@ export const exercisesSeed: Exercise[] = [
     equipment: "cable",
     defaultRestSeconds: 60,
     muscleContributions: {
-      triceps: 0.8,
-      forearms: 0.2,
+      triceps: 1,
     },
   },
   {
@@ -496,8 +490,7 @@ export const exercisesSeed: Exercise[] = [
     equipment: "cable",
     defaultRestSeconds: 60,
     muscleContributions: {
-      triceps: 0.75,
-      forearms: 0.25,
+      triceps: 1,
     },
   },
   {
@@ -508,8 +501,7 @@ export const exercisesSeed: Exercise[] = [
     equipment: "cable",
     defaultRestSeconds: 60,
     muscleContributions: {
-      triceps: 0.85,
-      abs: 0.15,
+      triceps: 1,
     },
   },
   {
@@ -520,8 +512,7 @@ export const exercisesSeed: Exercise[] = [
     equipment: "barbell",
     defaultRestSeconds: 75,
     muscleContributions: {
-      triceps: 0.8,
-      forearms: 0.2,
+      triceps: 1,
     },
   },
   {
@@ -532,9 +523,9 @@ export const exercisesSeed: Exercise[] = [
     equipment: "barbell",
     defaultRestSeconds: 120,
     muscleContributions: {
-      triceps: 0.6,
-      chest: 0.25,
-      front_delts: 0.15,
+      triceps: 0.5,
+      chest: 0.3,
+      front_delts: 0.2,
     },
   },
   {
@@ -545,9 +536,9 @@ export const exercisesSeed: Exercise[] = [
     equipment: "bodyweight",
     defaultRestSeconds: 60,
     muscleContributions: {
-      triceps: 0.65,
-      lower_chest: 0.2,
-      front_delts: 0.15,
+      triceps: 0.55,
+      lower_chest: 0.25,
+      front_delts: 0.2,
     },
   },
   {
@@ -558,8 +549,7 @@ export const exercisesSeed: Exercise[] = [
     equipment: "dumbbell",
     defaultRestSeconds: 60,
     muscleContributions: {
-      triceps: 0.85,
-      rear_delts: 0.15,
+      triceps: 1,
     },
   },
   {
@@ -570,9 +560,9 @@ export const exercisesSeed: Exercise[] = [
     equipment: "barbell",
     defaultRestSeconds: 150,
     muscleContributions: {
-      quads: 0.5,
-      glutes: 0.3,
-      hamstrings: 0.2,
+      quads: 0.55,
+      glutes: 0.35,
+      lower_back: 0.1,
     },
   },
   {
@@ -584,8 +574,8 @@ export const exercisesSeed: Exercise[] = [
     defaultRestSeconds: 150,
     muscleContributions: {
       quads: 0.65,
-      glutes: 0.25,
-      hamstrings: 0.1,
+      glutes: 0.3,
+      lower_back: 0.05,
     },
   },
   {
@@ -596,9 +586,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "machine",
     defaultRestSeconds: 120,
     muscleContributions: {
-      quads: 0.5,
-      glutes: 0.3,
-      hamstrings: 0.2,
+      quads: 0.65,
+      glutes: 0.35,
     },
   },
   {
@@ -609,9 +598,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "machine",
     defaultRestSeconds: 120,
     muscleContributions: {
-      quads: 0.6,
-      glutes: 0.25,
-      hamstrings: 0.15,
+      quads: 0.7,
+      glutes: 0.3,
     },
   },
   {
@@ -623,8 +611,8 @@ export const exercisesSeed: Exercise[] = [
     defaultRestSeconds: 90,
     muscleContributions: {
       quads: 0.45,
-      glutes: 0.4,
-      hamstrings: 0.15,
+      glutes: 0.45,
+      adductors: 0.1,
     },
   },
   {
@@ -635,9 +623,9 @@ export const exercisesSeed: Exercise[] = [
     equipment: "dumbbell",
     defaultRestSeconds: 90,
     muscleContributions: {
-      quads: 0.4,
-      glutes: 0.4,
-      hamstrings: 0.2,
+      quads: 0.45,
+      glutes: 0.45,
+      adductors: 0.1,
     },
   },
   {
@@ -647,10 +635,7 @@ export const exercisesSeed: Exercise[] = [
     secondaryMuscles: ["abs"],
     equipment: "machine",
     defaultRestSeconds: 60,
-    muscleContributions: {
-      quads: 0.9,
-      abs: 0.1,
-    },
+    muscleContributions: { quads: 1 },
   },
   {
     id: "romanian-deadlift",
@@ -660,9 +645,9 @@ export const exercisesSeed: Exercise[] = [
     equipment: "barbell",
     defaultRestSeconds: 150,
     muscleContributions: {
-      hamstrings: 0.5,
-      glutes: 0.4,
-      upper_back: 0.1,
+      hamstrings: 0.55,
+      glutes: 0.35,
+      lower_back: 0.1,
     },
   },
   {
@@ -673,9 +658,10 @@ export const exercisesSeed: Exercise[] = [
     equipment: "barbell",
     defaultRestSeconds: 180,
     muscleContributions: {
-      glutes: 0.4,
-      hamstrings: 0.3,
-      upper_back: 0.3,
+      glutes: 0.35,
+      quads: 0.25,
+      hamstrings: 0.2,
+      lower_back: 0.2,
     },
   },
   {
@@ -686,9 +672,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "barbell",
     defaultRestSeconds: 120,
     muscleContributions: {
-      glutes: 0.7,
-      hamstrings: 0.2,
-      quads: 0.1,
+      glutes: 0.9,
+      hamstrings: 0.1,
     },
   },
   {
@@ -699,9 +684,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "barbell",
     defaultRestSeconds: 90,
     muscleContributions: {
-      glutes: 0.75,
-      hamstrings: 0.15,
-      abs: 0.1,
+      glutes: 0.9,
+      hamstrings: 0.1,
     },
   },
   {
@@ -712,8 +696,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "machine",
     defaultRestSeconds: 60,
     muscleContributions: {
-      hamstrings: 0.8,
-      calves: 0.2,
+      hamstrings: 0.95,
+      calves: 0.05,
     },
   },
   {
@@ -724,9 +708,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "machine",
     defaultRestSeconds: 60,
     muscleContributions: {
-      hamstrings: 0.75,
-      glutes: 0.15,
-      calves: 0.1,
+      hamstrings: 0.95,
+      calves: 0.05,
     },
   },
   {
@@ -739,7 +722,7 @@ export const exercisesSeed: Exercise[] = [
     muscleContributions: {
       hamstrings: 0.45,
       glutes: 0.35,
-      upper_back: 0.2,
+      lower_back: 0.2,
     },
   },
   {
@@ -750,8 +733,7 @@ export const exercisesSeed: Exercise[] = [
     equipment: "machine",
     defaultRestSeconds: 60,
     muscleContributions: {
-      calves: 0.9,
-      abs: 0.1,
+      calves: 1,
     },
   },
   {
@@ -762,8 +744,7 @@ export const exercisesSeed: Exercise[] = [
     equipment: "machine",
     defaultRestSeconds: 60,
     muscleContributions: {
-      calves: 0.9,
-      abs: 0.1,
+      calves: 1,
     },
   },
   {
@@ -774,8 +755,7 @@ export const exercisesSeed: Exercise[] = [
     equipment: "machine",
     defaultRestSeconds: 60,
     muscleContributions: {
-      calves: 0.95,
-      glutes: 0.05,
+      calves: 1,
     },
   },
   {
@@ -786,8 +766,7 @@ export const exercisesSeed: Exercise[] = [
     equipment: "bodyweight",
     defaultRestSeconds: 45,
     muscleContributions: {
-      abs: 0.8,
-      upper_chest: 0.2,
+      abs: 1,
     },
   },
   {
@@ -798,9 +777,9 @@ export const exercisesSeed: Exercise[] = [
     equipment: "bodyweight",
     defaultRestSeconds: 60,
     muscleContributions: {
-      abs: 0.7,
-      forearms: 0.15,
-      lats: 0.15,
+      abs: 0.8,
+      forearms: 0.1,
+      lats: 0.1,
     },
   },
   {
@@ -812,8 +791,9 @@ export const exercisesSeed: Exercise[] = [
     defaultRestSeconds: 45,
     muscleContributions: {
       abs: 0.6,
-      front_delts: 0.25,
-      glutes: 0.15,
+      obliques: 0.2,
+      glutes: 0.1,
+      front_delts: 0.1,
     },
   },
   {
@@ -824,21 +804,19 @@ export const exercisesSeed: Exercise[] = [
     equipment: "cable",
     defaultRestSeconds: 45,
     muscleContributions: {
-      abs: 0.8,
-      obliques: 0.2,
+      abs: 1,
     },
   },
   {
     id: "russian-twist",
     name: "Russian Twist",
-    primaryMuscle: "abs",
-    secondaryMuscles: ["obliques", "forearms"],
+    primaryMuscle: "obliques",
+    secondaryMuscles: ["abs"],
     equipment: "other",
     defaultRestSeconds: 45,
     muscleContributions: {
-      abs: 0.5,
-      obliques: 0.35,
-      forearms: 0.15,
+      obliques: 0.6,
+      abs: 0.4,
     },
   },
   {
@@ -849,9 +827,9 @@ export const exercisesSeed: Exercise[] = [
     equipment: "other",
     defaultRestSeconds: 60,
     muscleContributions: {
-      abs: 0.7,
-      front_delts: 0.2,
-      lats: 0.1,
+      abs: 0.65,
+      lats: 0.2,
+      front_delts: 0.15,
     },
   },
   {
@@ -862,9 +840,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "smith",
     defaultRestSeconds: 120,
     muscleContributions: {
-      quads: 0.55,
-      glutes: 0.3,
-      hamstrings: 0.15,
+      quads: 0.65,
+      glutes: 0.35,
     },
   },
   {
@@ -876,8 +853,9 @@ export const exercisesSeed: Exercise[] = [
     defaultRestSeconds: 120,
     muscleContributions: {
       upper_chest: 0.6,
-      chest: 0.25,
-      front_delts: 0.15,
+      front_delts: 0.2,
+      triceps: 0.15,
+      chest: 0.05,
     },
   },
   {
@@ -901,9 +879,10 @@ export const exercisesSeed: Exercise[] = [
     equipment: "machine",
     defaultRestSeconds: 90,
     muscleContributions: {
-      upper_back: 0.55,
-      lats: 0.3,
-      biceps: 0.15,
+      upper_back: 0.4,
+      lats: 0.35,
+      biceps: 0.2,
+      rear_delts: 0.05,
     },
   },
   {
@@ -914,9 +893,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "cable",
     defaultRestSeconds: 60,
     muscleContributions: {
-      lats: 0.7,
-      abs: 0.2,
-      upper_back: 0.1,
+      lats: 0.95,
+      upper_back: 0.05,
     },
   },
   {
@@ -928,8 +906,8 @@ export const exercisesSeed: Exercise[] = [
     defaultRestSeconds: 90,
     muscleContributions: {
       quads: 0.45,
-      glutes: 0.4,
-      hamstrings: 0.15,
+      glutes: 0.45,
+      adductors: 0.1,
     },
   },
   {
@@ -939,10 +917,7 @@ export const exercisesSeed: Exercise[] = [
     secondaryMuscles: ["abs"],
     equipment: "bodyweight",
     defaultRestSeconds: 60,
-    muscleContributions: {
-      quads: 0.8,
-      abs: 0.2,
-    },
+    muscleContributions: { quads: 1 },
   },
   {
     id: "reverse-lunges",
@@ -952,9 +927,9 @@ export const exercisesSeed: Exercise[] = [
     equipment: "dumbbell",
     defaultRestSeconds: 90,
     muscleContributions: {
-      glutes: 0.45,
-      quads: 0.35,
-      hamstrings: 0.2,
+      glutes: 0.5,
+      quads: 0.4,
+      adductors: 0.1,
     },
   },
   {
@@ -965,10 +940,10 @@ export const exercisesSeed: Exercise[] = [
     equipment: "dumbbell",
     defaultRestSeconds: 60,
     muscleContributions: {
-      forearms: 0.5,
-      traps: 0.2,
-      neck: 0.1,
-      abs: 0.2,
+      forearms: 0.45,
+      traps: 0.3,
+      abs: 0.15,
+      obliques: 0.1,
     },
   },
   {
@@ -979,9 +954,8 @@ export const exercisesSeed: Exercise[] = [
     equipment: "dumbbell",
     defaultRestSeconds: 60,
     muscleContributions: {
-      traps: 0.5,
-      neck: 0.3,
-      forearms: 0.2,
+      traps: 0.9,
+      forearms: 0.1,
     },
   },
 ];

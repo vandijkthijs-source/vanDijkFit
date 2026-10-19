@@ -296,7 +296,22 @@ const mergeSeedExercises = (persistedExercises?: Exercise[]) => {
   const existingIds = new Set(currentExercises.map((exercise) => exercise.id));
   const missingSeedExercises = exercisesSeed.filter((exercise) => !existingIds.has(exercise.id));
 
-  return [...currentExercises, ...missingSeedExercises];
+  const latestSeedById = new Map(exercisesSeed.map((exercise) => [exercise.id, exercise]));
+  const updatedExercises = currentExercises.map((exercise) => {
+    const seedExercise = latestSeedById.get(exercise.id);
+    if (!seedExercise || exercise.isCustom || exercise.isModified) {
+      return exercise;
+    }
+
+    return {
+      ...exercise,
+      primaryMuscle: seedExercise.primaryMuscle,
+      secondaryMuscles: seedExercise.secondaryMuscles,
+      muscleContributions: seedExercise.muscleContributions,
+    };
+  });
+
+  return [...updatedExercises, ...missingSeedExercises];
 };
 
 export const APP_STORAGE_KEY = "vandijkfit-storage-v2";
