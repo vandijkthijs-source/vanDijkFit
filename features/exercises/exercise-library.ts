@@ -1,4 +1,5 @@
 import { getExerciseCategory, type ExerciseCategory } from "./exercise-category";
+import type { ExerciseSortOrder } from "./exercise-sort";
 import curated from "../../data/exercises.curated.json";
 import { MAJOR_MUSCLE_LABELS } from "../../constants/muscles";
 import { titleCase } from "../../utils/format";
@@ -57,6 +58,8 @@ export const selectLibraryExercises = (
   query: string,
   category: ExerciseCategory,
   recency: ReadonlyMap<string, number>,
+  sort: ExerciseSortOrder = "recent",
+  usageCounts: ReadonlyMap<string, number> = new Map(),
 ) => {
   const normalized = query.trim().toLowerCase();
   return exercises
@@ -65,6 +68,7 @@ export const selectLibraryExercises = (
     .map((exercise) => ({ exercise, score: getSearchScore(exercise, normalized) }))
     .filter(({ score }) => score >= 0)
     .sort((a, b) => b.score - a.score ||
+      (sort === "most-used" ? (usageCounts.get(b.exercise.id) ?? 0) - (usageCounts.get(a.exercise.id) ?? 0) : 0) ||
       (recency.get(b.exercise.id) ?? 0) - (recency.get(a.exercise.id) ?? 0) ||
       a.exercise.name.localeCompare(b.exercise.name))
     .map(({ exercise }) => exercise);

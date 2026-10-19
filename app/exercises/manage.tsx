@@ -20,7 +20,9 @@ import { Exercise } from "../../features/exercises/exercise.types";
 import { showAlert } from "../../lib/ui/alert";
 import { REPDB_CREDIT, REPDB_URL } from "../../features/exercises/repdb-catalog";
 
+import { getExerciseUsageCounts, type ExerciseSortOrder } from "../../features/exercises/exercise-sort";
 import type { ExerciseCategory } from "../../features/exercises/exercise-category";
+import ExerciseFilters from "../../components/exercise/ExerciseFilters";
 import ExerciseLibraryScope from "../../components/exercise/ExerciseLibraryScope";
 import { getExerciseRecency, selectLibraryExercises } from "../../features/exercises/exercise-library";
 
@@ -121,28 +123,16 @@ export default function ManageExercisesScreen() {
   const workoutHistory = useAppStore((state) => state.workoutHistory);
   const removeCustomExercise = useAppStore((state) => state.removeCustomExercise);
   const [query, setQuery] = useState("");
+  const [sort, setSort] = useState<ExerciseSortOrder>("recent");
 
   const [category, setCategory] = useState<ExerciseCategory>("strength");
   const recency = useMemo(() => getExerciseRecency(workoutHistory), [workoutHistory]);
 
-  const doneCounts = useMemo(() => {
-    const counts = new Map<string, number>();
-
-    for (const session of workoutHistory) {
-      for (const performedExercise of session.exercises) {
-        counts.set(
-          performedExercise.exerciseId,
-          (counts.get(performedExercise.exerciseId) ?? 0) + 1
-        );
-      }
-    }
-
-    return counts;
-  }, [workoutHistory]);
+  const doneCounts = useMemo(() => getExerciseUsageCounts(workoutHistory), [workoutHistory]);
 
   const visibleExercises = useMemo(
-    () => selectLibraryExercises(exercises, query, category, recency),
-    [exercises, query, category, recency]
+    () => selectLibraryExercises(exercises, query, category, recency, sort, doneCounts),
+    [exercises, query, category, recency, sort, doneCounts]
   );
 
   const handleRemove = useCallback((exerciseId: string, exerciseName: string) => {
@@ -227,7 +217,9 @@ export default function ManageExercisesScreen() {
                 </Pressable>
               ) : null}
             </View>
-            <ExerciseLibraryScope category={category} onChange={setCategory} />
+            <ExerciseFilters sort={sort} onSortChange={setSort} activeCount={Number(category !== "strength")}>
+              <ExerciseLibraryScope category={category} onChange={setCategory} />
+            </ExerciseFilters>
           </View>
         }
         ListEmptyComponent={

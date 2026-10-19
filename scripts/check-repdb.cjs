@@ -352,3 +352,38 @@ test("rehydration upgrades unmodified defaults while retaining custom edits and 
   assert.strictEqual(merged.templates[0], template);
   assert.equal(JSON.stringify(persisted), before);
 });
+
+const { getExerciseUsageCounts } = load(path.join(root, "features/exercises/exercise-sort.ts"));
+
+test("usage counts completed workouts once per exercise, excluding unfinished entries", () => {
+  const history = [
+    { exercises: [
+      { exerciseId: "bench", sets: [{ completed: true }, { completed: true }] },
+      { exerciseId: "bench", sets: [{ completed: true }] },
+      { exerciseId: "row", sets: [{ completed: false }] },
+    ] },
+    { exercises: [
+      { exerciseId: "bench", sets: [{ completed: true }] },
+      { exerciseId: "row", sets: [] },
+    ] },
+  ];
+  const before = JSON.stringify(history);
+  assert.deepEqual([...getExerciseUsageCounts(history)], [["bench", 2]]);
+  assert.equal(JSON.stringify(history), before);
+});
+
+test("sorting switches between latest use and usage count, with recency then name ties and relevant search", () => {
+  const first = { ...exercisesSeed[0], id: "sort-a", isCustom: true, name: "Bench Press" };
+  const second = { ...first, id: "sort-b", name: "Bench Press Narrow" };
+  const third = { ...first, id: "sort-c", name: "Bench Press Wide" };
+  const exercises = [third, second, first];
+  const recency = new Map([[first.id, 1], [second.id, 3], [third.id, 2]]);
+  const counts = new Map([[first.id, 5], [second.id, 2], [third.id, 2]]);
+  const select = (query, sort, times = recency, usage = counts) =>
+    selectLibraryExercises(exercises, query, "strength", times, sort, usage).map((exercise) => exercise.id);
+  assert.deepEqual(select("", "recent"), [second.id, third.id, first.id]);
+  assert.deepEqual(select("", "most-used"), [first.id, second.id, third.id]);
+  assert.deepEqual(select("", "most-used", new Map(), new Map()), [first.id, second.id, third.id]);
+  assert.equal(select("Bench Press", "most-used", recency, new Map([[second.id, 100]]))[0], first.id);
+  assert.deepEqual(exercises.map((exercise) => exercise.id), [third.id, second.id, first.id]);
+});

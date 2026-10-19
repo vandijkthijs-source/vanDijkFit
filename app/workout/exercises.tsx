@@ -18,6 +18,7 @@ import {
   Exercise,
 } from "../../features/exercises/exercise.types";
 import { useAppStore } from "../../store/useAppStore";
+import { getExerciseUsageCounts, type ExerciseSortOrder } from "../../features/exercises/exercise-sort";
 import type { ExerciseCategory } from "../../features/exercises/exercise-category";
 import ExerciseFilters from "../../components/exercise/ExerciseFilters";
 import ExerciseLibraryScope from "../../components/exercise/ExerciseLibraryScope";
@@ -97,19 +98,21 @@ export default function WorkoutExercisePickerScreen() {
   const workoutHistory = useAppStore((state) => state.workoutHistory);
   const addExerciseToActiveWorkout = useAppStore((state) => state.addExerciseToActiveWorkout);
   const [query, setQuery] = useState("");
+  const [sort, setSort] = useState<ExerciseSortOrder>("recent");
   const [selectedMuscle, setSelectedMuscle] = useState<MajorMuscleGroupKey | null>(null);
   const [selectedEquipment, setSelectedEquipment] = useState<EquipmentType | null>(null);
 
   const [category, setCategory] = useState<ExerciseCategory>("strength");
   const recency = useMemo(() => getExerciseRecency(workoutHistory), [workoutHistory]);
+  const usageCounts = useMemo(() => getExerciseUsageCounts(workoutHistory), [workoutHistory]);
   const filteredExercises = useMemo(
-    () => selectLibraryExercises(exercises, query, category, recency).filter((exercise) => {
+    () => selectLibraryExercises(exercises, query, category, recency, sort, usageCounts).filter((exercise) => {
       if (selectedEquipment && exercise.equipment !== selectedEquipment) return false;
       if (!selectedMuscle) return true;
       const contributions = aggregateToMajorMuscleContributions(exercise.muscleContributions);
       return (contributions[selectedMuscle] ?? 0) > 0;
     }),
-    [exercises, query, category, recency, selectedEquipment, selectedMuscle]
+    [exercises, query, category, recency, sort, usageCounts, selectedEquipment, selectedMuscle]
   );
 
   const handleSelect = useCallback(
@@ -182,7 +185,7 @@ export default function WorkoutExercisePickerScreen() {
               style={styles.searchInput}
             />
 
-            <ExerciseFilters activeCount={Number(category !== "strength") + Number(selectedMuscle !== null) + Number(selectedEquipment !== null)}>
+            <ExerciseFilters sort={sort} onSortChange={setSort} activeCount={Number(category !== "strength") + Number(selectedMuscle !== null) + Number(selectedEquipment !== null)}>
               <ExerciseLibraryScope category={category} onChange={setCategory} />
 
               <View style={styles.filtersWrap}>
@@ -292,7 +295,7 @@ export default function WorkoutExercisePickerScreen() {
 
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>
-                {query.trim() ? "Search results" : "Recently used first"}
+                {query.trim() ? "Search results" : sort === "recent" ? "Recently used first" : "Most used first"}
               </Text>
             </View>
           </>

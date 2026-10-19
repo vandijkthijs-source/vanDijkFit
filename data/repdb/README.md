@@ -145,3 +145,16 @@ zero errors and five existing warnings. Mobile Chrome checks confirm collapsed
 initial state, expansion/collapse of all three rows, retained filter/query state,
 active counts, keyboard toggling and narrow layout without overflow. No browser
 runtime errors. Physical Android verification remains separate.
+
+Both exercise screens now have adjacent Filter and Sort disclosure buttons,
+collapsed initially; opening one closes the other. Sort offers Recently used
+(default) and Most used. Most used counts workouts with at least one completed
+set for the exercise, once per workout; ties use latest use, then name. The
+library's Done count uses the same definition. Search relevance stays first,
+with the selected sort applied to equally relevant matches. Sorting and filter
+choices remain applied while panels are hidden, without changing saved data.
+Sort validation: TypeScript and all 19 regression checks pass; lint has zero
+errors and five existing warnings. Mobile Chrome verifies both sorting modes
+against sample workout history on both screens, collapsed defaults, preserved
+sort/query/category state, keyboard toggles, shared usage counts and narrow layout.
+No browser runtime errors; physical Android testing remains separate.
