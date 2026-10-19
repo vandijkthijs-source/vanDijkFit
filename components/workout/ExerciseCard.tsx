@@ -302,10 +302,14 @@ export default function ExerciseCard({
     >
       <View style={styles.header}>
         <View {...titlePanResponder.panHandlers} style={styles.headerText}>
-          <Text style={styles.title}>{exercise.name}</Text>
-          <Text style={styles.subTitle}>
-            {formatMuscleSplitSummary(exercise.muscleContributions)}  |  {titleCase(exercise.equipment)}
-          </Text>
+          <View style={styles.titleRow} pointerEvents="none">
+            <View style={styles.titleCopy}>
+              <Text style={styles.title}>{exercise.name}</Text>
+              <Text style={styles.subTitle}>
+                {formatMuscleSplitSummary(exercise.muscleContributions)}  |  {titleCase(exercise.equipment)}
+              </Text>
+            </View>
+          </View>
         </View>
         <View style={styles.headerButtons}>
           <View style={styles.memoryChip}>
@@ -460,6 +464,8 @@ export default function ExerciseCard({
 }
 
 const createStyles = (colors: ThemeColors) => StyleSheet.create({
+  titleRow: { flexDirection: "row", alignItems: "center", gap: 10 },
+  titleCopy: { flex: 1, gap: 4 },
   card: {
     marginBottom: 14,
     backgroundColor: colors.panel,

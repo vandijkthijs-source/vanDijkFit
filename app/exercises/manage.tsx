@@ -1,6 +1,7 @@
 import { memo, useCallback, useMemo, useState } from "react";
 import {
   FlatList,
+  Linking,
   Pressable,
   StyleSheet,
   Text,
@@ -17,6 +18,7 @@ import { radii, ThemeColors, useThemeColors } from "../../constants/theme";
 import { formatMuscleSplitSummary, titleCase } from "../../utils/format";
 import { Exercise } from "../../features/exercises/exercise.types";
 import { showAlert } from "../../lib/ui/alert";
+import { REPDB_CREDIT, REPDB_URL } from "../../features/exercises/repdb-catalog";
 
 type ExerciseListItemProps = {
   exercise: Exercise;
@@ -244,6 +246,15 @@ export default function ManageExercisesScreen() {
             <Text style={styles.emptyStateText}>No exercises found.</Text>
           </View>
         }
+        ListFooterComponent={
+          <Text
+            style={styles.credit}
+            accessibilityRole="link"
+            onPress={() => Linking.openURL(REPDB_URL)}
+          >
+            {REPDB_CREDIT}
+          </Text>
+        }
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="always"
@@ -262,6 +273,13 @@ export default function ManageExercisesScreen() {
 }
 
 const createStyles = (colors: ThemeColors) => StyleSheet.create({
+  credit: {
+    marginTop: 20,
+    fontSize: 12,
+    color: colors.textMuted,
+    textAlign: "center",
+    textDecorationLine: "underline",
+  },
   safeArea: {
     flex: 1,
     backgroundColor: colors.background,
@@ -372,7 +390,9 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     flexGrow: 1,
     flexShrink: 1,
     padding: 16,
-    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
   },
   exerciseEditButton: {
     flexBasis: "15%",

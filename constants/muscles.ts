@@ -20,6 +20,10 @@ export const MUSCLE_LABELS: Record<string, string> = {
   calves: "Calves",
   abductors: "Abductors",
   adductors: "Adductors",
+  hip_flexors: "Hip Flexors",
+  tibialis: "Tibialis",
+  serratus: "Serratus",
+  rotator_cuff: "Rotator Cuff",
 };
 
 export const MAJOR_MUSCLE_GROUPS = {
@@ -42,6 +46,10 @@ export const MAJOR_MUSCLE_GROUPS = {
   calves: ["calves"],
   abductors: ["abductors"],
   adductors: ["adductors"],
+  hip_flexors: ["hip_flexors"],
+  tibialis: ["tibialis"],
+  serratus: ["serratus"],
+  rotator_cuff: ["rotator_cuff"],
 } as const satisfies Record<string, readonly MuscleGroup[]>;
 
 export type MajorMuscleGroupKey = keyof typeof MAJOR_MUSCLE_GROUPS;
@@ -66,6 +74,10 @@ export const MAJOR_MUSCLE_LABELS: Record<MajorMuscleGroupKey, string> = {
   calves: "Calves",
   abductors: "Abductors",
   adductors: "Adductors",
+  hip_flexors: "Hip Flexors",
+  tibialis: "Tibialis",
+  serratus: "Serratus",
+  rotator_cuff: "Rotator Cuff",
 };
 
 export const MAJOR_MUSCLE_OPTIONS: MajorMuscleGroupKey[] = [
@@ -88,6 +100,10 @@ export const MAJOR_MUSCLE_OPTIONS: MajorMuscleGroupKey[] = [
   "calves",
   "abductors",
   "adductors",
+  "hip_flexors",
+  "tibialis",
+  "serratus",
+  "rotator_cuff",
 ];
 
 const LEGACY_MUSCLE_TO_MAJOR: Partial<Record<MuscleGroup, MajorMuscleGroupKey>> = {
@@ -132,6 +148,10 @@ const MAJOR_MUSCLE_EXPANSION: Record<
   calves: { calves: 1 },
   abductors: { abductors: 1 },
   adductors: { adductors: 1 },
+  hip_flexors: { hip_flexors: 1 },
+  tibialis: { tibialis: 1 },
+  serratus: { serratus: 1 },
+  rotator_cuff: { rotator_cuff: 1 },
 };
 
 export const getMajorMuscleKey = (

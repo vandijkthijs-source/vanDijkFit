@@ -1,5 +1,7 @@
 # Welcome to your Expo app 👋
 
+Exercise data by [RepDB](https://repdb.co). See [content and license details](data/repdb/README.md).
+
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
 ## Get started

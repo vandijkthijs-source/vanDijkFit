@@ -10,6 +10,8 @@ export const equipmentOptions: EquipmentType[] = [
   "cable",
   "bodyweight",
   "smith",
+  "kettlebell",
+  "band",
   "other",
 ];
 

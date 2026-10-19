@@ -5,6 +5,8 @@ export type EquipmentType =
   | "cable"
   | "bodyweight"
   | "smith"
+  | "kettlebell"
+  | "band"
   | "other";
 
 export type MuscleGroup =
@@ -29,7 +31,11 @@ export type MuscleGroup =
   | "adductors"
   | "upper_chest"
   | "lower_chest"
-  | "upper_back";
+  | "upper_back"
+  | "hip_flexors"
+  | "tibialis"
+  | "serratus"
+  | "rotator_cuff";
 
 export interface Exercise {
   id: string;

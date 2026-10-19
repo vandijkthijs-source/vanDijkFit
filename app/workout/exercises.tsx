@@ -100,9 +100,6 @@ const ExerciseRow = memo(({ exercise, onPress, onEdit }: ExerciseRowProps) => {
         android_ripple={{ color: colors.ripple }}
         style={({ pressed }) => [styles.row, pressed && styles.glowPressed]}
       >
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>{exercise.name.charAt(0).toUpperCase()}</Text>
-        </View>
         <View style={styles.rowText}>
           <View style={styles.nameRow}>
             <Text style={styles.exerciseName}>{exercise.name}</Text>
@@ -118,7 +115,7 @@ const ExerciseRow = memo(({ exercise, onPress, onEdit }: ExerciseRowProps) => {
             ) : null}
           </View>
           <Text style={styles.exerciseMeta}>
-            {formatMuscleSplitSummary(exercise.muscleContributions)}  |  {exercise.defaultRestSeconds ?? 90}s rest
+            {formatMuscleSplitSummary(exercise.muscleContributions)}  |  {titleCase(exercise.equipment)}  |  {exercise.defaultRestSeconds ?? 90}s rest
           </Text>
         </View>
         <Ionicons name="add" size={20} color={colors.accent} />
@@ -533,6 +530,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 12,
     paddingVertical: 12,
   },
   glowPressed: {
@@ -542,20 +540,6 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     shadowRadius: 12,
     shadowOffset: { width: 0, height: 0 },
     elevation: 4,
-  },
-  avatar: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    backgroundColor: colors.panelMuted,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 14,
-  },
-  avatarText: {
-    color: colors.text,
-    fontSize: 18,
-    fontWeight: "600",
   },
   rowText: {
     flex: 1,

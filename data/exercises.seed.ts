@@ -1,6 +1,7 @@
 import { Exercise } from "../features/exercises/exercise.types";
+import { createAdditionalRepDbExercises } from "../features/exercises/repdb-catalog";
 
-export const exercisesSeed: Exercise[] = [
+const existingExercises: Exercise[] = [
   {
     id: "flat-barbell-bench-press",
     name: "Flat Barbell Bench Press",
@@ -958,4 +959,9 @@ export const exercisesSeed: Exercise[] = [
       forearms: 0.1,
     },
   },
+];
+
+export const exercisesSeed: Exercise[] = [
+  ...existingExercises,
+  ...createAdditionalRepDbExercises(existingExercises),
 ];

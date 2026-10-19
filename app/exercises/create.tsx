@@ -3,6 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import ExerciseImages from "../../components/exercise/ExerciseImages";
 import ExerciseForm from "../../components/exercise/ExerciseForm";
 import AppInput from "../../components/ui/AppInput";
 import { useAppStore } from "../../store/useAppStore";
@@ -327,6 +328,8 @@ export default function CreateExerciseScreen() {
         <Text style={styles.subtitle}>
           Add custom movements with muscles trained and default rest.
         </Text>
+
+        {existingExercise ? <ExerciseImages exercise={existingExercise} /> : null}
 
         <ExerciseForm
           name={name}

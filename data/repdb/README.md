@@ -1,0 +1,67 @@
+# RepDB content in vDstrong
+
+Exercise data by [RepDB](https://repdb.co). Imported from the
+[free catalog](https://exercise-dataset.com/exercises.json). See
+[LICENSE-DATA.md](LICENSE-DATA.md) for the in-app use and attribution terms.
+This is application content, not a standalone dataset or API.
+
+`source.json` records the source hash, schema version, and counts.
+`catalog.json` contains only the fields used by the app. `images.ts` uses static
+Metro asset references to the bundled free WebP illustrations. Both start and
+finish positions are included where available; no paid preview animations are used.
+
+Regenerate from the repository root with Python 3 (standard library only):
+
+```sh
+python3 scripts/import-repdb.py
+```
+
+Validate catalog coverage, local assets, muscle mapping and saved-data behavior:
+
+```sh
+node --test scripts/check-repdb.cjs
+```
+
+Review upstream changes and `matches.ts` when updating. Existing app exercise IDs
+are preserved, including their muscle percentages, names, equipment, notes, rest
+preferences and history. `matches.ts` explicitly matches equivalent source
+exercises and identifies two redundant source aliases. New source entries have
+stable `repdb-` prefixed IDs. The existing store merge adds them on rehydration.
+Source equipment variants remain distinct (e.g. barbell vs bodyweight glute bridge).
+
+## Muscle defaults
+
+RepDB supplies primary/secondary muscle roles, **not numeric contributions**.
+Only new exercises use the following app defaults: 70% divided equally across
+distinct mapped primary groups and 30% across distinct mapped secondary groups;
+without secondary groups, primary groups share 100%. These are estimates, not
+measured activation percentages. Users can edit them as with other exercises.
+
+Anatomical aliases map into the app's muscle groups: brachialis to biceps,
+brachioradialis to forearms, gluteus medius to abductors, rhomboids to upper back,
+soleus/gastrocnemius to calves, and transverse abdominis to abs. Hip flexors,
+tibialis, serratus and rotator cuff have separate groups to avoid assigning their
+work to unrelated muscles. They are searchable/editable and included in muscle
+scores; the existing body illustration has no dedicated regions for these groups.
+
+Kettlebells and bands have their own equipment filters. Specialized machines map
+to Machine; EZ/trap bars to Barbell; pull-up bars/dip stations/benches to Bodyweight;
+other accessories (e.g. rings, TRX, balls and plates) to Other.
+
+## Images and saved data
+
+Bundled illustrations are resolved by exercise ID, separately from `imageUri`.
+User photos take precedence. Backups only embed user photos, not all catalog
+assets. Saved workout snapshots and custom/modified exercises remain intact.
+
+The source has no exact illustration for these existing variants, so they retain
+their initial placeholder (or their user photo):
+
+- Cable Fly (Low to High)
+- Cable Fly (High to Low)
+- Front Raise (Plate)
+- Rope Pushdown
+- Walking Lunges (dumbbell; the source only has bodyweight walking lunges)
+- Cable Pullover
+- Step Ups (dumbbell; the source only has bodyweight step ups)
+- Sissy Squat
