@@ -158,3 +158,6 @@ errors and five existing warnings. Mobile Chrome verifies both sorting modes
 against sample workout history on both screens, collapsed defaults, preserved
 sort/query/category state, keyboard toggles, shared usage counts and narrow layout.
 No browser runtime errors; physical Android testing remains separate.
+
+The Add exercises list omits the sorting-status heading beneath Filter/Sort.
+The selected sorting mode still applies; Search results appears only during search.

@@ -293,11 +293,11 @@ export default function WorkoutExercisePickerScreen() {
               </View>
             </ExerciseFilters>
 
-            <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>
-                {query.trim() ? "Search results" : sort === "recent" ? "Recently used first" : "Most used first"}
-              </Text>
-            </View>
+            {query.trim() ? (
+              <View style={styles.sectionHeader}>
+                <Text style={styles.sectionTitle}>Search results</Text>
+              </View>
+            ) : null}
           </>
         }
         ListEmptyComponent={
