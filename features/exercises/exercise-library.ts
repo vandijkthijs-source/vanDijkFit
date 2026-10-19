@@ -1,3 +1,4 @@
+import { getExerciseCategory, type ExerciseCategory } from "./exercise-category";
 import curated from "../../data/exercises.curated.json";
 import { MAJOR_MUSCLE_LABELS } from "../../constants/muscles";
 import { titleCase } from "../../utils/format";
@@ -54,12 +55,13 @@ export const getSearchScore = (exercise: Exercise, query: string) => {
 export const selectLibraryExercises = (
   exercises: Exercise[],
   query: string,
-  showAll: boolean,
+  category: ExerciseCategory,
   recency: ReadonlyMap<string, number>,
 ) => {
   const normalized = query.trim().toLowerCase();
   return exercises
-    .filter((exercise) => normalized || showAll || isDefaultExercise(exercise))
+    .filter((exercise) => getExerciseCategory(exercise) === category &&
+      (Boolean(normalized) || isDefaultExercise(exercise)))
     .map((exercise) => ({ exercise, score: getSearchScore(exercise, normalized) }))
     .filter(({ score }) => score >= 0)
     .sort((a, b) => b.score - a.score ||

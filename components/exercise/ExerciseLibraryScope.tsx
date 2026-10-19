@@ -2,36 +2,38 @@ import { useMemo } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { radii, ThemeColors, useThemeColors } from "../../constants/theme";
 
+import { exerciseCategories, type ExerciseCategory } from "../../features/exercises/exercise-category";
+
 type Props = {
-  showAll: boolean;
-  onChange: (showAll: boolean) => void;
+  category: ExerciseCategory;
+  onChange: (category: ExerciseCategory) => void;
   searching: boolean;
 };
 
-export default function ExerciseLibraryScope({ showAll, onChange, searching }: Props) {
+export default function ExerciseLibraryScope({ category, onChange, searching }: Props) {
   const colors = useThemeColors();
   const styles = useMemo(() => createStyles(colors), [colors]);
   return (
     <View style={styles.container}>
-      <View style={styles.options} accessibilityRole="radiogroup" accessibilityLabel="Exercise library">
-        {[{ label: "Curated", value: false }, { label: "All Exercises", value: true }].map((option) => (
+      <View style={styles.options} accessibilityRole="radiogroup" accessibilityLabel="Exercise category">
+        {exerciseCategories.map((option) => (
           <Pressable
             key={option.label}
             accessibilityRole="radio"
-            accessibilityState={{ checked: showAll === option.value }}
-            aria-checked={showAll === option.value}
+            accessibilityState={{ checked: category === option.value }}
+            aria-checked={category === option.value}
             onPress={() => onChange(option.value)}
             android_ripple={{ color: colors.ripple }}
-            style={[styles.option, showAll === option.value && styles.active]}
+            style={[styles.option, category === option.value && styles.active]}
           >
-            <Text style={[styles.label, showAll === option.value && styles.activeLabel]}>
+            <Text style={[styles.label, category === option.value && styles.activeLabel]}>
               {option.label}
             </Text>
           </Pressable>
         ))}
       </View>
       <Text style={styles.hint}>
-        {searching ? "Searching all exercises" : showAll ? "Full library · recently used first" : "175 selected exercises + your custom exercises · recently used first"}
+        {searching ? `Searching all ${category} exercises` : "Selected exercises · recently used first"}
       </Text>
     </View>
   );

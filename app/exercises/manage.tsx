@@ -20,6 +20,7 @@ import { Exercise } from "../../features/exercises/exercise.types";
 import { showAlert } from "../../lib/ui/alert";
 import { REPDB_CREDIT, REPDB_URL } from "../../features/exercises/repdb-catalog";
 
+import type { ExerciseCategory } from "../../features/exercises/exercise-category";
 import ExerciseLibraryScope from "../../components/exercise/ExerciseLibraryScope";
 import { getExerciseRecency, selectLibraryExercises } from "../../features/exercises/exercise-library";
 
@@ -121,7 +122,7 @@ export default function ManageExercisesScreen() {
   const removeCustomExercise = useAppStore((state) => state.removeCustomExercise);
   const [query, setQuery] = useState("");
 
-  const [showAll, setShowAll] = useState(false);
+  const [category, setCategory] = useState<ExerciseCategory>("strength");
   const recency = useMemo(() => getExerciseRecency(workoutHistory), [workoutHistory]);
 
   const doneCounts = useMemo(() => {
@@ -140,8 +141,8 @@ export default function ManageExercisesScreen() {
   }, [workoutHistory]);
 
   const visibleExercises = useMemo(
-    () => selectLibraryExercises(exercises, query, showAll, recency),
-    [exercises, query, showAll, recency]
+    () => selectLibraryExercises(exercises, query, category, recency),
+    [exercises, query, category, recency]
   );
 
   const handleRemove = useCallback((exerciseId: string, exerciseName: string) => {
@@ -210,7 +211,7 @@ export default function ManageExercisesScreen() {
               <TextInput
                 value={query}
                 onChangeText={setQuery}
-                placeholder="Search all exercises"
+                placeholder={`Search all ${category} exercises`}
                 placeholderTextColor={colors.textSoft}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -226,7 +227,7 @@ export default function ManageExercisesScreen() {
                 </Pressable>
               ) : null}
             </View>
-            <ExerciseLibraryScope showAll={showAll} onChange={setShowAll} searching={Boolean(query.trim())} />
+            <ExerciseLibraryScope category={category} onChange={setCategory} searching={Boolean(query.trim())} />
           </View>
         }
         ListEmptyComponent={

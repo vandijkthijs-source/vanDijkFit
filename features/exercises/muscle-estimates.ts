@@ -2,6 +2,7 @@ import estimates from "../../data/exercises.muscle-estimates.json";
 import type { Exercise, MuscleGroup } from "./exercise.types";
 
 type MuscleEstimate = {
+  modality: string;
   muscleContributions: Partial<Record<MuscleGroup, number>>;
   strengthScoreEligible: boolean;
 };

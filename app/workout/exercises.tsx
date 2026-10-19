@@ -18,6 +18,7 @@ import {
   Exercise,
 } from "../../features/exercises/exercise.types";
 import { useAppStore } from "../../store/useAppStore";
+import type { ExerciseCategory } from "../../features/exercises/exercise-category";
 import ExerciseLibraryScope from "../../components/exercise/ExerciseLibraryScope";
 import { getExerciseRecency, selectLibraryExercises } from "../../features/exercises/exercise-library";
 import AppInput from "../../components/ui/AppInput";
@@ -98,16 +99,16 @@ export default function WorkoutExercisePickerScreen() {
   const [selectedMuscle, setSelectedMuscle] = useState<MajorMuscleGroupKey | null>(null);
   const [selectedEquipment, setSelectedEquipment] = useState<EquipmentType | null>(null);
 
-  const [showAll, setShowAll] = useState(false);
+  const [category, setCategory] = useState<ExerciseCategory>("strength");
   const recency = useMemo(() => getExerciseRecency(workoutHistory), [workoutHistory]);
   const filteredExercises = useMemo(
-    () => selectLibraryExercises(exercises, query, showAll, recency).filter((exercise) => {
+    () => selectLibraryExercises(exercises, query, category, recency).filter((exercise) => {
       if (selectedEquipment && exercise.equipment !== selectedEquipment) return false;
       if (!selectedMuscle) return true;
       const contributions = aggregateToMajorMuscleContributions(exercise.muscleContributions);
       return (contributions[selectedMuscle] ?? 0) > 0;
     }),
-    [exercises, query, showAll, recency, selectedEquipment, selectedMuscle]
+    [exercises, query, category, recency, selectedEquipment, selectedMuscle]
   );
 
   const handleSelect = useCallback(
@@ -176,11 +177,11 @@ export default function WorkoutExercisePickerScreen() {
             <AppInput
               value={query}
               onChangeText={setQuery}
-              placeholder="Search all exercises"
+              placeholder={`Search all ${category} exercises`}
               style={styles.searchInput}
             />
 
-            <ExerciseLibraryScope showAll={showAll} onChange={setShowAll} searching={Boolean(query.trim())} />
+            <ExerciseLibraryScope category={category} onChange={setCategory} searching={Boolean(query.trim())} />
 
             <View style={styles.filtersWrap}>
               <Text style={styles.filterLabel}>Muscle group</Text>

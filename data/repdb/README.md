@@ -66,22 +66,24 @@ their initial placeholder (or their user photo):
 - Step Ups (dumbbell; the source only has bodyweight step ups)
 - Sissy Squat
 
-## Curated library
+## Exercise categories
 
-The library and workout picker default to 175 exercises: 67 original entries
-and 108 RepDB additions. The explicit IDs in `../exercises.curated.json` cover
-chest, back, shoulders, arms, legs, core, functional training, cardio and mobility.
-The existing catalog has 77 original entries; ten less essential/redundant
-variants remain in All Exercises alongside the unselected RepDB entries.
-All Exercises exposes the complete 657-entry catalog (482 beyond the selection).
+The library and workout picker use Strength, Cardio and Mobility controls, with
+Strength selected initially. The 175 selected defaults remain: 67 original
+entries and 108 RepDB additions from `../exercises.curated.json`. They are split
+into 148 Strength, 17 Cardio (including seven power-conditioning movements) and
+10 Mobility exercises. Classification uses supplied modality metadata, then
+RepDB categories, defaulting unknown/custom exercises to Strength.
 
-Custom exercises are included in both views. Search always covers the complete
-catalog, retaining the workout picker's muscle/equipment filters. Browsing sorts
-by latest workout date, then name; search ranks match relevance first, then
-recency. Both screens share `features/exercises/exercise-library.ts` and retain
-virtualized lists. Scope is local screen state, with Curated as the default.
-This is only a display filter: seeds, images, saved exercises, templates, workout
-snapshots, history, storage schema and backups are unchanged.
+Search covers the complete selected category, including uncurated entries.
+All 657 catalog entries remain searchable across the three categories (482
+beyond the selected defaults). Custom exercises remain visible under Strength.
+The workout picker's muscle/equipment filters still apply. Browsing sorts by
+latest workout date, then name; search ranks relevance first, then recency.
+Both screens share `features/exercises/exercise-library.ts` and retain virtualized
+lists. Category is local screen state. Seeds, images, saved exercises, templates,
+workout snapshots, history, storage schema, backups and muscle-map scoring
+eligibility are unchanged by these display filters.
 
 ## Muscle scoring rules
 
@@ -123,3 +125,11 @@ The existing catalog-category exclusion still covers uncurated cardio/stretching
 Validation: TypeScript and all 16 catalog/scoring/persistence checks pass.
 Lint has zero errors and five pre-existing warnings. This data/scoring change
 was checked without rebuilding the Android APK.
+
+Category change validation: TypeScript and 17 catalog/scoring/persistence checks
+pass. Lint retains five existing warnings and zero errors.
+Mobile Chrome verification: both screens switch/filter all three categories,
+search uncurated entries within the active category, retain the search on category
+changes, and support keyboard activation. Controls fit at phone width without
+horizontal overflow; no browser runtime errors. Physical Android testing remains
+separate.
