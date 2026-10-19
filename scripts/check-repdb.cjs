@@ -253,7 +253,7 @@ test("all cardio and stretches are excluded from muscle metrics, including legac
 });
 
 test("mixed workouts keep strength, bodyweight and functional credit while excluding cardio and mobility", () => {
-  const ids = ["machine-row", "shrugs", "repdb-push-up", "repdb-kettlebell-swing"];
+  const ids = ["machine-row", "shrugs", "repdb-push-up", "repdb-kettlebell-deadlift"];
   const strength = exercisesSeed.filter((exercise) => ids.includes(exercise.id));
   assert.equal(strength.length, ids.length);
   const cardio = exercisesSeed.find((exercise) => exercise.id === "repdb-rowing-machine");
@@ -268,4 +268,70 @@ test("mixed workouts keep strength, bodyweight and functional credit while exclu
   const withoutSnapshots = { ...mixedSession, exercises: mixedSession.exercises.map(({ exerciseSnapshot, ...performed }) => performed) };
   assert.deepEqual(muscleMetrics.calculateMuscleScores([withoutSnapshots], exercisesSeed),
     muscleMetrics.calculateMuscleScores([strengthSession], exercisesSeed));
+});
+
+const estimateSource = load(path.join(root, "data/exercises.muscle-estimates.json"));
+const { applyMuscleEstimates } = load(path.join(root, "features/exercises/muscle-estimates.ts"));
+
+test("all 175 supplied estimates match the curated IDs and seed defaults exactly", () => {
+  assert.equal(estimateSource.exercises.length, 175);
+  assert.deepEqual(new Set(estimateSource.exercises.map((entry) => entry.id)), curatedExerciseIds);
+  for (const entry of estimateSource.exercises) {
+    const exercise = exercisesSeed.find((item) => item.id === entry.id);
+    assert.deepEqual(exercise.muscleContributions, entry.muscleContributions, entry.id);
+    const total = Object.values(entry.muscleContributions).reduce((sum, value) => sum + value, 0);
+    assert.ok(Math.abs(total - 1) < 1e-9, entry.id);
+    for (const [muscle, value] of Object.entries(entry.muscleContributions)) {
+      assert.ok(value > 0 && value <= 1, entry.id);
+      assert.ok(Math.abs(entry.percentages[muscle] / 100 - value) < 1e-9, entry.id);
+    }
+    assert.ok(Math.abs(Object.values(aggregateToMajorMuscleContributions(entry.muscleContributions))
+      .reduce((sum, value) => sum + value, 0) - 1) < 1e-9, entry.id);
+  }
+  const untouched = { ...originals[0], id: "outside-curation", muscleContributions: { chest: 0.73, triceps: 0.27 } };
+  assert.strictEqual(applyMuscleEstimates([untouched])[0], untouched);
+});
+
+test("all 27 ineligible supplied activities add no muscle-map credit, even with old snapshots", () => {
+  const excluded = estimateSource.exercises.filter((entry) => !entry.strengthScoreEligible);
+  assert.equal(excluded.length, 27);
+  assert.equal(excluded.filter((entry) => entry.modality === "cardio").length, 10);
+  assert.equal(excluded.filter((entry) => entry.modality === "mobility").length, 10);
+  assert.equal(excluded.filter((entry) => entry.modality === "power_conditioning").length, 7);
+  const activities = excluded.map((entry) => ({
+    ...exercisesSeed.find((exercise) => exercise.id === entry.id),
+    muscleContributions: { traps: 1 }, // stale snapshot with otherwise scoreable weight/sets
+  }));
+  const sessions = [scoringSession(activities), scoringSession(activities, 40)];
+  for (const calculate of muscleCalculators) {
+    assert.deepEqual(calculate(sessions, []), calculate([], []), calculate.name);
+  }
+  assert.deepEqual(muscleMetrics.calculateSessionMuscleVolumes(sessions[0], []), {});
+  const strength = scoringSession([exercisesSeed.find((exercise) => exercise.id === "flat-barbell-bench-press")]);
+  assert.deepEqual(muscleMetrics.calculateMuscleScores([strength], []), { chest: 0.6, triceps: 0.25, front_delts: 0.15 });
+});
+
+test("rehydration upgrades unmodified defaults while retaining custom edits and old workout percentages", () => {
+  const bench = exercisesSeed.find((exercise) => exercise.id === "flat-barbell-bench-press");
+  const stale = { ...bench, name: "My bench label", notes: "Keep this cue", defaultRestSeconds: 42,
+    muscleContributions: { chest: 0.65, triceps: 0.2, front_delts: 0.15 } };
+  const edited = { ...exercisesSeed.find((exercise) => exercise.id === "flat-dumbbell-bench-press"),
+    isModified: true, muscleContributions: { chest: 1 } };
+  const custom = { ...bench, id: "personal-bench", isCustom: true, muscleContributions: { chest: 1 } };
+  const session = scoringSession([stale]);
+  const template = { id: "saved-template", name: "My template", exercises: [{ exerciseId: bench.id, targetSets: 3 }] };
+  const persisted = { exercises: [stale, edited, custom], workoutHistory: [session], activeWorkout: session, templates: [template] };
+  const before = JSON.stringify(persisted);
+  const merged = useAppStore.persist.getOptions().merge(persisted, useAppStore.getState());
+  const upgraded = merged.exercises.find((exercise) => exercise.id === bench.id);
+  assert.deepEqual(upgraded.muscleContributions, bench.muscleContributions);
+  assert.equal(upgraded.name, stale.name);
+  assert.equal(upgraded.notes, stale.notes);
+  assert.equal(upgraded.defaultRestSeconds, 42);
+  assert.strictEqual(merged.exercises.find((exercise) => exercise.id === edited.id), edited);
+  assert.strictEqual(merged.exercises.find((exercise) => exercise.id === custom.id), custom);
+  assert.deepEqual(merged.workoutHistory[0].exercises[0].exerciseSnapshot.muscleContributions, stale.muscleContributions);
+  assert.deepEqual(merged.activeWorkout.exercises[0].exerciseSnapshot.muscleContributions, stale.muscleContributions);
+  assert.strictEqual(merged.templates[0], template);
+  assert.equal(JSON.stringify(persisted), before);
 });

@@ -1,0 +1,3386 @@
+{
+  "schemaVersion": 1,
+  "repo": "vandijkthijs-source/vanDijkFit",
+  "basedOnCommit": "c0321aecdcf079405fa3813c2d5aa3f62cca3acf",
+  "recommendationType": "Subjective biomechanical programming estimates, NOT research-measured percentages",
+  "interpretation": "Fractions summing to 100% represent a relative focus for this specific movement, not percent of muscle activation or fractional hypertrophy.",
+  "noStrengthCreditModalities": [
+    "cardio",
+    "mobility",
+    "power_conditioning"
+  ],
+  "storageFormat": "muscleContributions values are FRACTIONS (0.0 to 1.0), while percentages values are whole percent integers.",
+  "upperBackHandling": "Use upper_back as separate group; do not silently merge 100% of upper_back into traps.",
+  "persistedDataCaveat": "Update exercise defaults without rewriting custom/modified exercises or historical snapshots without explicit migration.",
+  "exercises": [
+    {
+      "id": "flat-barbell-bench-press",
+      "name": "Flat Barbell Bench Press",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "chest": 60,
+        "triceps": 25,
+        "front_delts": 15
+      },
+      "muscleContributions": {
+        "chest": 0.6,
+        "triceps": 0.25,
+        "front_delts": 0.15
+      },
+      "confidence": "medium",
+      "note": "Chest-dominant horizontal press; triceps and anterior deltoid assist."
+    },
+    {
+      "id": "flat-dumbbell-bench-press",
+      "name": "Flat Dumbbell Bench Press",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "chest": 65,
+        "triceps": 20,
+        "front_delts": 15
+      },
+      "muscleContributions": {
+        "chest": 0.65,
+        "triceps": 0.2,
+        "front_delts": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "decline-barbell-bench-press",
+      "name": "Decline Barbell Bench Press",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lower_chest": 55,
+        "chest": 15,
+        "triceps": 20,
+        "front_delts": 10
+      },
+      "muscleContributions": {
+        "lower_chest": 0.55,
+        "chest": 0.15,
+        "triceps": 0.2,
+        "front_delts": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "incline-barbell-bench-press",
+      "name": "Incline Barbell Bench Press",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "upper_chest": 55,
+        "chest": 5,
+        "front_delts": 25,
+        "triceps": 15
+      },
+      "muscleContributions": {
+        "upper_chest": 0.55,
+        "chest": 0.05,
+        "front_delts": 0.25,
+        "triceps": 0.15
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "incline-dumbbell-press",
+      "name": "Incline Dumbbell Press",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "upper_chest": 55,
+        "chest": 10,
+        "front_delts": 25,
+        "triceps": 10
+      },
+      "muscleContributions": {
+        "upper_chest": 0.55,
+        "chest": 0.1,
+        "front_delts": 0.25,
+        "triceps": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "chest-press-machine",
+      "name": "Chest Press Machine",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "chest": 65,
+        "triceps": 20,
+        "front_delts": 15
+      },
+      "muscleContributions": {
+        "chest": 0.65,
+        "triceps": 0.2,
+        "front_delts": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "pec-deck",
+      "name": "Pec Deck",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "chest": 95,
+        "front_delts": 5
+      },
+      "muscleContributions": {
+        "chest": 0.95,
+        "front_delts": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "cable-fly-mid",
+      "name": "Cable Fly (Mid)",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "chest": 95,
+        "front_delts": 5
+      },
+      "muscleContributions": {
+        "chest": 0.95,
+        "front_delts": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "seated-dumbbell-shoulder-press",
+      "name": "Seated Dumbbell Shoulder Press",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "front_delts": 50,
+        "side_delts": 25,
+        "triceps": 25
+      },
+      "muscleContributions": {
+        "front_delts": 0.5,
+        "side_delts": 0.25,
+        "triceps": 0.25
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "standing-barbell-ohp",
+      "name": "Standing Barbell OHP",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "front_delts": 50,
+        "side_delts": 20,
+        "triceps": 25,
+        "traps": 5
+      },
+      "muscleContributions": {
+        "front_delts": 0.5,
+        "side_delts": 0.2,
+        "triceps": 0.25,
+        "traps": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "arnold-press",
+      "name": "Arnold Press",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "front_delts": 45,
+        "side_delts": 30,
+        "triceps": 25
+      },
+      "muscleContributions": {
+        "front_delts": 0.45,
+        "side_delts": 0.3,
+        "triceps": 0.25
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "dumbbell-lateral-raise",
+      "name": "Dumbbell Lateral Raise",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "side_delts": 90,
+        "traps": 10
+      },
+      "muscleContributions": {
+        "side_delts": 0.9,
+        "traps": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "cable-lateral-raise",
+      "name": "Cable Lateral Raise",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "side_delts": 95,
+        "traps": 5
+      },
+      "muscleContributions": {
+        "side_delts": 0.95,
+        "traps": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "rear-delt-fly-db",
+      "name": "Rear Delt Fly (DB)",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "rear_delts": 80,
+        "upper_back": 15,
+        "traps": 5
+      },
+      "muscleContributions": {
+        "rear_delts": 0.8,
+        "upper_back": 0.15,
+        "traps": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "rear-delt-machine",
+      "name": "Rear Delt Machine",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "rear_delts": 85,
+        "upper_back": 10,
+        "traps": 5
+      },
+      "muscleContributions": {
+        "rear_delts": 0.85,
+        "upper_back": 0.1,
+        "traps": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "face-pull",
+      "name": "Face Pull",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "rear_delts": 50,
+        "upper_back": 25,
+        "traps": 15,
+        "rotator_cuff": 10
+      },
+      "muscleContributions": {
+        "rear_delts": 0.5,
+        "upper_back": 0.25,
+        "traps": 0.15,
+        "rotator_cuff": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "pull-up",
+      "name": "Pull-Up",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lats": 55,
+        "upper_back": 15,
+        "biceps": 20,
+        "forearms": 10
+      },
+      "muscleContributions": {
+        "lats": 0.55,
+        "upper_back": 0.15,
+        "biceps": 0.2,
+        "forearms": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "chin-up",
+      "name": "Chin-Up",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lats": 50,
+        "biceps": 30,
+        "upper_back": 15,
+        "forearms": 5
+      },
+      "muscleContributions": {
+        "lats": 0.5,
+        "biceps": 0.3,
+        "upper_back": 0.15,
+        "forearms": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "lat-pulldown-wide",
+      "name": "Lat Pulldown (Wide)",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lats": 60,
+        "upper_back": 20,
+        "biceps": 15,
+        "rear_delts": 5
+      },
+      "muscleContributions": {
+        "lats": 0.6,
+        "upper_back": 0.2,
+        "biceps": 0.15,
+        "rear_delts": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "lat-pulldown-close",
+      "name": "Lat Pulldown (Close)",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lats": 55,
+        "biceps": 25,
+        "upper_back": 15,
+        "forearms": 5
+      },
+      "muscleContributions": {
+        "lats": 0.55,
+        "biceps": 0.25,
+        "upper_back": 0.15,
+        "forearms": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "seated-cable-row",
+      "name": "Seated Cable Row",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "upper_back": 35,
+        "lats": 35,
+        "biceps": 20,
+        "rear_delts": 10
+      },
+      "muscleContributions": {
+        "upper_back": 0.35,
+        "lats": 0.35,
+        "biceps": 0.2,
+        "rear_delts": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "bent-over-row-bb",
+      "name": "Bent Over Row (BB)",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "upper_back": 35,
+        "lats": 25,
+        "biceps": 15,
+        "rear_delts": 10,
+        "lower_back": 15
+      },
+      "muscleContributions": {
+        "upper_back": 0.35,
+        "lats": 0.25,
+        "biceps": 0.15,
+        "rear_delts": 0.1,
+        "lower_back": 0.15
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "dumbbell-row",
+      "name": "Dumbbell Row",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lats": 40,
+        "upper_back": 30,
+        "biceps": 20,
+        "rear_delts": 10
+      },
+      "muscleContributions": {
+        "lats": 0.4,
+        "upper_back": 0.3,
+        "biceps": 0.2,
+        "rear_delts": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "t-bar-row",
+      "name": "T-Bar Row",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "upper_back": 40,
+        "lats": 30,
+        "biceps": 15,
+        "rear_delts": 15
+      },
+      "muscleContributions": {
+        "upper_back": 0.4,
+        "lats": 0.3,
+        "biceps": 0.15,
+        "rear_delts": 0.15
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "chest-supported-row",
+      "name": "Chest Supported Row",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "upper_back": 40,
+        "lats": 35,
+        "biceps": 15,
+        "rear_delts": 10
+      },
+      "muscleContributions": {
+        "upper_back": 0.4,
+        "lats": 0.35,
+        "biceps": 0.15,
+        "rear_delts": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "straight-arm-pulldown",
+      "name": "Straight Arm Pulldown",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lats": 90,
+        "upper_back": 10
+      },
+      "muscleContributions": {
+        "lats": 0.9,
+        "upper_back": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "barbell-curl",
+      "name": "Barbell Curl",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "biceps": 85,
+        "forearms": 15
+      },
+      "muscleContributions": {
+        "biceps": 0.85,
+        "forearms": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "ez-bar-curl",
+      "name": "EZ Bar Curl",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "biceps": 90,
+        "forearms": 10
+      },
+      "muscleContributions": {
+        "biceps": 0.9,
+        "forearms": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "incline-db-curl",
+      "name": "Incline DB Curl",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "biceps": 90,
+        "forearms": 10
+      },
+      "muscleContributions": {
+        "biceps": 0.9,
+        "forearms": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "preacher-curl",
+      "name": "Preacher Curl",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "biceps": 90,
+        "forearms": 10
+      },
+      "muscleContributions": {
+        "biceps": 0.9,
+        "forearms": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "hammer-curl",
+      "name": "Hammer Curl",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "biceps": 65,
+        "forearms": 35
+      },
+      "muscleContributions": {
+        "biceps": 0.65,
+        "forearms": 0.35
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "cable-curl",
+      "name": "Cable Curl",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "biceps": 90,
+        "forearms": 10
+      },
+      "muscleContributions": {
+        "biceps": 0.9,
+        "forearms": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "concentration-curl",
+      "name": "Concentration Curl",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "biceps": 95,
+        "forearms": 5
+      },
+      "muscleContributions": {
+        "biceps": 0.95,
+        "forearms": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "tricep-pushdown",
+      "name": "Tricep Pushdown",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "triceps": 100
+      },
+      "muscleContributions": {
+        "triceps": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "overhead-cable-extension",
+      "name": "Overhead Cable Extension",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "triceps": 100
+      },
+      "muscleContributions": {
+        "triceps": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "skull-crushers",
+      "name": "Skull Crushers",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "triceps": 100
+      },
+      "muscleContributions": {
+        "triceps": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "close-grip-bench-press",
+      "name": "Close Grip Bench Press",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "triceps": 55,
+        "chest": 30,
+        "front_delts": 15
+      },
+      "muscleContributions": {
+        "triceps": 0.55,
+        "chest": 0.3,
+        "front_delts": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "bench-dips",
+      "name": "Bench Dips",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "triceps": 55,
+        "chest": 30,
+        "front_delts": 15
+      },
+      "muscleContributions": {
+        "triceps": 0.55,
+        "chest": 0.3,
+        "front_delts": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "dumbbell-kickback",
+      "name": "Dumbbell Kickback",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "triceps": 100
+      },
+      "muscleContributions": {
+        "triceps": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "back-squat",
+      "name": "Back Squat",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 55,
+        "glutes": 35,
+        "adductors": 5,
+        "lower_back": 5
+      },
+      "muscleContributions": {
+        "quads": 0.55,
+        "glutes": 0.35,
+        "adductors": 0.05,
+        "lower_back": 0.05
+      },
+      "confidence": "low",
+      "note": "Hamstrings are involved but less emphasized than quads and glutes."
+    },
+    {
+      "id": "front-squat",
+      "name": "Front Squat",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 65,
+        "glutes": 25,
+        "upper_back": 5,
+        "abs": 5
+      },
+      "muscleContributions": {
+        "quads": 0.65,
+        "glutes": 0.25,
+        "upper_back": 0.05,
+        "abs": 0.05
+      },
+      "confidence": "low",
+      "note": "Upright torso shifts emphasis toward knee extension; upper back and trunk stabilize."
+    },
+    {
+      "id": "leg-press",
+      "name": "Leg Press",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 65,
+        "glutes": 30,
+        "adductors": 5
+      },
+      "muscleContributions": {
+        "quads": 0.65,
+        "glutes": 0.3,
+        "adductors": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "hack-squat",
+      "name": "Hack Squat",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 70,
+        "glutes": 25,
+        "adductors": 5
+      },
+      "muscleContributions": {
+        "quads": 0.7,
+        "glutes": 0.25,
+        "adductors": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "bulgarian-split-squat",
+      "name": "Bulgarian Split Squat",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 50,
+        "glutes": 40,
+        "adductors": 10
+      },
+      "muscleContributions": {
+        "quads": 0.5,
+        "glutes": 0.4,
+        "adductors": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "walking-lunges",
+      "name": "Walking Lunges",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 45,
+        "glutes": 45,
+        "adductors": 10
+      },
+      "muscleContributions": {
+        "quads": 0.45,
+        "glutes": 0.45,
+        "adductors": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "leg-extension",
+      "name": "Leg Extension",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 100
+      },
+      "muscleContributions": {
+        "quads": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "romanian-deadlift",
+      "name": "Romanian Deadlift",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "hamstrings": 55,
+        "glutes": 35,
+        "lower_back": 10
+      },
+      "muscleContributions": {
+        "hamstrings": 0.55,
+        "glutes": 0.35,
+        "lower_back": 0.1
+      },
+      "confidence": "medium",
+      "note": "Hip-hinge bias: hamstrings and glutes; erectors chiefly stabilize."
+    },
+    {
+      "id": "deadlift",
+      "name": "Deadlift",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "glutes": 35,
+        "quads": 30,
+        "hamstrings": 20,
+        "lower_back": 10,
+        "traps": 5
+      },
+      "muscleContributions": {
+        "glutes": 0.35,
+        "quads": 0.3,
+        "hamstrings": 0.2,
+        "lower_back": 0.1,
+        "traps": 0.05
+      },
+      "confidence": "low",
+      "note": "Depends heavily on starting position, bar path and deadlift style."
+    },
+    {
+      "id": "hip-thrust",
+      "name": "Hip Thrust",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "glutes": 90,
+        "hamstrings": 10
+      },
+      "muscleContributions": {
+        "glutes": 0.9,
+        "hamstrings": 0.1
+      },
+      "confidence": "medium",
+      "note": "Glute-dominant; hamstrings not a 30% partner."
+    },
+    {
+      "id": "glute-bridge",
+      "name": "Glute Bridge",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "glutes": 90,
+        "hamstrings": 10
+      },
+      "muscleContributions": {
+        "glutes": 0.9,
+        "hamstrings": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "lying-leg-curl",
+      "name": "Lying Leg Curl",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "hamstrings": 95,
+        "calves": 5
+      },
+      "muscleContributions": {
+        "hamstrings": 0.95,
+        "calves": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "seated-leg-curl",
+      "name": "Seated Leg Curl",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "hamstrings": 95,
+        "calves": 5
+      },
+      "muscleContributions": {
+        "hamstrings": 0.95,
+        "calves": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "good-morning",
+      "name": "Good Morning",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "hamstrings": 50,
+        "glutes": 35,
+        "lower_back": 15
+      },
+      "muscleContributions": {
+        "hamstrings": 0.5,
+        "glutes": 0.35,
+        "lower_back": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Standing Calf Raise",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "calves": 100
+      },
+      "muscleContributions": {
+        "calves": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "seated-calf-raise",
+      "name": "Seated Calf Raise",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "calves": 100
+      },
+      "muscleContributions": {
+        "calves": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "crunch",
+      "name": "Crunch",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "abs": 100
+      },
+      "muscleContributions": {
+        "abs": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "hanging-leg-raise",
+      "name": "Hanging Leg Raise",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "abs": 55,
+        "hip_flexors": 35,
+        "obliques": 10
+      },
+      "muscleContributions": {
+        "abs": 0.55,
+        "hip_flexors": 0.35,
+        "obliques": 0.1
+      },
+      "confidence": "medium",
+      "note": "Hip flexors share load; posterior pelvic tilt increases abdominal emphasis."
+    },
+    {
+      "id": "plank",
+      "name": "Plank",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "abs": 55,
+        "obliques": 25,
+        "front_delts": 10,
+        "glutes": 10
+      },
+      "muscleContributions": {
+        "abs": 0.55,
+        "obliques": 0.25,
+        "front_delts": 0.1,
+        "glutes": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "abs": 95,
+        "obliques": 5
+      },
+      "muscleContributions": {
+        "abs": 0.95,
+        "obliques": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "russian-twist",
+      "name": "Russian Twist",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "obliques": 75,
+        "abs": 25
+      },
+      "muscleContributions": {
+        "obliques": 0.75,
+        "abs": 0.25
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "ab-wheel",
+      "name": "Ab Wheel",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "abs": 55,
+        "lats": 15,
+        "serratus": 15,
+        "front_delts": 15
+      },
+      "muscleContributions": {
+        "abs": 0.55,
+        "lats": 0.15,
+        "serratus": 0.15,
+        "front_delts": 0.15
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "smith-machine-squat",
+      "name": "Smith Machine Squat",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 60,
+        "glutes": 35,
+        "adductors": 5
+      },
+      "muscleContributions": {
+        "quads": 0.6,
+        "glutes": 0.35,
+        "adductors": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "smith-incline-press",
+      "name": "Smith Incline Press",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "upper_chest": 55,
+        "chest": 10,
+        "front_delts": 20,
+        "triceps": 15
+      },
+      "muscleContributions": {
+        "upper_chest": 0.55,
+        "chest": 0.1,
+        "front_delts": 0.2,
+        "triceps": 0.15
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "step-ups",
+      "name": "Step Ups",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 50,
+        "glutes": 40,
+        "adductors": 10
+      },
+      "muscleContributions": {
+        "quads": 0.5,
+        "glutes": 0.4,
+        "adductors": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "reverse-lunges",
+      "name": "Reverse Lunges",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "glutes": 45,
+        "quads": 45,
+        "adductors": 10
+      },
+      "muscleContributions": {
+        "glutes": 0.45,
+        "quads": 0.45,
+        "adductors": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "farmers-walk",
+      "name": "Farmer's Walk",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "forearms": 40,
+        "traps": 25,
+        "obliques": 20,
+        "abs": 10,
+        "upper_back": 5
+      },
+      "muscleContributions": {
+        "forearms": 0.4,
+        "traps": 0.25,
+        "obliques": 0.2,
+        "abs": 0.1,
+        "upper_back": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "shrugs",
+      "name": "Shrugs",
+      "curatedGroup": "original",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "traps": 90,
+        "forearms": 10
+      },
+      "muscleContributions": {
+        "traps": 0.9,
+        "forearms": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-push-up",
+      "name": "Push Up",
+      "curatedGroup": "chest",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "chest": 60,
+        "triceps": 25,
+        "front_delts": 15
+      },
+      "muscleContributions": {
+        "chest": 0.6,
+        "triceps": 0.25,
+        "front_delts": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-incline-push-ups",
+      "name": "Incline Push Ups",
+      "curatedGroup": "chest",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "chest": 60,
+        "triceps": 25,
+        "front_delts": 15
+      },
+      "muscleContributions": {
+        "chest": 0.6,
+        "triceps": 0.25,
+        "front_delts": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-knee-push-ups",
+      "name": "Knee Push Ups",
+      "curatedGroup": "chest",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "chest": 60,
+        "triceps": 25,
+        "front_delts": 15
+      },
+      "muscleContributions": {
+        "chest": 0.6,
+        "triceps": 0.25,
+        "front_delts": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-decline-push-up",
+      "name": "Decline Push Up",
+      "curatedGroup": "chest",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "upper_chest": 55,
+        "triceps": 25,
+        "front_delts": 20
+      },
+      "muscleContributions": {
+        "upper_chest": 0.55,
+        "triceps": 0.25,
+        "front_delts": 0.2
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-dumbbell-floor-press",
+      "name": "Dumbbell Floor Press",
+      "curatedGroup": "chest",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "chest": 55,
+        "triceps": 30,
+        "front_delts": 15
+      },
+      "muscleContributions": {
+        "chest": 0.55,
+        "triceps": 0.3,
+        "front_delts": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-cable-chest-press",
+      "name": "Cable Chest Press",
+      "curatedGroup": "chest",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "chest": 65,
+        "front_delts": 20,
+        "triceps": 15
+      },
+      "muscleContributions": {
+        "chest": 0.65,
+        "front_delts": 0.2,
+        "triceps": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-incline-dumbbell-fly",
+      "name": "Incline Dumbbell Fly",
+      "curatedGroup": "chest",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "upper_chest": 70,
+        "chest": 20,
+        "front_delts": 10
+      },
+      "muscleContributions": {
+        "upper_chest": 0.7,
+        "chest": 0.2,
+        "front_delts": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-dips",
+      "name": "Dips",
+      "curatedGroup": "chest",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "chest": 50,
+        "triceps": 35,
+        "front_delts": 15
+      },
+      "muscleContributions": {
+        "chest": 0.5,
+        "triceps": 0.35,
+        "front_delts": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-assisted-pull-ups",
+      "name": "Assisted Pull Ups",
+      "curatedGroup": "back",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lats": 55,
+        "biceps": 25,
+        "upper_back": 15,
+        "forearms": 5
+      },
+      "muscleContributions": {
+        "lats": 0.55,
+        "biceps": 0.25,
+        "upper_back": 0.15,
+        "forearms": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-band-assisted-pull-ups",
+      "name": "Band Assisted Pull Ups",
+      "curatedGroup": "back",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lats": 55,
+        "biceps": 25,
+        "upper_back": 15,
+        "forearms": 5
+      },
+      "muscleContributions": {
+        "lats": 0.55,
+        "biceps": 0.25,
+        "upper_back": 0.15,
+        "forearms": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-neutral-grip-pull-ups",
+      "name": "Neutral Grip Pull Ups",
+      "curatedGroup": "back",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lats": 50,
+        "biceps": 30,
+        "upper_back": 15,
+        "forearms": 5
+      },
+      "muscleContributions": {
+        "lats": 0.5,
+        "biceps": 0.3,
+        "upper_back": 0.15,
+        "forearms": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-chest-supported-db-row",
+      "name": "Chest Supported Dumbbell Row",
+      "curatedGroup": "back",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lats": 35,
+        "upper_back": 35,
+        "biceps": 20,
+        "rear_delts": 10
+      },
+      "muscleContributions": {
+        "lats": 0.35,
+        "upper_back": 0.35,
+        "biceps": 0.2,
+        "rear_delts": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-inverted-row",
+      "name": "Inverted Row",
+      "curatedGroup": "back",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "upper_back": 35,
+        "lats": 30,
+        "biceps": 20,
+        "rear_delts": 10,
+        "abs": 5
+      },
+      "muscleContributions": {
+        "upper_back": 0.35,
+        "lats": 0.3,
+        "biceps": 0.2,
+        "rear_delts": 0.1,
+        "abs": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-one-arm-seated-cable-row",
+      "name": "One Arm Seated Cable Row",
+      "curatedGroup": "back",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lats": 35,
+        "upper_back": 35,
+        "biceps": 20,
+        "rear_delts": 10
+      },
+      "muscleContributions": {
+        "lats": 0.35,
+        "upper_back": 0.35,
+        "biceps": 0.2,
+        "rear_delts": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-one-arm-lat-pulldown",
+      "name": "One Arm Lat Pulldown",
+      "curatedGroup": "back",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lats": 60,
+        "biceps": 20,
+        "upper_back": 15,
+        "rear_delts": 5
+      },
+      "muscleContributions": {
+        "lats": 0.6,
+        "biceps": 0.2,
+        "upper_back": 0.15,
+        "rear_delts": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-pendlay-row",
+      "name": "Pendlay Row",
+      "curatedGroup": "back",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "upper_back": 35,
+        "lats": 30,
+        "biceps": 15,
+        "lower_back": 10,
+        "rear_delts": 10
+      },
+      "muscleContributions": {
+        "upper_back": 0.35,
+        "lats": 0.3,
+        "biceps": 0.15,
+        "lower_back": 0.1,
+        "rear_delts": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-back-extension",
+      "name": "Back Extension",
+      "curatedGroup": "back",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lower_back": 50,
+        "glutes": 35,
+        "hamstrings": 15
+      },
+      "muscleContributions": {
+        "lower_back": 0.5,
+        "glutes": 0.35,
+        "hamstrings": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-rack-pull",
+      "name": "Rack Pull",
+      "curatedGroup": "back",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "glutes": 35,
+        "lower_back": 30,
+        "traps": 20,
+        "hamstrings": 10,
+        "forearms": 5
+      },
+      "muscleContributions": {
+        "glutes": 0.35,
+        "lower_back": 0.3,
+        "traps": 0.2,
+        "hamstrings": 0.1,
+        "forearms": 0.05
+      },
+      "confidence": "low",
+      "note": "Height changes balance of hip extensors, erectors and traps considerably."
+    },
+    {
+      "id": "repdb-machine-shoulder-press",
+      "name": "Machine Shoulder Press",
+      "curatedGroup": "shoulders",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "front_delts": 50,
+        "side_delts": 25,
+        "triceps": 25
+      },
+      "muscleContributions": {
+        "front_delts": 0.5,
+        "side_delts": 0.25,
+        "triceps": 0.25
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-landmine-press",
+      "name": "Landmine Press",
+      "curatedGroup": "shoulders",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "front_delts": 50,
+        "upper_chest": 20,
+        "triceps": 20,
+        "serratus": 10
+      },
+      "muscleContributions": {
+        "front_delts": 0.5,
+        "upper_chest": 0.2,
+        "triceps": 0.2,
+        "serratus": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-dumbbell-front-raise",
+      "name": "Dumbbell Front Raise",
+      "curatedGroup": "shoulders",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "front_delts": 90,
+        "upper_chest": 5,
+        "traps": 5
+      },
+      "muscleContributions": {
+        "front_delts": 0.9,
+        "upper_chest": 0.05,
+        "traps": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-cable-reverse-fly",
+      "name": "Cable Reverse Fly",
+      "curatedGroup": "shoulders",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "rear_delts": 80,
+        "upper_back": 15,
+        "traps": 5
+      },
+      "muscleContributions": {
+        "rear_delts": 0.8,
+        "upper_back": 0.15,
+        "traps": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-band-pull-apart",
+      "name": "Band Pull Apart",
+      "curatedGroup": "shoulders",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "rear_delts": 65,
+        "upper_back": 25,
+        "traps": 10
+      },
+      "muscleContributions": {
+        "rear_delts": 0.65,
+        "upper_back": 0.25,
+        "traps": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-cable-external-rotation",
+      "name": "Cable External Rotation",
+      "curatedGroup": "shoulders",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "rotator_cuff": 85,
+        "rear_delts": 10,
+        "upper_back": 5
+      },
+      "muscleContributions": {
+        "rotator_cuff": 0.85,
+        "rear_delts": 0.1,
+        "upper_back": 0.05
+      },
+      "confidence": "medium",
+      "note": "Rotator cuff training, not rear-delt isolation."
+    },
+    {
+      "id": "repdb-plate-loaded-lateral-raise",
+      "name": "Plate Loaded Lateral Raise",
+      "curatedGroup": "shoulders",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "side_delts": 90,
+        "traps": 10
+      },
+      "muscleContributions": {
+        "side_delts": 0.9,
+        "traps": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-seated-dumbbell-lateral-raise",
+      "name": "Seated Dumbbell Lateral Raise",
+      "curatedGroup": "shoulders",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "side_delts": 90,
+        "traps": 10
+      },
+      "muscleContributions": {
+        "side_delts": 0.9,
+        "traps": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-pike-push-ups",
+      "name": "Pike Push-Ups",
+      "curatedGroup": "shoulders",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "front_delts": 55,
+        "side_delts": 20,
+        "triceps": 25
+      },
+      "muscleContributions": {
+        "front_delts": 0.55,
+        "side_delts": 0.2,
+        "triceps": 0.25
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-cable-upright-row",
+      "name": "Cable Upright Row",
+      "curatedGroup": "shoulders",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "side_delts": 50,
+        "traps": 30,
+        "front_delts": 10,
+        "biceps": 10
+      },
+      "muscleContributions": {
+        "side_delts": 0.5,
+        "traps": 0.3,
+        "front_delts": 0.1,
+        "biceps": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-cable-hammer-curl",
+      "name": "Cable Hammer Curl",
+      "curatedGroup": "arms",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "biceps": 55,
+        "forearms": 45
+      },
+      "muscleContributions": {
+        "biceps": 0.55,
+        "forearms": 0.45
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-db-preacher-curl",
+      "name": "Dumbbell Preacher Curl",
+      "curatedGroup": "arms",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "biceps": 90,
+        "forearms": 10
+      },
+      "muscleContributions": {
+        "biceps": 0.9,
+        "forearms": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-reverse-curl",
+      "name": "Reverse Curl",
+      "curatedGroup": "arms",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "forearms": 55,
+        "biceps": 45
+      },
+      "muscleContributions": {
+        "forearms": 0.55,
+        "biceps": 0.45
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-spider-curl",
+      "name": "Spider Curl",
+      "curatedGroup": "arms",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "biceps": 95,
+        "forearms": 5
+      },
+      "muscleContributions": {
+        "biceps": 0.95,
+        "forearms": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-seated-dumbbell-curl",
+      "name": "Seated Dumbbell Curl",
+      "curatedGroup": "arms",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "biceps": 90,
+        "forearms": 10
+      },
+      "muscleContributions": {
+        "biceps": 0.9,
+        "forearms": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-dumbbell-tricep-extension",
+      "name": "Dumbbell Tricep Extension",
+      "curatedGroup": "arms",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "triceps": 100
+      },
+      "muscleContributions": {
+        "triceps": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-db-skull-crusher",
+      "name": "Dumbbell Skull Crusher",
+      "curatedGroup": "arms",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "triceps": 100
+      },
+      "muscleContributions": {
+        "triceps": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-assisted-dips",
+      "name": "Assisted Dips",
+      "curatedGroup": "arms",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "triceps": 50,
+        "chest": 35,
+        "front_delts": 15
+      },
+      "muscleContributions": {
+        "triceps": 0.5,
+        "chest": 0.35,
+        "front_delts": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-dumbbell-wrist-curl",
+      "name": "Dumbbell Wrist Curl",
+      "curatedGroup": "arms",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "forearms": 100
+      },
+      "muscleContributions": {
+        "forearms": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-db-reverse-wrist-curl",
+      "name": "Dumbbell Reverse Wrist Curl",
+      "curatedGroup": "arms",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "forearms": 100
+      },
+      "muscleContributions": {
+        "forearms": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-goblet-squat",
+      "name": "Goblet Squat",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 60,
+        "glutes": 30,
+        "adductors": 5,
+        "abs": 5
+      },
+      "muscleContributions": {
+        "quads": 0.6,
+        "glutes": 0.3,
+        "adductors": 0.05,
+        "abs": 0.05
+      },
+      "confidence": "low",
+      "note": "Quad/glute bias; RepDB-derived 30% hamstrings is not a good default."
+    },
+    {
+      "id": "repdb-bodyweight-squat",
+      "name": "Bodyweight Squat",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 55,
+        "glutes": 35,
+        "adductors": 10
+      },
+      "muscleContributions": {
+        "quads": 0.55,
+        "glutes": 0.35,
+        "adductors": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-hex-bar-deadlift",
+      "name": "Hex Bar Deadlift",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 40,
+        "glutes": 35,
+        "hamstrings": 15,
+        "lower_back": 5,
+        "traps": 5
+      },
+      "muscleContributions": {
+        "quads": 0.4,
+        "glutes": 0.35,
+        "hamstrings": 0.15,
+        "lower_back": 0.05,
+        "traps": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-sumo-deadlift",
+      "name": "Sumo Deadlift",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "glutes": 40,
+        "quads": 30,
+        "adductors": 15,
+        "hamstrings": 10,
+        "lower_back": 5
+      },
+      "muscleContributions": {
+        "glutes": 0.4,
+        "quads": 0.3,
+        "adductors": 0.15,
+        "hamstrings": 0.1,
+        "lower_back": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-dumbbell-romanian-deadlift",
+      "name": "Dumbbell Romanian Deadlift",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "hamstrings": 55,
+        "glutes": 35,
+        "lower_back": 10
+      },
+      "muscleContributions": {
+        "hamstrings": 0.55,
+        "glutes": 0.35,
+        "lower_back": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-single-leg-romanian-deadlift",
+      "name": "Single Leg Romanian Deadlift",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "hamstrings": 45,
+        "glutes": 40,
+        "abductors": 10,
+        "lower_back": 5
+      },
+      "muscleContributions": {
+        "hamstrings": 0.45,
+        "glutes": 0.4,
+        "abductors": 0.1,
+        "lower_back": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-nordic-hamstring-curl",
+      "name": "Nordic Hamstring Curl",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "hamstrings": 100
+      },
+      "muscleContributions": {
+        "hamstrings": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-glute-bridge",
+      "name": "Glute Bridge",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "glutes": 90,
+        "hamstrings": 10
+      },
+      "muscleContributions": {
+        "glutes": 0.9,
+        "hamstrings": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-single-leg-glute-bridge",
+      "name": "Single Leg Glute Bridge",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "glutes": 85,
+        "hamstrings": 10,
+        "abductors": 5
+      },
+      "muscleContributions": {
+        "glutes": 0.85,
+        "hamstrings": 0.1,
+        "abductors": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-cable-pull-through",
+      "name": "Cable Pull Through",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "glutes": 55,
+        "hamstrings": 40,
+        "lower_back": 5
+      },
+      "muscleContributions": {
+        "glutes": 0.55,
+        "hamstrings": 0.4,
+        "lower_back": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-cable-kickback",
+      "name": "Cable Kickback",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "glutes": 90,
+        "hamstrings": 10
+      },
+      "muscleContributions": {
+        "glutes": 0.9,
+        "hamstrings": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-hip-abduction",
+      "name": "Hip Abduction",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "abductors": 95,
+        "glutes": 5
+      },
+      "muscleContributions": {
+        "abductors": 0.95,
+        "glutes": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-hip-adduction",
+      "name": "Hip Adduction",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "adductors": 100
+      },
+      "muscleContributions": {
+        "adductors": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-side-lunge",
+      "name": "Side Lunge",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 40,
+        "glutes": 30,
+        "adductors": 25,
+        "abductors": 5
+      },
+      "muscleContributions": {
+        "quads": 0.4,
+        "glutes": 0.3,
+        "adductors": 0.25,
+        "abductors": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-cossack-squat",
+      "name": "Cossack Squat",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 40,
+        "adductors": 30,
+        "glutes": 25,
+        "calves": 5
+      },
+      "muscleContributions": {
+        "quads": 0.4,
+        "adductors": 0.3,
+        "glutes": 0.25,
+        "calves": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-bodyweight-reverse-lunge",
+      "name": "Bodyweight Reverse Lunge",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 50,
+        "glutes": 40,
+        "adductors": 10
+      },
+      "muscleContributions": {
+        "quads": 0.5,
+        "glutes": 0.4,
+        "adductors": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-db-lunge",
+      "name": "Dumbbell Lunge",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 45,
+        "glutes": 45,
+        "adductors": 10
+      },
+      "muscleContributions": {
+        "quads": 0.45,
+        "glutes": 0.45,
+        "adductors": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-split-squat",
+      "name": "Split Squat",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 50,
+        "glutes": 40,
+        "adductors": 10
+      },
+      "muscleContributions": {
+        "quads": 0.5,
+        "glutes": 0.4,
+        "adductors": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-single-leg-press",
+      "name": "Single Leg Press",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 65,
+        "glutes": 30,
+        "adductors": 5
+      },
+      "muscleContributions": {
+        "quads": 0.65,
+        "glutes": 0.3,
+        "adductors": 0.05
+      },
+      "confidence": "medium",
+      "note": "Quad/glute bias; minimal hamstring growth credit."
+    },
+    {
+      "id": "repdb-bodyweight-calf-raise",
+      "name": "Bodyweight Calf Raise",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "calves": 100
+      },
+      "muscleContributions": {
+        "calves": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-dumbbell-calf-raise",
+      "name": "Dumbbell Calf Raise",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "calves": 100
+      },
+      "muscleContributions": {
+        "calves": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-wall-sit",
+      "name": "Wall Sit",
+      "curatedGroup": "legs",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "quads": 85,
+        "glutes": 15
+      },
+      "muscleContributions": {
+        "quads": 0.85,
+        "glutes": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-dead-bug",
+      "name": "Dead Bug",
+      "curatedGroup": "core",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "abs": 65,
+        "obliques": 25,
+        "hip_flexors": 10
+      },
+      "muscleContributions": {
+        "abs": 0.65,
+        "obliques": 0.25,
+        "hip_flexors": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-bird-dog",
+      "name": "Bird Dog",
+      "curatedGroup": "core",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lower_back": 35,
+        "abs": 25,
+        "glutes": 25,
+        "obliques": 15
+      },
+      "muscleContributions": {
+        "lower_back": 0.35,
+        "abs": 0.25,
+        "glutes": 0.25,
+        "obliques": 0.15
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-side-plank",
+      "name": "Side Plank",
+      "curatedGroup": "core",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "obliques": 65,
+        "abs": 20,
+        "abductors": 15
+      },
+      "muscleContributions": {
+        "obliques": 0.65,
+        "abs": 0.2,
+        "abductors": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-bicycle-crunch",
+      "name": "Bicycle Crunch",
+      "curatedGroup": "core",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "abs": 45,
+        "obliques": 40,
+        "hip_flexors": 15
+      },
+      "muscleContributions": {
+        "abs": 0.45,
+        "obliques": 0.4,
+        "hip_flexors": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-reverse-crunches",
+      "name": "Reverse Crunches",
+      "curatedGroup": "core",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "abs": 80,
+        "hip_flexors": 15,
+        "obliques": 5
+      },
+      "muscleContributions": {
+        "abs": 0.8,
+        "hip_flexors": 0.15,
+        "obliques": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-lying-leg-raise",
+      "name": "Lying Leg Raise",
+      "curatedGroup": "core",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "hip_flexors": 45,
+        "abs": 45,
+        "obliques": 10
+      },
+      "muscleContributions": {
+        "hip_flexors": 0.45,
+        "abs": 0.45,
+        "obliques": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-hanging-knee-raise",
+      "name": "Hanging Knee Raise",
+      "curatedGroup": "core",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "abs": 45,
+        "hip_flexors": 45,
+        "obliques": 10
+      },
+      "muscleContributions": {
+        "abs": 0.45,
+        "hip_flexors": 0.45,
+        "obliques": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-cable-pallof-press",
+      "name": "Cable Pallof Press",
+      "curatedGroup": "core",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "obliques": 55,
+        "abs": 40,
+        "front_delts": 5
+      },
+      "muscleContributions": {
+        "obliques": 0.55,
+        "abs": 0.4,
+        "front_delts": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-hollow-body-hold",
+      "name": "Hollow Body Hold",
+      "curatedGroup": "core",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "abs": 70,
+        "hip_flexors": 20,
+        "obliques": 10
+      },
+      "muscleContributions": {
+        "abs": 0.7,
+        "hip_flexors": 0.2,
+        "obliques": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-sit-ups",
+      "name": "Sit Ups",
+      "curatedGroup": "core",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "hip_flexors": 50,
+        "abs": 40,
+        "obliques": 10
+      },
+      "muscleContributions": {
+        "hip_flexors": 0.5,
+        "abs": 0.4,
+        "obliques": 0.1
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-flutter-kicks",
+      "name": "Flutter Kicks",
+      "curatedGroup": "core",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "hip_flexors": 55,
+        "abs": 40,
+        "obliques": 5
+      },
+      "muscleContributions": {
+        "hip_flexors": 0.55,
+        "abs": 0.4,
+        "obliques": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-heel-touches",
+      "name": "Heel Touches",
+      "curatedGroup": "core",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "obliques": 65,
+        "abs": 35
+      },
+      "muscleContributions": {
+        "obliques": 0.65,
+        "abs": 0.35
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-dumbbell-side-bend",
+      "name": "Dumbbell Side Bend",
+      "curatedGroup": "core",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "obliques": 75,
+        "lower_back": 25
+      },
+      "muscleContributions": {
+        "obliques": 0.75,
+        "lower_back": 0.25
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-machine-seated-crunch",
+      "name": "Machine Seated Crunch",
+      "curatedGroup": "core",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "abs": 100
+      },
+      "muscleContributions": {
+        "abs": 1.0
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-captains-chair-knee-raise",
+      "name": "Captain's Chair Knee Raise",
+      "curatedGroup": "core",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "abs": 50,
+        "hip_flexors": 45,
+        "obliques": 5
+      },
+      "muscleContributions": {
+        "abs": 0.5,
+        "hip_flexors": 0.45,
+        "obliques": 0.05
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-superman",
+      "name": "Superman",
+      "curatedGroup": "core",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lower_back": 50,
+        "glutes": 35,
+        "hamstrings": 15
+      },
+      "muscleContributions": {
+        "lower_back": 0.5,
+        "glutes": 0.35,
+        "hamstrings": 0.15
+      },
+      "confidence": "medium",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-kettlebell-swing",
+      "name": "Kettlebell Swing",
+      "curatedGroup": "functional",
+      "modality": "power_conditioning",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "glutes": 50,
+        "hamstrings": 35,
+        "lower_back": 10,
+        "quads": 5
+      },
+      "muscleContributions": {
+        "glutes": 0.5,
+        "hamstrings": 0.35,
+        "lower_back": 0.1,
+        "quads": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-kettlebell-turkish-get-ups",
+      "name": "Kettlebell Turkish Get Ups",
+      "curatedGroup": "functional",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "front_delts": 25,
+        "abs": 20,
+        "obliques": 20,
+        "glutes": 15,
+        "quads": 10,
+        "triceps": 10
+      },
+      "muscleContributions": {
+        "front_delts": 0.25,
+        "abs": 0.2,
+        "obliques": 0.2,
+        "glutes": 0.15,
+        "quads": 0.1,
+        "triceps": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-kettlebell-deadlift",
+      "name": "Kettlebell Deadlift",
+      "curatedGroup": "functional",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "glutes": 40,
+        "quads": 25,
+        "hamstrings": 25,
+        "lower_back": 10
+      },
+      "muscleContributions": {
+        "glutes": 0.4,
+        "quads": 0.25,
+        "hamstrings": 0.25,
+        "lower_back": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-kettlebell-halo",
+      "name": "Kettlebell Halo",
+      "curatedGroup": "functional",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "front_delts": 25,
+        "rotator_cuff": 25,
+        "upper_back": 15,
+        "traps": 15,
+        "abs": 20
+      },
+      "muscleContributions": {
+        "front_delts": 0.25,
+        "rotator_cuff": 0.25,
+        "upper_back": 0.15,
+        "traps": 0.15,
+        "abs": 0.2
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-suitcase-carry",
+      "name": "Suitcase Carry",
+      "curatedGroup": "functional",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "obliques": 40,
+        "forearms": 30,
+        "traps": 15,
+        "abs": 15
+      },
+      "muscleContributions": {
+        "obliques": 0.4,
+        "forearms": 0.3,
+        "traps": 0.15,
+        "abs": 0.15
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-sled-push",
+      "name": "Sled Push",
+      "curatedGroup": "functional",
+      "modality": "power_conditioning",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "quads": 45,
+        "glutes": 30,
+        "calves": 15,
+        "hamstrings": 10
+      },
+      "muscleContributions": {
+        "quads": 0.45,
+        "glutes": 0.3,
+        "calves": 0.15,
+        "hamstrings": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-medicine-ball-slam",
+      "name": "Medicine Ball Slam",
+      "curatedGroup": "functional",
+      "modality": "power_conditioning",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "abs": 30,
+        "lats": 25,
+        "triceps": 15,
+        "front_delts": 10,
+        "glutes": 10,
+        "quads": 10
+      },
+      "muscleContributions": {
+        "abs": 0.3,
+        "lats": 0.25,
+        "triceps": 0.15,
+        "front_delts": 0.1,
+        "glutes": 0.1,
+        "quads": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-bear-crawl",
+      "name": "Bear Crawl",
+      "curatedGroup": "functional",
+      "modality": "power_conditioning",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "front_delts": 30,
+        "abs": 25,
+        "obliques": 15,
+        "quads": 15,
+        "triceps": 15
+      },
+      "muscleContributions": {
+        "front_delts": 0.3,
+        "abs": 0.25,
+        "obliques": 0.15,
+        "quads": 0.15,
+        "triceps": 0.15
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-box-jump",
+      "name": "Box Jump",
+      "curatedGroup": "functional",
+      "modality": "power_conditioning",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "quads": 40,
+        "glutes": 35,
+        "calves": 15,
+        "hamstrings": 10
+      },
+      "muscleContributions": {
+        "quads": 0.4,
+        "glutes": 0.35,
+        "calves": 0.15,
+        "hamstrings": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-thruster",
+      "name": "Thruster",
+      "curatedGroup": "functional",
+      "modality": "power_conditioning",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "quads": 35,
+        "glutes": 20,
+        "front_delts": 25,
+        "triceps": 15,
+        "abs": 5
+      },
+      "muscleContributions": {
+        "quads": 0.35,
+        "glutes": 0.2,
+        "front_delts": 0.25,
+        "triceps": 0.15,
+        "abs": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-renegade-row",
+      "name": "Renegade Row",
+      "curatedGroup": "functional",
+      "modality": "strength",
+      "strengthScoreEligible": true,
+      "percentages": {
+        "lats": 25,
+        "upper_back": 20,
+        "biceps": 10,
+        "abs": 20,
+        "obliques": 20,
+        "front_delts": 5
+      },
+      "muscleContributions": {
+        "lats": 0.25,
+        "upper_back": 0.2,
+        "biceps": 0.1,
+        "abs": 0.2,
+        "obliques": 0.2,
+        "front_delts": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-push-press",
+      "name": "Push Press",
+      "curatedGroup": "functional",
+      "modality": "power_conditioning",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "front_delts": 35,
+        "quads": 20,
+        "glutes": 15,
+        "triceps": 20,
+        "side_delts": 10
+      },
+      "muscleContributions": {
+        "front_delts": 0.35,
+        "quads": 0.2,
+        "glutes": 0.15,
+        "triceps": 0.2,
+        "side_delts": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-rowing-machine",
+      "name": "Rowing Machine",
+      "curatedGroup": "cardio",
+      "modality": "cardio",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "quads": 35,
+        "glutes": 20,
+        "hamstrings": 15,
+        "lats": 15,
+        "upper_back": 10,
+        "biceps": 5
+      },
+      "muscleContributions": {
+        "quads": 0.35,
+        "glutes": 0.2,
+        "hamstrings": 0.15,
+        "lats": 0.15,
+        "upper_back": 0.1,
+        "biceps": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-stationary-bike",
+      "name": "Stationary Bike",
+      "curatedGroup": "cardio",
+      "modality": "cardio",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "quads": 55,
+        "glutes": 20,
+        "hamstrings": 15,
+        "calves": 10
+      },
+      "muscleContributions": {
+        "quads": 0.55,
+        "glutes": 0.2,
+        "hamstrings": 0.15,
+        "calves": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-treadmill-running",
+      "name": "Treadmill Running",
+      "curatedGroup": "cardio",
+      "modality": "cardio",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "quads": 35,
+        "glutes": 25,
+        "calves": 20,
+        "hamstrings": 15,
+        "hip_flexors": 5
+      },
+      "muscleContributions": {
+        "quads": 0.35,
+        "glutes": 0.25,
+        "calves": 0.2,
+        "hamstrings": 0.15,
+        "hip_flexors": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-incline-treadmill-walk",
+      "name": "Incline Treadmill Walk",
+      "curatedGroup": "cardio",
+      "modality": "cardio",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "glutes": 35,
+        "quads": 30,
+        "calves": 20,
+        "hamstrings": 15
+      },
+      "muscleContributions": {
+        "glutes": 0.35,
+        "quads": 0.3,
+        "calves": 0.2,
+        "hamstrings": 0.15
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-elliptical-trainer",
+      "name": "Elliptical Trainer",
+      "curatedGroup": "cardio",
+      "modality": "cardio",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "quads": 40,
+        "glutes": 25,
+        "calves": 15,
+        "hamstrings": 10,
+        "front_delts": 5,
+        "lats": 5
+      },
+      "muscleContributions": {
+        "quads": 0.4,
+        "glutes": 0.25,
+        "calves": 0.15,
+        "hamstrings": 0.1,
+        "front_delts": 0.05,
+        "lats": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-stair-climber",
+      "name": "Stair Climber",
+      "curatedGroup": "cardio",
+      "modality": "cardio",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "quads": 45,
+        "glutes": 35,
+        "calves": 15,
+        "hamstrings": 5
+      },
+      "muscleContributions": {
+        "quads": 0.45,
+        "glutes": 0.35,
+        "calves": 0.15,
+        "hamstrings": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-air-bike",
+      "name": "Air Bike",
+      "curatedGroup": "cardio",
+      "modality": "cardio",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "quads": 35,
+        "hamstrings": 15,
+        "glutes": 15,
+        "front_delts": 10,
+        "lats": 10,
+        "chest": 5,
+        "triceps": 5,
+        "biceps": 5
+      },
+      "muscleContributions": {
+        "quads": 0.35,
+        "hamstrings": 0.15,
+        "glutes": 0.15,
+        "front_delts": 0.1,
+        "lats": 0.1,
+        "chest": 0.05,
+        "triceps": 0.05,
+        "biceps": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-jump-rope",
+      "name": "Jump Rope",
+      "curatedGroup": "cardio",
+      "modality": "cardio",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "calves": 60,
+        "quads": 20,
+        "abs": 10,
+        "front_delts": 5,
+        "forearms": 5
+      },
+      "muscleContributions": {
+        "calves": 0.6,
+        "quads": 0.2,
+        "abs": 0.1,
+        "front_delts": 0.05,
+        "forearms": 0.05
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-mountain-climbers",
+      "name": "Mountain Climbers",
+      "curatedGroup": "cardio",
+      "modality": "cardio",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "hip_flexors": 35,
+        "abs": 30,
+        "front_delts": 15,
+        "quads": 10,
+        "obliques": 10
+      },
+      "muscleContributions": {
+        "hip_flexors": 0.35,
+        "abs": 0.3,
+        "front_delts": 0.15,
+        "quads": 0.1,
+        "obliques": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-burpees",
+      "name": "Burpees",
+      "curatedGroup": "cardio",
+      "modality": "cardio",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "quads": 25,
+        "chest": 20,
+        "glutes": 20,
+        "front_delts": 15,
+        "triceps": 10,
+        "abs": 10
+      },
+      "muscleContributions": {
+        "quads": 0.25,
+        "chest": 0.2,
+        "glutes": 0.2,
+        "front_delts": 0.15,
+        "triceps": 0.1,
+        "abs": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-90-90-hold",
+      "name": "90/90 Hold",
+      "curatedGroup": "mobility",
+      "modality": "mobility",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "hip_flexors": 30,
+        "glutes": 25,
+        "abductors": 25,
+        "adductors": 20
+      },
+      "muscleContributions": {
+        "hip_flexors": 0.3,
+        "glutes": 0.25,
+        "abductors": 0.25,
+        "adductors": 0.2
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-cat-cow",
+      "name": "Cat-Cow",
+      "curatedGroup": "mobility",
+      "modality": "mobility",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "lower_back": 50,
+        "abs": 30,
+        "upper_back": 20
+      },
+      "muscleContributions": {
+        "lower_back": 0.5,
+        "abs": 0.3,
+        "upper_back": 0.2
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-childs-pose",
+      "name": "Child's Pose",
+      "curatedGroup": "mobility",
+      "modality": "mobility",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "lats": 45,
+        "lower_back": 35,
+        "glutes": 10,
+        "upper_back": 10
+      },
+      "muscleContributions": {
+        "lats": 0.45,
+        "lower_back": 0.35,
+        "glutes": 0.1,
+        "upper_back": 0.1
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-downward-dog",
+      "name": "Downward Dog",
+      "curatedGroup": "mobility",
+      "modality": "mobility",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "hamstrings": 40,
+        "calves": 30,
+        "front_delts": 15,
+        "lats": 15
+      },
+      "muscleContributions": {
+        "hamstrings": 0.4,
+        "calves": 0.3,
+        "front_delts": 0.15,
+        "lats": 0.15
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-kneeling-hip-flexor-stretch",
+      "name": "Kneeling Hip Flexor Stretch",
+      "curatedGroup": "mobility",
+      "modality": "mobility",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "hip_flexors": 80,
+        "quads": 20
+      },
+      "muscleContributions": {
+        "hip_flexors": 0.8,
+        "quads": 0.2
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-standing-quad-stretch",
+      "name": "Standing Quad Stretch",
+      "curatedGroup": "mobility",
+      "modality": "mobility",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "quads": 100
+      },
+      "muscleContributions": {
+        "quads": 1.0
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-standing-calf-stretch",
+      "name": "Standing Calf Stretch",
+      "curatedGroup": "mobility",
+      "modality": "mobility",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "calves": 100
+      },
+      "muscleContributions": {
+        "calves": 1.0
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-doorway-chest-stretch",
+      "name": "Doorway Chest Stretch",
+      "curatedGroup": "mobility",
+      "modality": "mobility",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "chest": 80,
+        "front_delts": 20
+      },
+      "muscleContributions": {
+        "chest": 0.8,
+        "front_delts": 0.2
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-cross-body-shoulder-stretch",
+      "name": "Cross Body Shoulder Stretch",
+      "curatedGroup": "mobility",
+      "modality": "mobility",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "rear_delts": 75,
+        "upper_back": 25
+      },
+      "muscleContributions": {
+        "rear_delts": 0.75,
+        "upper_back": 0.25
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    },
+    {
+      "id": "repdb-pigeon-stretch",
+      "name": "Pigeon Stretch",
+      "curatedGroup": "mobility",
+      "modality": "mobility",
+      "strengthScoreEligible": false,
+      "percentages": {
+        "glutes": 60,
+        "hip_flexors": 20,
+        "abductors": 20
+      },
+      "muscleContributions": {
+        "glutes": 0.6,
+        "hip_flexors": 0.2,
+        "abductors": 0.2
+      },
+      "confidence": "low",
+      "note": "Expert-judgement training-emphasis estimate; depends on technique and load."
+    }
+  ]
+}

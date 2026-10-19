@@ -32,7 +32,7 @@ Source equipment variants remain distinct (e.g. barbell vs bodyweight glute brid
 ## Muscle defaults
 
 RepDB supplies primary/secondary muscle roles, **not numeric contributions**.
-Only new exercises use the following app defaults: 70% divided equally across
+Unreviewed new exercises use the following app defaults: 70% divided equally across
 distinct mapped primary groups and 30% across distinct mapped secondary groups;
 without secondary groups, primary groups share 100%. These are estimates, not
 measured activation percentages. Users can edit them as with other exercises.
@@ -94,6 +94,32 @@ Muscle scores, muscle volumes, strength indexes and muscle-volume comparisons
 exclude source activities categorized as `cardio` or `stretching`, across the
 entire catalog. Classification uses the stable exercise ID and existing RepDB
 metadata, so old snapshots and exercises removed from the saved library are
-handled without a migration. Strength, plyometrics, Olympic lifts and custom
-exercises retain their existing scoring. Recorded sets, generic workout totals,
+handled without a migration. The supplied estimate file additionally excludes seven power-conditioning
+exercises. Other strength, plyometrics, Olympic lifts and custom exercises retain
+their existing scoring. Recorded sets, generic workout totals,
 history, templates, snapshots and saved contributions are unchanged.
+
+
+## Reviewed estimates (2026-10-19)
+
+`../exercises.muscle-estimates.json` is the user-supplied
+`vdstrong-175-muscle-estimates.json`, preserved with its provenance, confidence,
+notes, modality and eligibility fields. Its SHA-256 is
+`41d018e1adecc84f0b78c42737da7b04865935b1ea37744a2eaa8dde88f18298`.
+These are subjective relative training-focus estimates, not measured activation
+or hypertrophy percentages. `features/exercises/muscle-estimates.ts` applies its
+fractional contributions to the 175 matching seed IDs, using the largest share
+as the primary muscle and retaining the other positive shares as secondary
+muscles. The other 482 library entries and existing images are unchanged.
+
+The existing store merge updates unmodified defaults on rehydration while
+preserving custom/modified exercises, notes, rest preferences, templates and
+historical/active workout snapshots. New workouts use the new defaults; saved
+snapshot percentages are not rewritten. Scoring eligibility is resolved by
+stable ID even for older snapshots: 10 cardio, 10 mobility and 7 power-conditioning
+entries keep their reference percentages but give no strength/muscle-map credit.
+The existing catalog-category exclusion still covers uncurated cardio/stretching.
+
+Validation: TypeScript and all 16 catalog/scoring/persistence checks pass.
+Lint has zero errors and five pre-existing warnings. This data/scoring change
+was checked without rebuilding the Android APK.

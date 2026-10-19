@@ -1,3 +1,4 @@
+import { getMuscleEstimate } from "../exercises/muscle-estimates";
 import { getRepDbExercise } from "../exercises/repdb-catalog";
 import { Exercise, MuscleGroup } from "../exercises/exercise.types";
 import { PerformedExercise, WorkoutSession } from "../workouts/workout.types";
@@ -107,7 +108,8 @@ const resolveExercise = (
   exerciseMap: Map<string, Exercise>
 ) => {
   // Resolve by stable ID, including legacy snapshots and removed library entries.
-  // Activity is catalog metadata; saved contribution percentages remain untouched.
+  // Scoring eligibility is metadata; saved percentages remain untouched.
+  if (getMuscleEstimate(performedExercise.exerciseId)?.strengthScoreEligible === false) return undefined;
   const category = getRepDbExercise(performedExercise.exerciseId)?.category;
   if (category === "cardio" || category === "stretching") return undefined;
   return performedExercise.exerciseSnapshot ?? exerciseMap.get(performedExercise.exerciseId);

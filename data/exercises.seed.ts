@@ -1,3 +1,4 @@
+import { applyMuscleEstimates } from "../features/exercises/muscle-estimates";
 import { Exercise } from "../features/exercises/exercise.types";
 import { createAdditionalRepDbExercises } from "../features/exercises/repdb-catalog";
 
@@ -961,7 +962,7 @@ const existingExercises: Exercise[] = [
   },
 ];
 
-export const exercisesSeed: Exercise[] = [
+export const exercisesSeed: Exercise[] = applyMuscleEstimates([
   ...existingExercises,
   ...createAdditionalRepDbExercises(existingExercises),
-];
+]);
