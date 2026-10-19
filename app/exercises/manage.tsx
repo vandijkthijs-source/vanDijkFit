@@ -20,6 +20,9 @@ import { Exercise } from "../../features/exercises/exercise.types";
 import { showAlert } from "../../lib/ui/alert";
 import { REPDB_CREDIT, REPDB_URL } from "../../features/exercises/repdb-catalog";
 
+import ExerciseLibraryScope from "../../components/exercise/ExerciseLibraryScope";
+import { getExerciseRecency, selectLibraryExercises } from "../../features/exercises/exercise-library";
+
 type ExerciseListItemProps = {
   exercise: Exercise;
   timesDone: number;
@@ -118,6 +121,9 @@ export default function ManageExercisesScreen() {
   const removeCustomExercise = useAppStore((state) => state.removeCustomExercise);
   const [query, setQuery] = useState("");
 
+  const [showAll, setShowAll] = useState(false);
+  const recency = useMemo(() => getExerciseRecency(workoutHistory), [workoutHistory]);
+
   const doneCounts = useMemo(() => {
     const counts = new Map<string, number>();
 
@@ -133,29 +139,10 @@ export default function ManageExercisesScreen() {
     return counts;
   }, [workoutHistory]);
 
-  const visibleExercises = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
-
-    return exercises
-      .filter((exercise) => {
-        if (!normalizedQuery) {
-          return true;
-        }
-
-        return (
-          exercise.name.toLowerCase().includes(normalizedQuery) ||
-          exercise.equipment.toLowerCase().includes(normalizedQuery) ||
-          formatMuscleSplitSummary(exercise.muscleContributions)
-            .toLowerCase()
-            .includes(normalizedQuery)
-        );
-      })
-      .sort(
-        (a, b) =>
-          (doneCounts.get(b.id) ?? 0) - (doneCounts.get(a.id) ?? 0) ||
-          a.name.localeCompare(b.name)
-      );
-  }, [doneCounts, exercises, query]);
+  const visibleExercises = useMemo(
+    () => selectLibraryExercises(exercises, query, showAll, recency),
+    [exercises, query, showAll, recency]
+  );
 
   const handleRemove = useCallback((exerciseId: string, exerciseName: string) => {
     showAlert(
@@ -223,7 +210,7 @@ export default function ManageExercisesScreen() {
               <TextInput
                 value={query}
                 onChangeText={setQuery}
-                placeholder="Search exercises"
+                placeholder="Search all exercises"
                 placeholderTextColor={colors.textSoft}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -239,6 +226,7 @@ export default function ManageExercisesScreen() {
                 </Pressable>
               ) : null}
             </View>
+            <ExerciseLibraryScope showAll={showAll} onChange={setShowAll} searching={Boolean(query.trim())} />
           </View>
         }
         ListEmptyComponent={

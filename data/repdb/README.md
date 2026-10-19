@@ -65,3 +65,20 @@ their initial placeholder (or their user photo):
 - Cable Pullover
 - Step Ups (dumbbell; the source only has bodyweight step ups)
 - Sissy Squat
+
+## Curated library
+
+The library and workout picker default to 175 exercises: 67 original entries
+and 108 RepDB additions. The explicit IDs in `../exercises.curated.json` cover
+chest, back, shoulders, arms, legs, core, functional training, cardio and mobility.
+The existing catalog has 77 original entries; ten less essential/redundant
+variants remain in All Exercises alongside the unselected RepDB entries.
+All Exercises exposes the complete 657-entry catalog (482 beyond the selection).
+
+Custom exercises are included in both views. Search always covers the complete
+catalog, retaining the workout picker's muscle/equipment filters. Browsing sorts
+by latest workout date, then name; search ranks match relevance first, then
+recency. Both screens share `features/exercises/exercise-library.ts` and retain
+virtualized lists. Scope is local screen state, with Curated as the default.
+This is only a display filter: seeds, images, saved exercises, templates, workout
+snapshots, history, storage schema and backups are unchanged.

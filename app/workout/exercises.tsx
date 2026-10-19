@@ -18,6 +18,8 @@ import {
   Exercise,
 } from "../../features/exercises/exercise.types";
 import { useAppStore } from "../../store/useAppStore";
+import ExerciseLibraryScope from "../../components/exercise/ExerciseLibraryScope";
+import { getExerciseRecency, selectLibraryExercises } from "../../features/exercises/exercise-library";
 import AppInput from "../../components/ui/AppInput";
 import { equipmentOptions, muscleOptions } from "../../constants/exercise-options";
 import {
@@ -27,47 +29,6 @@ import {
 } from "../../constants/muscles";
 import { radii, ThemeColors, useThemeColors } from "../../constants/theme";
 import { formatMuscleSplitSummary, titleCase } from "../../utils/format";
-
-const getRecentExerciseIds = (exerciseIds: string[]) => {
-  const seen = new Set<string>();
-  return exerciseIds.filter((id) => {
-    if (seen.has(id)) {
-      return false;
-    }
-
-    seen.add(id);
-    return true;
-  });
-};
-
-const getSearchScore = (exercise: Exercise, query: string) => {
-  const normalizedQuery = query.trim().toLowerCase();
-  if (!normalizedQuery) return 0;
-
-  const exerciseName = exercise.name.toLowerCase();
-  const nameWords = exerciseName.split(/[\s()\-]+/).filter(Boolean);
-  const equipmentLabel = titleCase(exercise.equipment).toLowerCase();
-  const muscleLabels = Object.keys(exercise.muscleContributions ?? {}).map(
-    (muscle) =>
-      (
-        MAJOR_MUSCLE_LABELS[
-          muscle as keyof typeof MAJOR_MUSCLE_LABELS
-        ] ?? titleCase(muscle)
-      ).toLowerCase()
-  );
-
-  if (exerciseName === normalizedQuery) return 1000;
-  if (exerciseName.startsWith(normalizedQuery)) return 900;
-  if (nameWords.some((word) => word === normalizedQuery)) return 820;
-  if (nameWords.some((word) => word.startsWith(normalizedQuery))) return 760;
-  if (exerciseName.includes(normalizedQuery)) return 620;
-  if (muscleLabels.some((label) => label.startsWith(normalizedQuery))) return 340;
-  if (muscleLabels.some((label) => label.includes(normalizedQuery))) return 260;
-  if (equipmentLabel.startsWith(normalizedQuery)) return 140;
-  if (equipmentLabel.includes(normalizedQuery)) return 100;
-
-  return -1;
-};
 
 type ExerciseRowProps = {
   exercise: Exercise;
@@ -137,88 +98,16 @@ export default function WorkoutExercisePickerScreen() {
   const [selectedMuscle, setSelectedMuscle] = useState<MajorMuscleGroupKey | null>(null);
   const [selectedEquipment, setSelectedEquipment] = useState<EquipmentType | null>(null);
 
-  const exerciseLookup = useMemo(
-    () => new Map(exercises.map((exercise) => [exercise.id, exercise])),
-    [exercises]
-  );
-
-  const indexedExercises = useMemo(
-    () =>
-      exercises.map((exercise) => ({
-        exercise,
-        majorContributions: aggregateToMajorMuscleContributions(
-          exercise.muscleContributions
-        ),
-      })),
-    [exercises]
-  );
-
-  const recentExercises = useMemo(() => {
-    const ids = getRecentExerciseIds(
-      workoutHistory.flatMap((session) =>
-        [...session.exercises]
-          .sort((a, b) => a.order - b.order)
-          .map((exercise) => exercise.exerciseId)
-      )
-    );
-
-    return ids
-      .map((id) => exerciseLookup.get(id))
-      .filter((exercise): exercise is Exercise => Boolean(exercise))
-      .slice(0, 6);
-  }, [exerciseLookup, workoutHistory]);
-
-  const filteredExercises = useMemo(() => {
-    const normalized = query.trim().toLowerCase();
-
-    const scoredExercises = indexedExercises
-      .map(({ exercise, majorContributions }) => {
-        if (
-          selectedMuscle &&
-          !(majorContributions[selectedMuscle] && majorContributions[selectedMuscle]! > 0)
-        ) {
-          return null;
-        }
-
-        if (selectedEquipment && exercise.equipment !== selectedEquipment) {
-          return null;
-        }
-
-        const score = normalized ? getSearchScore(exercise, normalized) : 0;
-        if (normalized && score < 0) {
-          return null;
-        }
-
-        return { exercise, score };
-      })
-      .filter((item): item is { exercise: Exercise; score: number } => Boolean(item))
-      .sort((a, b) => {
-        if (normalized && b.score !== a.score) {
-          return b.score - a.score;
-        }
-
-        return a.exercise.name.localeCompare(b.exercise.name);
-      });
-
-    return scoredExercises.map(({ exercise }) => exercise);
-  }, [indexedExercises, query, selectedEquipment, selectedMuscle]);
-
-  const recentIds = useMemo(
-    () => new Set(recentExercises.map((exercise) => exercise.id)),
-    [recentExercises]
-  );
-
-  const filteredRecent = useMemo(
-    () =>
-      recentExercises.filter((exercise) =>
-        filteredExercises.some((item) => item.id === exercise.id)
-      ),
-    [filteredExercises, recentExercises]
-  );
-
-  const remainingExercises = useMemo(
-    () => filteredExercises.filter((exercise) => !recentIds.has(exercise.id)),
-    [filteredExercises, recentIds]
+  const [showAll, setShowAll] = useState(false);
+  const recency = useMemo(() => getExerciseRecency(workoutHistory), [workoutHistory]);
+  const filteredExercises = useMemo(
+    () => selectLibraryExercises(exercises, query, showAll, recency).filter((exercise) => {
+      if (selectedEquipment && exercise.equipment !== selectedEquipment) return false;
+      if (!selectedMuscle) return true;
+      const contributions = aggregateToMajorMuscleContributions(exercise.muscleContributions);
+      return (contributions[selectedMuscle] ?? 0) > 0;
+    }),
+    [exercises, query, showAll, recency, selectedEquipment, selectedMuscle]
   );
 
   const handleSelect = useCallback(
@@ -252,7 +141,7 @@ export default function WorkoutExercisePickerScreen() {
       <StatusBar style={darkMode ? "light" : "dark"} />
       <FlatList
         style={styles.scroll}
-        data={remainingExercises}
+        data={filteredExercises}
         keyExtractor={(item) => item.id}
         renderItem={renderExerciseItem}
         initialNumToRender={12}
@@ -287,9 +176,11 @@ export default function WorkoutExercisePickerScreen() {
             <AppInput
               value={query}
               onChangeText={setQuery}
-              placeholder="Search saved exercises"
+              placeholder="Search all exercises"
               style={styles.searchInput}
             />
+
+            <ExerciseLibraryScope showAll={showAll} onChange={setShowAll} searching={Boolean(query.trim())} />
 
             <View style={styles.filtersWrap}>
               <Text style={styles.filterLabel}>Muscle group</Text>
@@ -395,22 +286,10 @@ export default function WorkoutExercisePickerScreen() {
               </ScrollView>
             </View>
 
-            {filteredRecent.length > 0 ? (
-              <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Recent</Text>
-                {filteredRecent.map((exercise) => (
-                  <ExerciseRow
-                    key={exercise.id}
-                    exercise={exercise}
-                    onPress={() => handleSelect(exercise.id)}
-                    onEdit={() => handleEdit(exercise.id)}
-                  />
-                ))}
-              </View>
-            ) : null}
-
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>All exercises</Text>
+              <Text style={styles.sectionTitle}>
+                {query.trim() ? "Search results" : "Recently used first"}
+              </Text>
             </View>
           </>
         }
@@ -514,9 +393,6 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   filterChipTextActive: {
     color: colors.accent,
-  },
-  section: {
-    marginBottom: 28,
   },
   sectionHeader: {
     marginBottom: 14,

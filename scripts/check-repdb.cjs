@@ -144,3 +144,53 @@ test("catalog assets do not become user photos in persisted backup data", () => 
   assert.equal(state.exercises.filter((exercise) => exercise.imageUri).length, 0);
   assert.ok(!JSON.stringify(state).includes("assets/exercises/repdb"));
 });
+
+const { curatedExerciseIds, getExerciseRecency, selectLibraryExercises } =
+  load(path.join(root, "features/exercises/exercise-library.ts"));
+
+test("curation selects 67 original and 108 RepDB exercises, preserving all 657 entries", () => {
+  const defaults = selectLibraryExercises(exercisesSeed, "", false, new Map());
+  assert.equal(exercisesSeed.length, 657);
+  assert.equal(curatedExerciseIds.size, 175);
+  assert.equal(defaults.length, 175);
+  assert.equal(defaults.filter((exercise) => !exercise.id.startsWith("repdb-")).length, 67);
+  assert.equal(defaults.filter((exercise) => exercise.id.startsWith("repdb-")).length, 108);
+  assert.equal(selectLibraryExercises(exercisesSeed, "", true, new Map()).length, 657);
+  assert.equal(exercisesSeed.length - defaults.length, 482);
+  const groups = load(path.join(root, "data/exercises.curated.json"));
+  const ids = new Set(exercisesSeed.map((exercise) => exercise.id));
+  for (const [group, selection] of Object.entries(groups)) {
+    assert.ok(selection.length > 0, group);
+    for (const id of selection) assert.ok(ids.has(id), `${group}: ${id}`);
+  }
+});
+
+test("search reaches every exercise from either scope and custom exercises remain visible", () => {
+  const custom = { ...exercisesSeed[0], id: "custom-test", name: "My movement", isCustom: true };
+  const exercises = [...exercisesSeed, custom];
+  assert.ok(selectLibraryExercises(exercises, "", false, new Map()).includes(custom));
+  for (const exercise of exercises) {
+    for (const showAll of [false, true]) {
+      assert.ok(selectLibraryExercises(exercises, exercise.name, showAll, new Map())
+        .some((result) => result.id === exercise.id), exercise.name);
+    }
+  }
+  assert.equal(selectLibraryExercises(exercises, "  ", false, new Map()).length, 176);
+  assert.equal(selectLibraryExercises(exercises, "no-exercise-matches-this", false, new Map()).length, 0);
+});
+
+test("recency uses session dates rather than input order or lifetime frequency, without mutation", () => {
+  const first = exercisesSeed[0];
+  const second = exercisesSeed[1];
+  const history = [
+    { startedAt: "2026-01-01T10:00:00Z", exercises: [{ exerciseId: first.id }] },
+    { startedAt: "2026-10-19T10:00:00Z", exercises: [{ exerciseId: second.id }] },
+    { startedAt: "2026-01-02T10:00:00Z", exercises: [{ exerciseId: first.id }] },
+  ];
+  const before = JSON.stringify({ exercisesSeed, history });
+  const recency = getExerciseRecency(history);
+  assert.equal(selectLibraryExercises(exercisesSeed, "", false, recency)[0].id, second.id);
+  assert.equal(selectLibraryExercises(exercisesSeed, "", true, recency)[0].id, second.id);
+  assert.equal(selectLibraryExercises(exercisesSeed, first.name, false, recency)[0].id, first.id);
+  assert.equal(JSON.stringify({ exercisesSeed, history }), before);
+});
