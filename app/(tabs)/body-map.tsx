@@ -75,20 +75,21 @@ const getRegionHeatMap = (
         .map((muscle) => progressMap.get(muscle))
         .filter(Boolean);
       const regionRatio = matchedProgress.reduce(
-        (highest, item) => Math.max(highest, item?.ratio ?? 0),
+        (highest, item) =>
+          Math.max(
+            highest,
+            (item?.currentVolume ?? 0) > 0 && !item?.hasBenchmark
+              ? 1
+              : item?.ratio ?? 0
+          ),
         0
       );
       const hasNewPr = matchedProgress.some((item) => item?.isNewPr);
-      const hasUnbenchmarkedVolume = matchedProgress.some(
-        (item) => (item?.currentVolume ?? 0) > 0 && !item?.hasBenchmark
-      );
       const normalizedRatio = Math.min(regionRatio, 1.25);
       const opacity =
         normalizedRatio > 0
           ? Math.min(0.14 + normalizedRatio * 0.46, 0.8)
-          : hasUnbenchmarkedVolume
-            ? 0.48
-            : 0;
+          : 0;
 
       return [
         region.label,
@@ -96,9 +97,7 @@ const getRegionHeatMap = (
           opacity,
           fill: hasNewPr
             ? "#ff394f"
-            : hasUnbenchmarkedVolume
-              ? "#f8c96a"
-              : "#f13e50",
+            : "#f13e50",
         },
       ] as const;
     })
@@ -317,7 +316,7 @@ export default function BodyMapScreen() {
               setHelpModalContent({
                 title: "Body heatmap",
                 message:
-                  "The heatmap compares each muscle's last 7 days of volume to its own benchmark. Brighter red means that muscle is closer to or above its benchmark. Yellow means you trained a muscle but do not have an earlier benchmark yet. Swipe left or right to compare date ranges, and switch between front and back views.",
+                  "The heatmap compares each muscle's last 7 days of volume to its own benchmark. Brighter red means that muscle is closer to or above its benchmark. Muscles with training volume but no earlier benchmark are shown as having reached their benchmark. Swipe left or right to compare date ranges, and switch between front and back views.",
               })
             }
             android_ripple={{ color: colors.ripple }}

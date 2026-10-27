@@ -40,19 +40,20 @@ const getRegionState = (
         .map((muscle) => progressMap.get(muscle))
         .filter(Boolean);
       const regionRatio = matched.reduce(
-        (highest, item) => Math.max(highest, item?.ratio ?? 0),
+        (highest, item) =>
+          Math.max(
+            highest,
+            (item?.currentVolume ?? 0) > 0 && !item?.hasBenchmark
+              ? 1
+              : item?.ratio ?? 0
+          ),
         0
       );
       const normalizedRatio = Math.min(regionRatio, 1.25);
-      const hasUnbenchmarkedVolume = matched.some(
-        (item) => (item?.currentVolume ?? 0) > 0 && !item?.hasBenchmark
-      );
       const opacity =
         normalizedRatio > 0
           ? Math.min(0.14 + normalizedRatio * 0.46, 0.8)
-          : hasUnbenchmarkedVolume
-            ? 0.48
-            : 0;
+          : 0;
       const isNewPr = matched.some((item) => item?.isNewPr);
       const intensity = clamp(opacity / 0.8, 0, 1);
 
@@ -63,9 +64,7 @@ const getRegionState = (
           opacity,
           fill: isNewPr
             ? "#ff394f"
-            : hasUnbenchmarkedVolume
-              ? "#f8c96a"
-              : "#f13e50",
+            : "#f13e50",
           isNewPr,
         },
       ] as const;
