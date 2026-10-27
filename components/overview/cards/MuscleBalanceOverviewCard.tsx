@@ -1,8 +1,8 @@
+import { ReorderPressable as Pressable } from "../../ui/ReorderControls";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Animated,
   PanResponder,
-  Pressable,
   StyleSheet,
   Text,
   View,
@@ -240,7 +240,7 @@ export default function MuscleBalanceOverviewCard() {
       <OverviewCardSurface style={styles.card} {...radarPanResponder.panHandlers}>
         <View style={styles.radarTop}>
           <Text style={styles.radarTitle}>Muscle balance</Text>
-          <Pressable
+          <Pressable onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
             onPress={() => setHelpOpen(true)}
             android_ripple={{ color: colors.ripple }}
             style={({ pressed }) => [

@@ -1,10 +1,11 @@
+import { Gesture } from "react-native-gesture-handler";
+import { ReorderScrollView } from "../../components/ui/ReorderScrollView";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Animated,
   BackHandler,
   Easing,
   Image,
-  PanResponder,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -19,6 +20,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import Svg, { G, Path } from "react-native-svg";
 import { useAppStore } from "../../store/useAppStore";
+import ReorderList from "../../components/ui/ReorderList";
 import ExerciseCard from "../../components/workout/ExerciseCard";
 import AppInput from "../../components/ui/AppInput";
 import ConfirmModal from "../../components/ui/ConfirmModal";
@@ -42,9 +44,6 @@ import { formatDuration } from "../../utils/format";
 import { hasTemplateExerciseChanges } from "../../features/workouts/template.utils";
 import { showAlert } from "../../lib/ui/alert";
 
-const REORDER_ROW_HEIGHT = 62;
-const EXERCISE_CARD_GAP = 14;
-const REORDER_OVERSHOOT = 36;
 const WORKOUT_NOTES_MIN_HEIGHT = 44;
 const WORKOUT_NOTES_LINE_HEIGHT = 20;
 const MAP_WIDTH = 150;
@@ -79,127 +78,6 @@ const getWorkoutRegionHeatMap = (
     })
   );
 
-function ReorderExerciseRow({
-  performedExerciseId,
-  exerciseName,
-  index,
-  exerciseCount,
-  activeDragId,
-  onMove,
-  onDrop,
-  onDragStart,
-  externalTop,
-}: {
-  performedExerciseId: string;
-  exerciseName: string;
-  index: number;
-  exerciseCount: number;
-  activeDragId: string | null;
-  onMove: (performedExerciseId: string, draggedTop: number) => void;
-  onDrop: () => void;
-  onDragStart: (performedExerciseId: string) => void;
-  externalTop?: number;
-}) {
-  const colors = useThemeColors();
-  const styles = useMemo(() => createStyles(colors), [colors]);
-  const top = useRef(new Animated.Value(index * REORDER_ROW_HEIGHT)).current;
-  const indexRef = useRef(index);
-  const exerciseCountRef = useRef(exerciseCount);
-  const onMoveRef = useRef(onMove);
-  const onDropRef = useRef(onDrop);
-  const onDragStartRef = useRef(onDragStart);
-  const startIndexRef = useRef(index);
-  const isDragging = activeDragId === performedExerciseId;
-
-  useEffect(() => {
-    indexRef.current = index;
-    exerciseCountRef.current = exerciseCount;
-    onMoveRef.current = onMove;
-    onDropRef.current = onDrop;
-    onDragStartRef.current = onDragStart;
-  }, [exerciseCount, index, onDragStart, onDrop, onMove]);
-
-  useEffect(() => {
-    if (isDragging) {
-      return;
-    }
-
-    Animated.timing(top, {
-      toValue: index * REORDER_ROW_HEIGHT,
-      duration: 170,
-      useNativeDriver: false,
-    }).start();
-  }, [index, isDragging, top]);
-
-  useEffect(() => {
-    if (externalTop === undefined) {
-      return;
-    }
-
-    top.setValue(externalTop);
-  }, [externalTop, top]);
-
-  const panResponder = useMemo(
-    () =>
-      PanResponder.create({
-        onStartShouldSetPanResponder: () => true,
-        onStartShouldSetPanResponderCapture: () => true,
-        onMoveShouldSetPanResponder: (_, gestureState) =>
-          Math.abs(gestureState.dy) > 8 && Math.abs(gestureState.dy) > Math.abs(gestureState.dx),
-        onMoveShouldSetPanResponderCapture: (_, gestureState) =>
-          Math.abs(gestureState.dy) > 8 && Math.abs(gestureState.dy) > Math.abs(gestureState.dx),
-        onShouldBlockNativeResponder: () => true,
-        onPanResponderGrant: () => {
-          startIndexRef.current = indexRef.current;
-          top.stopAnimation();
-          top.setValue(indexRef.current * REORDER_ROW_HEIGHT);
-          onDragStartRef.current(performedExerciseId);
-        },
-        onPanResponderMove: (_, gestureState) => {
-          const startIndex = startIndexRef.current;
-          const minTop = -REORDER_OVERSHOOT;
-          const maxTop =
-            (exerciseCountRef.current - 1) * REORDER_ROW_HEIGHT + REORDER_OVERSHOOT;
-          const draggedTop = Math.min(
-            Math.max(startIndex * REORDER_ROW_HEIGHT + gestureState.dy, minTop),
-            maxTop
-          );
-          top.setValue(draggedTop);
-          onMoveRef.current(performedExerciseId, draggedTop);
-        },
-        onPanResponderRelease: () => {
-          onDropRef.current();
-        },
-        onPanResponderTerminate: () => {
-          onDropRef.current();
-        },
-      }),
-    [performedExerciseId, top]
-  );
-
-  return (
-    <Animated.View
-      {...panResponder.panHandlers}
-      style={[
-        styles.reorderRow,
-        {
-          top,
-          zIndex: isDragging ? 4 : 1,
-          elevation: isDragging ? 8 : 1,
-        },
-      ]}
-    >
-      <View style={styles.reorderIndex}>
-        <Text style={styles.reorderIndexText}>{index + 1}</Text>
-      </View>
-      <Text numberOfLines={1} style={styles.reorderExerciseName}>
-        {exerciseName}
-      </Text>
-      <Ionicons name="reorder-three-outline" size={24} color={colors.textMuted} />
-    </Animated.View>
-  );
-}
-
 export default function ActiveWorkoutScreen({
   resumeAnimationKey,
 }: {
@@ -215,8 +93,8 @@ export default function ActiveWorkoutScreen({
   const removeExerciseFromActiveWorkout = useAppStore(
     (state) => state.removeExerciseFromActiveWorkout
   );
-  const moveExerciseInActiveWorkout = useAppStore(
-    (state) => state.moveExerciseInActiveWorkout
+  const reorderActiveWorkoutExercises = useAppStore(
+    (state) => state.reorderActiveWorkoutExercises
   );
   const updateSet = useAppStore((state) => state.updateSet);
   const completeSet = useAppStore((state) => state.completeSet);
@@ -245,12 +123,11 @@ export default function ActiveWorkoutScreen({
   const [titleDraft, setTitleDraft] = useState("");
   const [workoutNotesHeight, setWorkoutNotesHeight] = useState(WORKOUT_NOTES_MIN_HEIGHT);
   const [isReorderMode, setIsReorderMode] = useState(false);
-  const [reorderExerciseIds, setReorderExerciseIds] = useState<string[]>([]);
-  const [reorderEntrySpacer, setReorderEntrySpacer] = useState(0);
-  const [hiddenWorkoutCardsHeight, setHiddenWorkoutCardsHeight] = useState(0);
-  const [exerciseCardHeights, setExerciseCardHeights] = useState<Record<string, number>>({});
-  const [activeDragId, setActiveDragId] = useState<string | null>(null);
-  const [externalDragTop, setExternalDragTop] = useState<number | undefined>(undefined);
+  const scrollGesture = useMemo(() => Gesture.Native(), []);
+  const scrollRef = useRef<ScrollView | null>(null);
+  const scrollOffset = useRef(0);
+  const scrollViewport = useRef({ top: 0, height: 0 });
+  const reorderScroll = { gesture: scrollGesture, ref: scrollRef, offset: scrollOffset, viewport: scrollViewport, setDragging: setIsReorderMode };
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [showBackHeatmap, setShowBackHeatmap] = useState(false);
   const [isHeatmapExpanded, setIsHeatmapExpanded] = useState(false);
@@ -262,8 +139,6 @@ export default function ActiveWorkoutScreen({
   const heatmapContentProgress = useRef(new Animated.Value(0)).current;
   const heatmapToastOpacity = useRef(new Animated.Value(0)).current;
   const heatmapToastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const titleDragStartIndexRef = useRef(0);
-  const reorderExerciseIdsRef = useRef<string[]>([]);
   const resumeAnimationId = useMemo(
     () =>
       typeof resumeAnimationKey === "string"
@@ -356,137 +231,6 @@ export default function ActiveWorkoutScreen({
     };
   }, []);
 
-  useEffect(() => {
-    if ((activeWorkout?.exercises.length ?? 0) < 2 && isReorderMode) {
-      setIsReorderMode(false);
-      setReorderExerciseIds([]);
-      reorderExerciseIdsRef.current = [];
-      setReorderEntrySpacer(0);
-      setActiveDragId(null);
-      setExternalDragTop(undefined);
-    }
-  }, [activeWorkout?.exercises.length, isReorderMode]);
-
-  const moveReorderExerciseToIndex = (performedExerciseId: string, toIndex: number) => {
-    const currentIds = reorderExerciseIdsRef.current;
-    const fromIndex = currentIds.indexOf(performedExerciseId);
-    if (fromIndex === -1) {
-      return;
-    }
-
-    const boundedToIndex = Math.min(Math.max(toIndex, 0), currentIds.length - 1);
-    if (fromIndex === boundedToIndex) {
-      return;
-    }
-
-    const nextIds = [...currentIds];
-    const [movedId] = nextIds.splice(fromIndex, 1);
-    nextIds.splice(boundedToIndex, 0, movedId);
-    reorderExerciseIdsRef.current = nextIds;
-    setReorderExerciseIds(nextIds);
-  };
-
-  const moveReorderExerciseFromTop = (performedExerciseId: string, draggedTop: number) => {
-    const currentIds = reorderExerciseIdsRef.current;
-    const currentIndex = currentIds.indexOf(performedExerciseId);
-    if (currentIndex === -1) {
-      return;
-    }
-
-    if (
-      draggedTop > (currentIndex + 0.5) * REORDER_ROW_HEIGHT &&
-      currentIndex < currentIds.length - 1
-    ) {
-      moveReorderExerciseToIndex(performedExerciseId, currentIndex + 1);
-      return;
-    }
-
-    if (
-      draggedTop < (currentIndex - 0.5) * REORDER_ROW_HEIGHT &&
-      currentIndex > 0
-    ) {
-      moveReorderExerciseToIndex(performedExerciseId, currentIndex - 1);
-    }
-  };
-
-  const commitReorder = () => {
-    const nextOrder = reorderExerciseIdsRef.current;
-    if (!activeWorkout || nextOrder.length === 0) {
-      return;
-    }
-
-    nextOrder.forEach((performedExerciseId, index) => {
-      if (activeWorkout.exercises[index]?.id !== performedExerciseId) {
-        moveExerciseInActiveWorkout(performedExerciseId, index);
-      }
-    });
-  };
-
-  const exitReorderMode = () => {
-    commitReorder();
-    setIsReorderMode(false);
-    setReorderExerciseIds([]);
-    reorderExerciseIdsRef.current = [];
-    setReorderEntrySpacer(0);
-    setActiveDragId(null);
-    setExternalDragTop(undefined);
-  };
-
-  const enterReorderMode = (performedExerciseId: string) => {
-    if (!activeWorkout || activeWorkout.exercises.length < 2) {
-      return;
-    }
-
-    const pressedIndex = activeWorkout.exercises.findIndex(
-      (exercise) => exercise.id === performedExerciseId
-    );
-    const precedingCardHeight =
-      pressedIndex > 0
-        ? activeWorkout.exercises
-            .slice(0, pressedIndex)
-            .reduce(
-              (total, exercise) =>
-                total +
-                (exerciseCardHeights[exercise.id] ?? REORDER_ROW_HEIGHT) +
-                EXERCISE_CARD_GAP,
-              0
-            )
-        : 0;
-
-    const initialReorderIds = activeWorkout.exercises.map((exercise) => exercise.id);
-    reorderExerciseIdsRef.current = initialReorderIds;
-    setReorderExerciseIds(initialReorderIds);
-    titleDragStartIndexRef.current = Math.max(pressedIndex, 0);
-    setActiveDragId(performedExerciseId);
-    setExternalDragTop(Math.max(pressedIndex, 0) * REORDER_ROW_HEIGHT);
-    setReorderEntrySpacer(
-      Math.max(
-        0,
-        hiddenWorkoutCardsHeight +
-          precedingCardHeight -
-          Math.max(pressedIndex, 0) * REORDER_ROW_HEIGHT
-      )
-    );
-    setIsReorderMode(true);
-  };
-
-  const handleTitleReorderMove = (performedExerciseId: string, dy: number) => {
-    if (!activeWorkout || !isReorderMode) {
-      return;
-    }
-
-    const startIndex = titleDragStartIndexRef.current;
-    const minTop = -REORDER_OVERSHOOT;
-    const maxTop =
-      (activeWorkout.exercises.length - 1) * REORDER_ROW_HEIGHT + REORDER_OVERSHOOT;
-    const draggedTop = Math.min(
-      Math.max(startIndex * REORDER_ROW_HEIGHT + dy, minTop),
-      maxTop
-    );
-    setExternalDragTop(draggedTop);
-    moveReorderExerciseFromTop(performedExerciseId, draggedTop);
-  };
-
   const handleCompleteSet = (
     performedExerciseId: string,
     setId: string,
@@ -528,7 +272,7 @@ export default function ActiveWorkoutScreen({
 
   const handleFinish = () => {
     if (isReorderMode) {
-      exitReorderMode();
+      return;
     }
 
     const { activeWorkout: currentWorkout, templates } = useAppStore.getState();
@@ -750,12 +494,16 @@ export default function ActiveWorkoutScreen({
         </Pressable>
       </View>
 
-      <ScrollView
+      <ReorderScrollView nativeGesture={scrollGesture}
         style={styles.scroll}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="always"
         scrollEnabled={!isReorderMode}
+        ref={scrollRef}
+        scrollEventThrottle={16}
+        onScroll={event => { scrollOffset.current = event.nativeEvent.contentOffset.y; }}
+        onLayout={() => scrollRef.current?.getNativeScrollRef()?.measureInWindow((_x: number, top: number, _w: number, height: number) => { scrollViewport.current = { top, height }; })}
       >
         <View style={styles.headerBlock}>
           <Pressable
@@ -781,12 +529,7 @@ export default function ActiveWorkoutScreen({
           <Text style={styles.workoutTime}>Session in progress</Text>
         </View>
 
-        {!isReorderMode ? (
-          <View
-            onLayout={(event) =>
-              setHiddenWorkoutCardsHeight(event.nativeEvent.layout.height)
-            }
-          >
+        <View>
             <View style={styles.summaryRow}>
               <View style={styles.summaryCard}>
                 <Text style={styles.summaryLabel}>Completed sets</Text>
@@ -935,60 +678,15 @@ export default function ActiveWorkoutScreen({
                 ) : null}
               </View>
             ) : null}
-          </View>
-        ) : null}
-
-        {isReorderMode ? (
-          <>
-            {reorderEntrySpacer > 0 ? <View style={{ height: reorderEntrySpacer }} /> : null}
-            <View
-              style={[
-                styles.reorderList,
-                {
-                  height: Math.max(
-                    0,
-                    reorderExerciseIds.length * REORDER_ROW_HEIGHT - 8
-                  ),
-                },
-              ]}
-            >
-              {reorderExerciseIds.map((performedExerciseId, index) => {
-                const performedExercise = activeWorkout.exercises.find(
-                  (item) => item.id === performedExerciseId
-                );
-                if (!performedExercise) {
-                  return null;
-                }
-
-                const exercise =
-                  performedExercise.exerciseSnapshot ??
-                  exercises.find((item) => item.id === performedExercise.exerciseId);
-
-                return (
-                  <ReorderExerciseRow
-                    key={performedExercise.id}
-                    performedExerciseId={performedExercise.id}
-                    exerciseName={exercise?.name ?? "Exercise"}
-                    index={index}
-                    exerciseCount={activeWorkout.exercises.length}
-                    activeDragId={activeDragId}
-                    onMove={moveReorderExerciseFromTop}
-                    onDrop={exitReorderMode}
-                    onDragStart={setActiveDragId}
-                    externalTop={
-                      activeDragId === performedExercise.id ? externalDragTop : undefined
-                    }
-                  />
-                );
-              })}
-            </View>
-          </>
-        ) : (
-          null
-        )}
+        </View>
 
         <>
-          {activeWorkout.exercises.map((performedExercise) => {
+          <ReorderList foldDuringDrag key={activeWorkout.id} ids={activeWorkout.exercises.map(item => item.id)} gap={14} scroll={reorderScroll}
+            onCommit={ids => reorderActiveWorkoutExercises(activeWorkout.id, ids)}
+            label={id => { const item = activeWorkout.exercises.find(item => item.id === id); return item?.exerciseSnapshot?.name ?? exercises.find(exercise => exercise.id === item?.exerciseId)?.name ?? 'Exercise'; }}
+            renderItem={(id, _isDragging, isReordering) => {
+              const performedExercise = activeWorkout.exercises.find(item => item.id === id);
+              if (!performedExercise) return null;
               const exercise =
                 performedExercise.exerciseSnapshot ??
                 exercises.find((item) => item.id === performedExercise.exerciseId);
@@ -998,8 +696,8 @@ export default function ActiveWorkoutScreen({
                 <ExerciseCard
                   key={performedExercise.id}
                   exercise={exercise}
+                  folded={isReordering}
                   performedExercise={performedExercise}
-                  hidden={isReorderMode}
                   onAddSet={() => addSetToExercise(performedExercise.id)}
                   onRemoveSet={(setId) => handleRemoveSet(performedExercise.id, setId)}
                   onRemoveExercise={() =>
@@ -1024,18 +722,6 @@ export default function ActiveWorkoutScreen({
                       params: { exerciseId: exercise.id },
                     })
                   }
-                  onTitleLongPress={() => enterReorderMode(performedExercise.id)}
-                  onTitleReorderMove={(dy) =>
-                    handleTitleReorderMove(performedExercise.id, dy)
-                  }
-                  onTitleReorderRelease={exitReorderMode}
-                  onLayout={(height) =>
-                    setExerciseCardHeights((current) =>
-                      current[performedExercise.id] === height
-                        ? current
-                        : { ...current, [performedExercise.id]: height }
-                    )
-                  }
                   onCompleteSet={(setId) =>
                     handleCompleteSet(
                       performedExercise.id,
@@ -1047,7 +733,7 @@ export default function ActiveWorkoutScreen({
                   }
                 />
               );
-            })}
+            }} />
 
             {!isReorderMode ? <View style={styles.actionStack}>
               <Pressable
@@ -1068,7 +754,7 @@ export default function ActiveWorkoutScreen({
               </Pressable>
             </View> : null}
           </>
-      </ScrollView>
+      </ReorderScrollView>
       {showHeatmapToast ? (
         <Animated.View
           pointerEvents="none"
@@ -1215,45 +901,6 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   modeButtonTextActive: {
     color: colors.background,
-  },
-  reorderList: {
-    position: "relative",
-  },
-  reorderRow: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    height: 54,
-    minHeight: 54,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    backgroundColor: colors.panel,
-    borderRadius: radii.md,
-    borderWidth: 1,
-    borderColor: colors.border,
-    zIndex: 1,
-  },
-  reorderIndex: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.backgroundAlt,
-  },
-  reorderIndexText: {
-    color: colors.accent,
-    fontSize: 13,
-    fontWeight: "800",
-  },
-  reorderExerciseName: {
-    flex: 1,
-    color: colors.text,
-    fontSize: 17,
-    fontWeight: "700",
   },
   summaryRow: {
     flexDirection: "row",

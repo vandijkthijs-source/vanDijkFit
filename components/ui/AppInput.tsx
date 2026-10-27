@@ -1,3 +1,4 @@
+import { ReorderTextInput } from "./ReorderControls";
 import { forwardRef, useMemo } from "react";
 import { StyleSheet, TextInput, TextInputProps } from "react-native";
 import { radii, ThemeColors, useThemeColors } from "../../constants/theme";
@@ -7,7 +8,7 @@ const AppInput = forwardRef<TextInput, TextInputProps>(function AppInput(props, 
   const styles = useMemo(() => createStyles(colors), [colors]);
 
   return (
-    <TextInput
+    <ReorderTextInput onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
       ref={ref}
       placeholderTextColor={props.placeholderTextColor ?? colors.textSoft}
       {...props}

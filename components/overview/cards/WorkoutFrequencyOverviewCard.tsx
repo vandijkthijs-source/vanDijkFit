@@ -1,10 +1,10 @@
+import { ReorderPressable as Pressable } from "../../ui/ReorderControls";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Animated,
   Modal,
   PanResponder,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -252,7 +252,7 @@ export default function WorkoutFrequencyOverviewCard() {
         onRequestClose={() => setIsGoalMenuOpen(false)}
       >
         <View style={styles.goalMenuModal}>
-          <Pressable
+          <Pressable onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
             onPress={() => setIsGoalMenuOpen(false)}
             style={styles.goalMenuBackdrop}
           />
@@ -267,7 +267,7 @@ export default function WorkoutFrequencyOverviewCard() {
               {goalOptions.map((goal) => {
                 const selected = goal === weeklyWorkoutGoal;
                 return (
-                  <Pressable
+                  <Pressable onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
                     key={goal}
                     onPress={() => {
                       setWeeklyWorkoutGoal(goal);
@@ -305,7 +305,7 @@ export default function WorkoutFrequencyOverviewCard() {
             ) : null}
           </View>
           <View style={styles.goalMenuWrap}>
-            <Pressable
+            <Pressable onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
               onPress={() => setIsGoalMenuOpen((current) => !current)}
               hitSlop={10}
               android_ripple={{ color: colors.ripple }}

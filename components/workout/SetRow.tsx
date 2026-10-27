@@ -1,12 +1,11 @@
+import { ReorderTextInput, ReorderPressable as Pressable } from "../ui/ReorderControls";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Animated,
   Easing,
   Keyboard,
-  Pressable,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -100,7 +99,7 @@ function NumberField({
         },
       ]}
     >
-      <TextInput
+      <ReorderTextInput onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
         value={draftValue}
         onChangeText={handleChange}
         onFocus={() => {
@@ -269,7 +268,7 @@ export default function SetRow({
           },
         ]}
       >
-        <Pressable
+        <Pressable onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
           onPress={handleComplete}
           android_ripple={{ color: colors.ripple }}
           style={({ pressed }) => [styles.checkButton, pressed && styles.glowPressed]}

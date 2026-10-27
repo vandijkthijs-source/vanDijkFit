@@ -1,8 +1,7 @@
+import { ReorderRowPressable, ReorderTextInput, ReorderPressable as Pressable } from "../ui/ReorderControls";
 import {
   Animated,
-  LayoutChangeEvent,
   PanResponder,
-  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -43,11 +42,8 @@ type Props = {
   finishedRestSetIds: string[];
   onCompleteSet: (setId: string) => void;
   onTitlePress?: () => void;
-  onTitleLongPress?: () => void;
-  onTitleReorderMove?: (dy: number) => void;
-  onTitleReorderRelease?: () => void;
-  onLayout?: (height: number) => void;
-  hidden?: boolean;
+  folded?: boolean;
+
 };
 
 const formatRest = (seconds?: number) => {
@@ -177,11 +173,7 @@ export default function ExerciseCard({
   finishedRestSetIds,
   onCompleteSet,
   onTitlePress,
-  onTitleLongPress,
-  onTitleReorderMove,
-  onTitleReorderRelease,
-  onLayout,
-  hidden,
+  folded = false,
 }: Props) {
   const colors = useThemeColors();
   const styles = useMemo(() => createStyles(colors), [colors]);
@@ -189,79 +181,6 @@ export default function ExerciseCard({
   const [editingRestSetId, setEditingRestSetId] = useState<string | null>(null);
   const [restInput, setRestInput] = useState(secondsToDigits(performedExercise.restSeconds ?? 90));
   const restInputRef = useRef<TextInput | null>(null);
-  const longPressTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const isTitleReorderingRef = useRef(false);
-  const hasTitleMovedRef = useRef(false);
-  const onTitlePressRef = useRef(onTitlePress);
-  const onTitleLongPressRef = useRef(onTitleLongPress);
-  const onTitleReorderMoveRef = useRef(onTitleReorderMove);
-  const onTitleReorderReleaseRef = useRef(onTitleReorderRelease);
-
-  useEffect(() => {
-    onTitlePressRef.current = onTitlePress;
-    onTitleLongPressRef.current = onTitleLongPress;
-    onTitleReorderMoveRef.current = onTitleReorderMove;
-    onTitleReorderReleaseRef.current = onTitleReorderRelease;
-  }, [onTitleLongPress, onTitlePress, onTitleReorderMove, onTitleReorderRelease]);
-
-  const clearTitleLongPressTimeout = () => {
-    if (longPressTimeoutRef.current) {
-      clearTimeout(longPressTimeoutRef.current);
-      longPressTimeoutRef.current = null;
-    }
-  };
-
-  const titlePanResponder = useMemo(
-    () =>
-      PanResponder.create({
-        onStartShouldSetPanResponder: () => true,
-        onMoveShouldSetPanResponder: (_, gestureState) =>
-          isTitleReorderingRef.current ||
-          Math.abs(gestureState.dx) > 8 ||
-          Math.abs(gestureState.dy) > 8,
-        onPanResponderGrant: () => {
-          isTitleReorderingRef.current = false;
-          hasTitleMovedRef.current = false;
-          clearTitleLongPressTimeout();
-          longPressTimeoutRef.current = setTimeout(() => {
-            isTitleReorderingRef.current = true;
-            onTitleLongPressRef.current?.();
-          }, 360);
-        },
-        onPanResponderMove: (_, gestureState) => {
-          if (!isTitleReorderingRef.current) {
-            if (Math.abs(gestureState.dx) > 8 || Math.abs(gestureState.dy) > 8) {
-              hasTitleMovedRef.current = true;
-              clearTitleLongPressTimeout();
-            }
-            return;
-          }
-
-          onTitleReorderMoveRef.current?.(gestureState.dy);
-        },
-        onPanResponderRelease: () => {
-          clearTitleLongPressTimeout();
-          if (isTitleReorderingRef.current) {
-            isTitleReorderingRef.current = false;
-            onTitleReorderReleaseRef.current?.();
-            return;
-          }
-
-          if (!hasTitleMovedRef.current) {
-            onTitlePressRef.current?.();
-          }
-        },
-        onPanResponderTerminate: () => {
-          clearTitleLongPressTimeout();
-          if (isTitleReorderingRef.current) {
-            isTitleReorderingRef.current = false;
-            onTitleReorderReleaseRef.current?.();
-          }
-        },
-      }),
-    []
-  );
-
   useEffect(() => {
     if (!editingRestSetId) {
       return;
@@ -287,7 +206,6 @@ export default function ExerciseCard({
     setEditingRestSetId(null);
   };
 
-  useEffect(() => clearTitleLongPressTimeout, []);
 
   const restProgress =
     restTimerDurationSeconds > 0
@@ -296,12 +214,10 @@ export default function ExerciseCard({
 
   return (
     <View
-      onLayout={(event: LayoutChangeEvent) => onLayout?.(event.nativeEvent.layout.height)}
-      pointerEvents={hidden ? "box-none" : "auto"}
-      style={[styles.card, hidden && styles.hiddenCard]}
+      style={styles.card}
     >
       <View style={styles.header}>
-        <View {...titlePanResponder.panHandlers} style={styles.headerText}>
+        <ReorderRowPressable onPress={onTitlePress} style={styles.headerText}>
           <View style={styles.titleRow} pointerEvents="none">
             <View style={styles.titleCopy}>
               <Text style={styles.title}>{exercise.name}</Text>
@@ -310,13 +226,21 @@ export default function ExerciseCard({
               </Text>
             </View>
           </View>
-        </View>
+        </ReorderRowPressable>
         <View style={styles.headerButtons}>
+          {folded ? (
+            <View testID={`exercise-folded-${performedExercise.id}`} style={styles.foldedIndicator}
+              accessible accessibilityLabel="Exercise details folded while reordering">
+              <Ionicons name="chevron-down-outline" size={17} color={colors.accent} />
+              <Text style={styles.foldedIndicatorText}>FOLDED</Text>
+            </View>
+          ) : <>
+
           <View style={styles.memoryChip}>
             <Ionicons name="flash-outline" size={14} color={colors.accent} />
             <Text style={styles.memoryChipText}>{stats.timesTrained}x</Text>
           </View>
-          <Pressable
+          <Pressable onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
             onPress={() =>
               showAlert(
                 "Remove exercise?",
@@ -339,10 +263,11 @@ export default function ExerciseCard({
           >
             <Ionicons name="trash-outline" size={16} color={colors.danger} />
           </Pressable>
+          </>}
         </View>
       </View>
 
-      <View style={styles.memoryRow}>
+      <View style={[styles.memoryRow, folded && styles.foldedBody]}>
         <Text style={styles.memoryText}>Last: {daysAgoText(stats.lastTrainedAt)}</Text>
         <Text style={styles.memoryText}>
           PR:{" "}
@@ -360,122 +285,133 @@ export default function ExerciseCard({
         <Text style={[styles.headerLabel, styles.checkColumn]}>OK</Text>
       </View>
 
-      {performedExercise.sets.map((setItem, index) => (
-        <SwipeToDeleteRow key={setItem.id} onRemove={() => onRemoveSet(setItem.id)}>
-          <View style={styles.setBlock}>
-            <SetRow
-              setNumber={index + 1}
-              previous={stats.lastSession?.sets[index]}
-              weight={setItem.weight}
-              reps={setItem.reps}
-              completed={setItem.completed}
-              onChangeWeight={(value) => onUpdateSet(setItem.id, "weight", value)}
-              onChangeReps={(value) => onUpdateSet(setItem.id, "reps", value)}
-              onComplete={() => onCompleteSet(setItem.id)}
-            />
-            {editingRestSetId === setItem.id ? (
-              <Pressable
-                onPress={() => restInputRef.current?.focus()}
-                style={styles.restInputWrap}
-              >
-                <View style={styles.restInput}>
-                  <Text style={styles.restInputText}>{formatRestDigits(restInput)}</Text>
-                  <TextInput
-                    ref={restInputRef}
-                    value={restInput}
-                    onChangeText={(value) =>
-                      setRestInput(value.replace(/\D/g, "").slice(0, 4))
-                    }
-                    onBlur={saveRest}
-                    onSubmitEditing={saveRest}
-                    keyboardType="number-pad"
-                    maxLength={4}
-                    caretHidden
-                    contextMenuHidden
-                    selectionColor="transparent"
-                    style={styles.hiddenRestInput}
-                  />
-                </View>
-              </Pressable>
-            ) : (
-              <Pressable
-                onPress={() => {
-                  setRestInput("");
-                  setEditingRestSetId(setItem.id);
-                }}
-                android_ripple={{ color: colors.ripple }}
-                style={({ pressed }) => [
-                  styles.restButton,
-                  activeRestSetId === setItem.id && styles.restButtonActive,
-                  finishedRestSetIds.includes(setItem.id) && styles.restButtonComplete,
-                  pressed && styles.glowPressed,
-                ]}
-              >
-                {activeRestSetId === setItem.id ? (
-                  <View
-                    pointerEvents="none"
-                    style={[
-                      styles.restProgressFill,
-                      isRestTimerRunning
-                        ? { width: `${restProgress * 100}%`, backgroundColor: colors.accent }
-                        : styles.restProgressEmpty,
-                    ]}
-                  />
-                ) : null}
-                {finishedRestSetIds.includes(setItem.id) ? (
-                  <View pointerEvents="none" style={[styles.restProgressFill, styles.restProgressEmpty]} />
-                ) : null}
-                <Text style={styles.restLabel}>
-                  {activeRestSetId === setItem.id
-                    ? formatRest(remainingSeconds)
-                    : finishedRestSetIds.includes(setItem.id)
-                      ? "0:00"
-                      : formatRest(performedExercise.restSeconds)}
-                </Text>
-              </Pressable>
-            )}
-          </View>
-        </SwipeToDeleteRow>
-      ))}
-
-      <Pressable
-        onPress={onAddSet}
-        android_ripple={{ color: colors.ripple }}
-        style={({ pressed }) => [styles.addSetButton, pressed && styles.glowPressed]}
+      <View
+        testID={`exercise-details-${performedExercise.id}`}
+        pointerEvents={folded ? "none" : "auto"}
+        accessibilityElementsHidden={folded}
+        importantForAccessibility={folded ? "no-hide-descendants" : "auto"}
+        style={folded ? styles.foldedBody : undefined}
       >
-        <Text style={styles.addSetText}>
-          ADD SET ({formatRest(performedExercise.restSeconds)})
-        </Text>
-      </Pressable>
+          {performedExercise.sets.map((setItem, index) => (
+            <SwipeToDeleteRow key={setItem.id} onRemove={() => onRemoveSet(setItem.id)}>
+              <View style={styles.setBlock}>
+                <SetRow
+                  setNumber={index + 1}
+                  previous={stats.lastSession?.sets[index]}
+                  weight={setItem.weight}
+                  reps={setItem.reps}
+                  completed={setItem.completed}
+                  onChangeWeight={(value) => onUpdateSet(setItem.id, "weight", value)}
+                  onChangeReps={(value) => onUpdateSet(setItem.id, "reps", value)}
+                  onComplete={() => onCompleteSet(setItem.id)}
+                />
+                {editingRestSetId === setItem.id ? (
+                  <Pressable onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
+                    onPress={() => restInputRef.current?.focus()}
+                    style={styles.restInputWrap}
+                  >
+                    <View style={styles.restInput}>
+                      <Text style={styles.restInputText}>{formatRestDigits(restInput)}</Text>
+                      <ReorderTextInput onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
+                        ref={restInputRef}
+                        value={restInput}
+                        onChangeText={(value) =>
+                          setRestInput(value.replace(/\D/g, "").slice(0, 4))
+                        }
+                        onBlur={saveRest}
+                        onSubmitEditing={saveRest}
+                        keyboardType="number-pad"
+                        maxLength={4}
+                        caretHidden
+                        contextMenuHidden
+                        selectionColor="transparent"
+                        style={styles.hiddenRestInput}
+                      />
+                    </View>
+                  </Pressable>
+                ) : (
+                  <Pressable onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
+                    onPress={() => {
+                      setRestInput("");
+                      setEditingRestSetId(setItem.id);
+                    }}
+                    android_ripple={{ color: colors.ripple }}
+                    style={({ pressed }) => [
+                      styles.restButton,
+                      activeRestSetId === setItem.id && styles.restButtonActive,
+                      finishedRestSetIds.includes(setItem.id) && styles.restButtonComplete,
+                      pressed && styles.glowPressed,
+                    ]}
+                  >
+                    {activeRestSetId === setItem.id ? (
+                      <View
+                        pointerEvents="none"
+                        style={[
+                          styles.restProgressFill,
+                          isRestTimerRunning
+                            ? { width: `${restProgress * 100}%`, backgroundColor: colors.accent }
+                            : styles.restProgressEmpty,
+                        ]}
+                      />
+                    ) : null}
+                    {finishedRestSetIds.includes(setItem.id) ? (
+                      <View pointerEvents="none" style={[styles.restProgressFill, styles.restProgressEmpty]} />
+                    ) : null}
+                    <Text style={styles.restLabel}>
+                      {activeRestSetId === setItem.id
+                        ? formatRest(remainingSeconds)
+                        : finishedRestSetIds.includes(setItem.id)
+                          ? "0:00"
+                          : formatRest(performedExercise.restSeconds)}
+                    </Text>
+                  </Pressable>
+                )}
+              </View>
+            </SwipeToDeleteRow>
+          ))}
 
-      <View style={styles.notesWrap}>
-        <Text style={styles.notesLabel}>Exercise notes</Text>
-        <AppInput
-          value={performedExercise.notes ?? ""}
-          onChangeText={onUpdateNotes}
-          placeholder="Technique cues, tempo, machine seat setting..."
-          multiline
-          numberOfLines={3}
-          style={styles.notesInput}
-        />
+          <Pressable onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
+            onPress={onAddSet}
+            android_ripple={{ color: colors.ripple }}
+            style={({ pressed }) => [styles.addSetButton, pressed && styles.glowPressed]}
+          >
+            <Text style={styles.addSetText}>
+              ADD SET ({formatRest(performedExercise.restSeconds)})
+            </Text>
+          </Pressable>
+
+          <View style={styles.notesWrap}>
+            <Text style={styles.notesLabel}>Exercise notes</Text>
+            <AppInput
+              value={performedExercise.notes ?? ""}
+              onChangeText={onUpdateNotes}
+              placeholder="Technique cues, tempo, machine seat setting..."
+              multiline
+              numberOfLines={3}
+              style={styles.notesInput}
+            />
+          </View>
       </View>
     </View>
   );
 }
 
 const createStyles = (colors: ThemeColors) => StyleSheet.create({
+  foldedBody: { display: "none" },
+  foldedIndicator: {
+    flexDirection: "row", alignItems: "center", gap: 3,
+    paddingHorizontal: 7, paddingVertical: 5, borderRadius: radii.md,
+    backgroundColor: colors.accentSoft,
+  },
+  foldedIndicatorText: { color: colors.accent, fontSize: 10, fontWeight: "800", letterSpacing: 0.5 },
   titleRow: { flexDirection: "row", alignItems: "center", gap: 10 },
   titleCopy: { flex: 1, gap: 4 },
   card: {
-    marginBottom: 14,
     backgroundColor: colors.panel,
     borderRadius: radii.md,
     padding: 14,
     borderWidth: 1,
     borderColor: colors.border,
-  },
-  hiddenCard: {
-    opacity: 0,
   },
   header: {
     flexDirection: "row",

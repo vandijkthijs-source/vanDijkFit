@@ -1,7 +1,9 @@
+import { Gesture } from "react-native-gesture-handler";
+import { ReorderScrollView } from "../../components/ui/ReorderScrollView";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   Modal,
   Pressable,
@@ -12,21 +14,10 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { overviewCardRegistry, overviewCards } from "../../components/overview/cardRegistry";
-import {
-  OverviewCardWrapper,
-  OverviewDragGesture,
-  OverviewReorderRow,
-  OVERVIEW_REORDER_ROW_HEIGHT,
-} from "../../components/overview/OverviewCardWrapper";
+import { reconcileOrder } from "../../features/reorder/order";
+import ReorderList from "../../components/ui/ReorderList";
 import { radii, ThemeColors, useThemeColors } from "../../constants/theme";
 import { OverviewCardKey, useAppStore } from "../../store/useAppStore";
-
-const OVERVIEW_CARD_GAP = 18;
-const OVERVIEW_REORDER_OVERSHOOT = 36;
-const OVERVIEW_HIDE_THRESHOLD = 72;
-
-const clamp = (value: number, min: number, max: number) =>
-  Math.min(Math.max(value, min), max);
 
 export default function TodayScreen() {
   const colors = useThemeColors();
@@ -35,212 +26,20 @@ export default function TodayScreen() {
   const overviewCardOrder = useAppStore((state) => state.overviewCardOrder);
   const hiddenOverviewCards = useAppStore((state) => state.hiddenOverviewCards);
   const setOverviewCardOrder = useAppStore((state) => state.setOverviewCardOrder);
-  const hideOverviewCard = useAppStore((state) => state.hideOverviewCard);
   const showOverviewCard = useAppStore((state) => state.showOverviewCard);
   const [isOverviewEditing, setIsOverviewEditing] = useState(false);
   const [isAddCardOpen, setIsAddCardOpen] = useState(false);
-  const [reorderCardIds, setReorderCardIds] = useState<OverviewCardKey[]>([]);
-  const [reorderEntrySpacer, setReorderEntrySpacer] = useState(0);
-  const [overviewCardHeights, setOverviewCardHeights] = useState<
-    Partial<Record<OverviewCardKey, number>>
-  >({});
-  const [activeDragId, setActiveDragId] = useState<OverviewCardKey | null>(null);
-  const [externalDragTop, setExternalDragTop] = useState<number | undefined>(undefined);
-  const [externalSwipeX, setExternalSwipeX] = useState(0);
-  const cardDragStartIndexRef = useRef(0);
-  const reorderCardIdsRef = useRef<OverviewCardKey[]>([]);
-
+  const scrollGesture = useMemo(() => Gesture.Native(), []);
+  const scrollRef = useRef<ScrollView | null>(null);
+  const scrollOffset = useRef(0);
+  const scrollViewport = useRef({ top: 0, height: 0 });
+  const reorderScroll = { gesture: scrollGesture, ref: scrollRef, offset: scrollOffset, viewport: scrollViewport, setDragging: setIsOverviewEditing };
   const visibleOverviewCards = overviewCardOrder.filter(
     (card) => !hiddenOverviewCards.includes(card)
   );
   const availableOverviewCards = overviewCards.filter((card) =>
     hiddenOverviewCards.includes(card.id)
   );
-
-  const clearOverviewReorder = () => {
-    setIsOverviewEditing(false);
-    setReorderCardIds([]);
-    reorderCardIdsRef.current = [];
-    setReorderEntrySpacer(0);
-    setActiveDragId(null);
-    setExternalDragTop(undefined);
-    setExternalSwipeX(0);
-  };
-
-  const mergeVisibleOverviewOrder = (nextVisibleOrder: OverviewCardKey[]) => {
-    const nextVisibleSet = new Set(nextVisibleOrder);
-    const missingVisibleCards = overviewCardOrder.filter(
-      (card) => !hiddenOverviewCards.includes(card) && !nextVisibleSet.has(card)
-    );
-    const nextVisibleQueue = [...nextVisibleOrder, ...missingVisibleCards];
-
-    return overviewCardOrder.map((card) =>
-      hiddenOverviewCards.includes(card) ? card : nextVisibleQueue.shift() ?? card
-    );
-  };
-
-  const commitOverviewReorder = () => {
-    const nextOrder = reorderCardIdsRef.current;
-    if (nextOrder.length === 0) {
-      return;
-    }
-
-    const currentVisibleOrder = overviewCardOrder.filter(
-      (card) => !hiddenOverviewCards.includes(card)
-    );
-    const orderChanged = nextOrder.some(
-      (card, index) => currentVisibleOrder[index] !== card
-    );
-
-    if (orderChanged) {
-      setOverviewCardOrder(mergeVisibleOverviewOrder(nextOrder));
-    }
-  };
-
-  const exitOverviewReorderMode = () => {
-    commitOverviewReorder();
-    clearOverviewReorder();
-  };
-
-  const hideOverviewCardFromReorder = (card: OverviewCardKey) => {
-    commitOverviewReorder();
-    hideOverviewCard(card);
-    clearOverviewReorder();
-  };
-
-  const moveReorderCardToIndex = (card: OverviewCardKey, toIndex: number) => {
-    const currentIds = reorderCardIdsRef.current;
-    const fromIndex = currentIds.indexOf(card);
-    if (fromIndex === -1) {
-      return;
-    }
-
-    const boundedToIndex = clamp(toIndex, 0, currentIds.length - 1);
-    if (fromIndex === boundedToIndex) {
-      return;
-    }
-
-    const nextIds = [...currentIds];
-    const [movedId] = nextIds.splice(fromIndex, 1);
-    nextIds.splice(boundedToIndex, 0, movedId);
-    reorderCardIdsRef.current = nextIds;
-    setReorderCardIds(nextIds);
-  };
-
-  const moveReorderCardFromTop = (card: OverviewCardKey, draggedTop: number) => {
-    const currentIds = reorderCardIdsRef.current;
-    const currentIndex = currentIds.indexOf(card);
-    if (currentIndex === -1) {
-      return;
-    }
-
-    if (
-      draggedTop > (currentIndex + 0.5) * OVERVIEW_REORDER_ROW_HEIGHT &&
-      currentIndex < currentIds.length - 1
-    ) {
-      moveReorderCardToIndex(card, currentIndex + 1);
-      return;
-    }
-
-    if (
-      draggedTop < (currentIndex - 0.5) * OVERVIEW_REORDER_ROW_HEIGHT &&
-      currentIndex > 0
-    ) {
-      moveReorderCardToIndex(card, currentIndex - 1);
-    }
-  };
-
-  const enterOverviewReorderMode = (card: OverviewCardKey) => {
-    if (visibleOverviewCards.length === 0) {
-      return;
-    }
-
-    const pressedIndex = visibleOverviewCards.indexOf(card);
-    if (pressedIndex === -1) {
-      return;
-    }
-
-    const precedingCardHeight =
-      pressedIndex > 0
-        ? visibleOverviewCards
-            .slice(0, pressedIndex)
-            .reduce(
-              (total, item) =>
-                total +
-                (overviewCardHeights[item] ?? OVERVIEW_REORDER_ROW_HEIGHT) +
-                OVERVIEW_CARD_GAP,
-              0
-            )
-        : 0;
-    const initialReorderIds = [...visibleOverviewCards];
-
-    reorderCardIdsRef.current = initialReorderIds;
-    setReorderCardIds(initialReorderIds);
-    cardDragStartIndexRef.current = Math.max(pressedIndex, 0);
-    setActiveDragId(card);
-    setExternalDragTop(Math.max(pressedIndex, 0) * OVERVIEW_REORDER_ROW_HEIGHT);
-    setExternalSwipeX(0);
-    setReorderEntrySpacer(
-      Math.max(
-        0,
-        precedingCardHeight - Math.max(pressedIndex, 0) * OVERVIEW_REORDER_ROW_HEIGHT
-      )
-    );
-    setIsOverviewEditing(true);
-  };
-
-  const handleOverviewCardReorderMove = (card: OverviewCardKey, dy: number) => {
-    const cardCount = reorderCardIdsRef.current.length;
-    if (cardCount === 0) {
-      return;
-    }
-
-    const startIndex = cardDragStartIndexRef.current;
-    const minTop = -OVERVIEW_REORDER_OVERSHOOT;
-    const maxTop =
-      (cardCount - 1) * OVERVIEW_REORDER_ROW_HEIGHT + OVERVIEW_REORDER_OVERSHOOT;
-    const draggedTop = clamp(
-      startIndex * OVERVIEW_REORDER_ROW_HEIGHT + dy,
-      minTop,
-      maxTop
-    );
-
-    setActiveDragId(card);
-    setExternalSwipeX(0);
-    setExternalDragTop(draggedTop);
-    moveReorderCardFromTop(card, draggedTop);
-  };
-
-  const handleOverviewCardReorderSwipe = (card: OverviewCardKey, dx: number) => {
-    if (reorderCardIdsRef.current.length === 0) {
-      return;
-    }
-
-    setActiveDragId(card);
-    setExternalSwipeX(Math.min(0, dx));
-  };
-
-  const handleOverviewCardReorderRelease = (
-    card: OverviewCardKey,
-    gesture: OverviewDragGesture
-  ) => {
-    const shouldHide =
-      gesture.dx <= -OVERVIEW_HIDE_THRESHOLD &&
-      Math.abs(gesture.dx) > Math.abs(gesture.dy);
-
-    if (shouldHide) {
-      hideOverviewCardFromReorder(card);
-      return;
-    }
-
-    exitOverviewReorderMode();
-  };
-
-  useEffect(() => {
-    if (isOverviewEditing && visibleOverviewCards.length === 0) {
-      clearOverviewReorder();
-    }
-  }, [isOverviewEditing, visibleOverviewCards.length]);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -280,16 +79,15 @@ export default function TodayScreen() {
         </View>
       </Modal>
 
-      <ScrollView
+      <ReorderScrollView nativeGesture={scrollGesture}
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="always"
         scrollEnabled={!isOverviewEditing}
-        onScrollBeginDrag={() => {
-          if (isOverviewEditing) {
-            exitOverviewReorderMode();
-          }
-        }}
+        ref={scrollRef}
+        scrollEventThrottle={16}
+        onScroll={event => { scrollOffset.current = event.nativeEvent.contentOffset.y; }}
+        onLayout={() => scrollRef.current?.getNativeScrollRef()?.measureInWindow((_x: number, top: number, _w: number, height: number) => { scrollViewport.current = { top, height }; })}
       >
         <View style={styles.hero}>
           <View style={styles.heroTopRow}>
@@ -321,64 +119,19 @@ export default function TodayScreen() {
           </View>
         </View>
 
-        {isOverviewEditing ? (
-          <>
-            {reorderEntrySpacer > 0 ? (
-              <View style={{ height: reorderEntrySpacer }} />
-            ) : null}
-            <View
-              style={[
-                styles.reorderList,
-                {
-                  height: Math.max(
-                    0,
-                    reorderCardIds.length * OVERVIEW_REORDER_ROW_HEIGHT - 8
-                  ),
-                },
-              ]}
-            >
-              {reorderCardIds.map((card, index) => (
-                <OverviewReorderRow
-                  key={card}
-                  card={card}
-                  index={index}
-                  cardCount={reorderCardIds.length}
-                  activeDragId={activeDragId}
-                  externalTop={activeDragId === card ? externalDragTop : undefined}
-                  externalSwipeX={activeDragId === card ? externalSwipeX : undefined}
-                  onMove={moveReorderCardFromTop}
-                  onHide={hideOverviewCardFromReorder}
-                  onDrop={exitOverviewReorderMode}
-                  onDragStart={setActiveDragId}
-                />
-              ))}
-            </View>
-          </>
-        ) : null}
-
-        {visibleOverviewCards.map((card) => {
-          const definition = overviewCardRegistry[card];
-          const Card = definition.Component;
-
-          return (
-            <OverviewCardWrapper
-              key={card}
-              card={card}
-              isArranging={isOverviewEditing}
-              onLongPress={enterOverviewReorderMode}
-              onReorderMove={handleOverviewCardReorderMove}
-              onReorderSwipe={handleOverviewCardReorderSwipe}
-              onReorderRelease={handleOverviewCardReorderRelease}
-              onLayout={(height) =>
-                setOverviewCardHeights((current) =>
-                  current[card] === height ? current : { ...current, [card]: height }
-                )
-              }
-            >
-              <Card />
-            </OverviewCardWrapper>
-          );
-        })}
+        <ReorderList ids={visibleOverviewCards} gap={18} scroll={reorderScroll}
+          onSwipeLeft={id => useAppStore.getState().hideOverviewCard(id as OverviewCardKey)}
+          label={id => overviewCardRegistry[id as OverviewCardKey].label}
+          onCommit={ids => {
+            const current = useAppStore.getState();
+            const visible = current.overviewCardOrder.filter(id => !current.hiddenOverviewCards.includes(id));
+            const queue = reconcileOrder(ids, visible) as OverviewCardKey[];
+            setOverviewCardOrder(current.overviewCardOrder.map(id => current.hiddenOverviewCards.includes(id) ? id : queue.shift() ?? id));
+          }}
+          renderItem={id => {
+            const Card = overviewCardRegistry[id as OverviewCardKey].Component;
+            return <Card />;
+          }} />
 
         {!isOverviewEditing && availableOverviewCards.length > 0 ? (
           <Pressable
@@ -393,7 +146,7 @@ export default function TodayScreen() {
             <Text style={styles.addOverviewCardText}>ADD OVERVIEW CARD</Text>
           </Pressable>
         ) : null}
-      </ScrollView>
+      </ReorderScrollView>
     </SafeAreaView>
   );
 }
@@ -436,9 +189,6 @@ const createStyles = (colors: ThemeColors) =>
       alignItems: "center",
       justifyContent: "center",
       overflow: "hidden",
-    },
-    reorderList: {
-      position: "relative",
     },
     addOverviewCardButton: {
       minHeight: 50,

@@ -1,7 +1,7 @@
+import { ReorderRowPressable, ReorderPressable as Pressable } from "../../ui/ReorderControls";
 import { useMemo, useState } from "react";
 import {
   Modal,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -74,7 +74,7 @@ export default function CreatineOverviewCard() {
   return (
     <>
       <OverviewCardSurface style={styles.card}>
-        <Pressable
+        <ReorderRowPressable
           onPress={openBackfill}
           android_ripple={{ color: colors.ripple }}
           style={({ pressed }) => [
@@ -88,7 +88,7 @@ export default function CreatineOverviewCard() {
               <Text style={styles.status}>{creatineStatus}</Text>
             </View>
             <View style={styles.metricRow}>
-              <Pressable
+              <Pressable onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
                 onPress={(event) => {
                   event.stopPropagation();
                   setHelpOpen(true);
@@ -116,7 +116,7 @@ export default function CreatineOverviewCard() {
               ]}
             />
           </View>
-        </Pressable>
+        </ReorderRowPressable>
 
         <View style={styles.portionRow}>
           {CREATINE_PORTION_OPTIONS.map((grams) => {
@@ -124,7 +124,7 @@ export default function CreatineOverviewCard() {
             const isLoadingDose = grams === 20;
 
             return (
-              <Pressable
+              <Pressable onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
                 key={grams}
                 onPress={() => setCreatineLog(todayDateKey, selected ? null : grams)}
                 android_ripple={{ color: colors.ripple }}
@@ -163,7 +163,7 @@ export default function CreatineOverviewCard() {
         onRequestClose={() => setIsBackfillOpen(false)}
       >
         <View style={styles.backfillModal}>
-          <Pressable
+          <Pressable onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
             onPress={() => setIsBackfillOpen(false)}
             style={styles.backfillBackdrop}
           />
@@ -185,7 +185,7 @@ export default function CreatineOverviewCard() {
                 const selected = offsetDays === selectedBackfillDayOffset;
 
                 return (
-                  <Pressable
+                  <Pressable onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
                     key={offsetDays}
                     onPress={() => selectBackfillDay(offsetDays)}
                     android_ripple={{ color: colors.ripple }}
@@ -213,7 +213,7 @@ export default function CreatineOverviewCard() {
                 const selected = grams === selectedBackfillGrams;
 
                 return (
-                  <Pressable
+                  <Pressable onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
                     key={grams}
                     onPress={() => setSelectedBackfillGrams(grams)}
                     android_ripple={{ color: colors.ripple }}
@@ -238,7 +238,7 @@ export default function CreatineOverviewCard() {
 
             <View style={styles.backfillActions}>
               {existingBackfillGrams > 0 ? (
-                <Pressable
+                <Pressable onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
                   onPress={() => {
                     setCreatineLog(selectedBackfillDateKey, null);
                     setIsBackfillOpen(false);
@@ -252,7 +252,7 @@ export default function CreatineOverviewCard() {
                   <Text style={styles.backfillGhostText}>Remove</Text>
                 </Pressable>
               ) : null}
-              <Pressable
+              <Pressable onTouchStart={event => event.stopPropagation()} onPointerDown={event => event.stopPropagation()}
                 onPress={() => {
                   if (selectedBackfillGrams !== null) {
                     setCreatineLog(selectedBackfillDateKey, selectedBackfillGrams);

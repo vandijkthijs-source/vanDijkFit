@@ -1,3 +1,4 @@
+import { reconcileOrder } from "../features/reorder/order";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { AsyncStorage } from "../lib/storage/asyncStorage";
@@ -101,6 +102,7 @@ export interface AppState {
   addSetToExercise: (performedExerciseId: string) => void;
   removeSetFromExercise: (performedExerciseId: string, setId: string) => void;
   removeExerciseFromActiveWorkout: (performedExerciseId: string) => void;
+  reorderActiveWorkoutExercises: (workoutId: string, ids: string[]) => void;
   moveExerciseInActiveWorkout: (performedExerciseId: string, toIndex: number) => void;
   updateSet: (
     performedExerciseId: string,
@@ -924,6 +926,16 @@ export const useAppStore = create<AppState>()(
               ? null
               : state.activeRestTimer,
           };
+        });
+      },
+
+      reorderActiveWorkoutExercises: (workoutId, ids) => {
+        set(state => {
+          const workout = state.activeWorkout;
+          if (!workout || workout.id !== workoutId) return state;
+          const byId = new Map(workout.exercises.map(item => [item.id, item]));
+          const order = reconcileOrder(ids, workout.exercises.map(item => item.id));
+          return { activeWorkout: { ...workout, exercises: order.map((id, index) => ({ ...byId.get(id)!, order: index })) } };
         });
       },
 

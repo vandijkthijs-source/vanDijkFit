@@ -31,7 +31,9 @@ Overview cards are modular.
 
 - Stable card IDs and labels: `features/overview/overview-cards.ts`
 - Registry: `components/overview/cardRegistry.tsx`
-- Shared card wrapper and arrange gestures: `components/overview/OverviewCardWrapper.tsx`
+- Card surface: `components/overview/OverviewCardWrapper.tsx`
+- Shared full-card arrange gestures: `components/ui/ReorderList.tsx`
+- Pure ordering and measured slot calculations: `features/reorder/order.ts`
 - Individual card components: `components/overview/cards/`
 
 To add a new overview card:
@@ -57,7 +59,8 @@ The overview card arrange behavior should follow the active workout exercise beh
 
 Use these files as the reference pattern:
 
-- `components/workout/ExerciseCard.tsx`
+- `components/ui/ReorderList.tsx`
+- `features/reorder/order.ts`
 - `app/workout/active.tsx`
 
 ## Android Widgets
