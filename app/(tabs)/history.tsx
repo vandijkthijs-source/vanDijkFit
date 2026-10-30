@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Modal,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -17,7 +18,7 @@ import AppButton from "../../components/ui/AppButton";
 import { radii, ThemeColors, useThemeColors } from "../../constants/theme";
 import { calculatePerformedExerciseVolume } from "../../features/body-map/muscle-score.utils";
 import { WorkoutSession } from "../../features/workouts/workout.types";
-import { shareCoachReportPdf } from "../../lib/pdf/coachReportPdf";
+import { saveCoachReportPdfToDownloads, shareCoachReportPdf } from "../../lib/pdf/coachReportPdf";
 import { showAlert } from "../../lib/ui/alert";
 import { useAppStore } from "../../store/useAppStore";
 import { formatTimeRange } from "../../utils/date";
@@ -148,7 +149,7 @@ export default function HistoryScreen() {
     setSelectedExportSessionIds(sessionIds);
   };
 
-  const handleExportSelectedSessions = async () => {
+  const handleExportSelectedSessions = async (destination: "share" | "downloads" = "share") => {
     if (selectedExportSessions.length === 0) {
       showAlert("Select workouts", "Choose at least one workout for the PDF report.");
       return;
@@ -156,15 +157,21 @@ export default function HistoryScreen() {
 
     try {
       setIsExporting(true);
-      await shareCoachReportPdf({
-        sessions: selectedExportSessions,
-        exercises,
-      });
+      const input = { sessions: selectedExportSessions, exercises };
+      if (destination === "downloads") {
+        const fileName = await saveCoachReportPdfToDownloads(input);
+        if (!fileName) return;
+        showAlert("PDF saved", Number(Platform.Version) >= 29
+          ? `Saved to Downloads: ${fileName}`
+          : `Saved to your selected folder: ${fileName}`);
+      } else {
+        await shareCoachReportPdf(input);
+      }
       setIsExportMode(false);
       setSelectedExportSessionIds([]);
     } catch (error) {
       console.error(error);
-      showAlert("Export failed", "The PDF could not be created. Please try again.");
+      showAlert("Export failed", "The PDF could not be exported. Please try again. If you updated the app, install the latest Android build.");
     } finally {
       setIsExporting(false);
     }
@@ -370,7 +377,17 @@ export default function HistoryScreen() {
             </View>
           </View>
           <Pressable
-            onPress={handleExportSelectedSessions}
+            onPress={() => {
+              if (Platform.OS !== "android") {
+                void handleExportSelectedSessions();
+                return;
+              }
+              showAlert("Export PDF", "Choose where to send your report.", [
+                { text: "Cancel", style: "cancel" },
+                { text: "Share PDF", onPress: () => { void handleExportSelectedSessions("share"); } },
+                { text: "Save to Downloads", onPress: () => { void handleExportSelectedSessions("downloads"); } },
+              ]);
+            }}
             disabled={isExporting || selectedExportSessionIds.length === 0}
             android_ripple={{ color: colors.ripple }}
             style={({ pressed }) => [

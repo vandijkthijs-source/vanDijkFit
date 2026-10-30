@@ -8,6 +8,7 @@ import {
 import { formatTimeRange } from "../../utils/date";
 import {
   formatMuscleSplitSummary,
+  formatRestPreset,
   formatSessionDuration,
   titleCase,
 } from "../../utils/format";
@@ -16,6 +17,7 @@ export type CoachReportSetRow = {
   setNumber: number;
   weightLabel: string;
   repsLabel: string;
+  restLabel: string;
 };
 export type CoachReportExerciseRow = {
   id: string;
@@ -153,6 +155,10 @@ const buildSessionRow = (
   const exerciseRows = session.exercises.map((performedExercise) => {
     const exercise = resolveExercise(performedExercise, exercises);
     const completedSets = performedExercise.sets.filter((set) => set.completed);
+    const restSeconds = performedExercise.restSeconds;
+    const restLabel = typeof restSeconds === "number" && Number.isFinite(restSeconds) && restSeconds >= 0
+      ? formatRestPreset(Math.round(restSeconds))
+      : "-";
     const volume = exercise
       ? calculatePerformedExerciseVolume(session, performedExercise, exercise)
       : 0;
@@ -176,6 +182,7 @@ const buildSessionRow = (
           setNumber: index + 1,
           weightLabel: formatSetValue(set.weight, "kg"),
           repsLabel: formatSetValue(set.reps, "reps"),
+          restLabel,
         })),
     };
   });

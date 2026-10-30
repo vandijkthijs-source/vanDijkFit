@@ -1,3 +1,4 @@
+import { NativeModules, Platform } from "react-native";
 import * as FileSystem from "expo-file-system/legacy";
 import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
@@ -111,7 +112,7 @@ const renderMuscleHitRows = (data: CoachReportData) => {
 
 const renderSetRows = (exercise: CoachReportExerciseRow) => {
   if (exercise.sets.length === 0) {
-    return `<tr><td colspan="3" class="empty-row">No completed sets logged.</td></tr>`;
+    return `<tr><td colspan="4" class="empty-row">No completed sets logged.</td></tr>`;
   }
 
   return exercise.sets
@@ -121,6 +122,7 @@ const renderSetRows = (exercise: CoachReportExerciseRow) => {
           <td>${set.setNumber}</td>
           <td>${escapeHtml(set.weightLabel)}</td>
           <td>${escapeHtml(set.repsLabel)}</td>
+          <td>${escapeHtml(set.restLabel)}</td>
         </tr>
       `
     )
@@ -145,6 +147,7 @@ const renderExercise = (exercise: CoachReportExerciseRow) => `
           <th>Set</th>
           <th>Weight</th>
           <th>Reps</th>
+          <th>Rest (m:ss)</th>
         </tr>
       </thead>
       <tbody>${renderSetRows(exercise)}</tbody>
@@ -435,6 +438,12 @@ const buildCoachReportHtml = (data: CoachReportData) => `
         width: 64px;
       }
 
+      .sets-table th:last-child,
+      .sets-table td:last-child {
+        width: 90px;
+        white-space: nowrap;
+      }
+
       .empty-row {
         color: #667085;
         font-style: italic;
@@ -576,4 +585,40 @@ export const shareCoachReportPdf = async (input: ShareCoachReportPdfInput) => {
   }
 
   return reportFile.uri;
+};
+
+// MediaStore publishes the finished PDF directly to public Downloads on Android 10+.
+export const saveCoachReportPdfToDownloads = async (input: ShareCoachReportPdfInput) => {
+  if (Platform.OS !== "android") throw new Error("Downloads export requires Android.");
+  const downloads = NativeModules.ReportDownloads as {
+    savePdf: (uri: string, fileName: string) => Promise<string>;
+  } | undefined;
+  if (Number(Platform.Version) >= 29 && !downloads?.savePdf) {
+    throw new Error("Install the updated Android app to save to Downloads.");
+  }
+  // Older Android versions use the system folder picker without broad storage access.
+  const permission = Number(Platform.Version) < 29
+    ? await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync()
+    : undefined;
+  if (permission && !permission.granted) return null;
+  const report = await createCoachReportPdfFile(input);
+  try {
+    if (!permission) {
+      await downloads!.savePdf(report.uri, report.fileName);
+    } else {
+      const destination = await FileSystem.StorageAccessFramework.createFileAsync(
+        permission.directoryUri, report.fileName, "application/pdf"
+      );
+      const contents = await FileSystem.readAsStringAsync(report.uri, { encoding: FileSystem.EncodingType.Base64 });
+      try {
+        await FileSystem.writeAsStringAsync(destination, contents, { encoding: FileSystem.EncodingType.Base64 });
+      } catch (error) {
+        await FileSystem.deleteAsync(destination, { idempotent: true }).catch(() => {});
+        throw error;
+      }
+    }
+    return report.fileName;
+  } finally {
+    await FileSystem.deleteAsync(report.uri, { idempotent: true }).catch(() => {});
+  }
 };

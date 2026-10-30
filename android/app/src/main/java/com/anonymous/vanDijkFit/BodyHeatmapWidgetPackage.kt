@@ -10,7 +10,8 @@ class BodyHeatmapWidgetPackage : ReactPackage {
     listOf(
       BodyHeatmapWidgetModule(reactContext),
       CreatineWidgetModule(reactContext),
-      RestTimerAlarmModule(reactContext)
+      RestTimerAlarmModule(reactContext),
+      ReportDownloadsModule(reactContext)
     )
 
   override fun createViewManagers(

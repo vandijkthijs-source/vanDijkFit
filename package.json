@@ -10,7 +10,8 @@
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
     "lint": "expo lint",
-    "test:reorder": "node --test tests/reorder*.test.cjs"
+    "test:reorder": "node --test tests/reorder*.test.cjs",
+    "test:reports": "node --test tests/coach-report.test.cjs"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
